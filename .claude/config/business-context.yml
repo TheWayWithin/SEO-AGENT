@@ -1,0 +1,139 @@
+# SEO Agent Library Configuration
+# Website: www.seoagent.work
+# Purpose: SEO Agent Library product website optimization
+
+business_info:
+  name: "SEO Agent Library"
+  domain: "www.seoagent.work"
+  industry: "seo_software"
+  target_audience: "seo_professionals_agencies_businesses"
+  
+seo_objectives:
+  primary_goals:
+    - "establish_thought_leadership"
+    - "capture_seo_software_searches"
+    - "drive_github_installations"
+    - "build_community_engagement"
+  
+  target_keywords:
+    primary:
+      - "seo automation"
+      - "seo agent"
+      - "claude code seo"
+      - "ai seo tools"
+    secondary:
+      - "automated seo audit"
+      - "seo workflow automation"
+      - "multi-agent seo"
+      - "seo agent library"
+    long_tail:
+      - "how to automate seo with ai"
+      - "claude code seo agents"
+      - "best seo automation tools"
+      - "open source seo automation"
+
+content_strategy:
+  content_pillars:
+    - "agent_documentation"
+    - "seo_automation_guides"
+    - "case_studies"
+    - "integration_tutorials"
+  
+  content_types:
+    - "technical_documentation"
+    - "tutorial_videos"
+    - "use_case_examples"
+    - "community_showcases"
+
+technical_priorities:
+  critical:
+    - "lighthouse_score_95_plus"
+    - "core_web_vitals_optimization"
+    - "github_integration_showcase"
+    - "interactive_demo_performance"
+  
+  schema_markup:
+    - "SoftwareApplication"
+    - "HowTo"
+    - "FAQ"
+    - "VideoObject"
+
+competitive_landscape:
+  direct_competitors:
+    - "screaming_frog"
+    - "semrush"
+    - "ahrefs"
+  
+  differentiation:
+    - "open_source_advantage"
+    - "claude_code_integration"
+    - "multi_agent_architecture"
+    - "customizable_missions"
+
+conversion_goals:
+  primary_cta: "github_installation"
+  secondary_ctas:
+    - "documentation_exploration"
+    - "community_join"
+    - "demo_request"
+  
+  tracking_events:
+    - "github_click"
+    - "documentation_view"
+    - "agent_detail_view"
+    - "mission_template_download"
+
+link_building_strategy:
+  target_sites:
+    - "dev_communities"
+    - "ai_tool_directories"
+    - "seo_blogs"
+    - "github_awesome_lists"
+  
+  content_assets:
+    - "agent_benchmarks"
+    - "case_studies"
+    - "integration_guides"
+    - "performance_reports"
+
+monitoring_kpis:
+  traffic_metrics:
+    - "organic_sessions"
+    - "github_referrals"
+    - "documentation_pageviews"
+  
+  engagement_metrics:
+    - "avg_session_duration"
+    - "pages_per_session"
+    - "documentation_completion_rate"
+  
+  conversion_metrics:
+    - "github_installations"
+    - "star_conversions"
+    - "fork_rate"
+    - "community_signups"
+
+ai_search_optimization:
+  llms_txt: true
+  structured_documentation: true
+  code_examples: true
+  api_documentation: true
+
+# Mission Priorities
+mission_schedule:
+  immediate:
+    - "site-audit"
+    - "technical-fix"
+  
+  week_1:
+    - "content-gap"
+    - "keyword-research"
+  
+  month_1:
+    - "ai-search-optimize"
+    - "link-building-campaign"
+  
+  ongoing:
+    - "performance-monitoring"
+    - "content-updates"
+    - "competitive-tracking"

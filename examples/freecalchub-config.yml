@@ -1,0 +1,139 @@
+# FreeCalcHub Configuration
+# Website: freecalchub.com
+# Purpose: Online calculator tools platform optimization
+
+business_info:
+  name: "FreeCalcHub"
+  domain: "freecalchub.com"
+  industry: "calculator_tools"
+  target_audience: "people_needing_calculations"
+  
+seo_objectives:
+  primary_goals:
+    - "increase_calculator_usage"
+    - "improve_educational_content_rankings"
+    - "enhance_user_experience"
+    - "ai_search_optimization"
+  
+  target_keywords:
+    primary:
+      - "free calculator"
+      - "online calculator"
+      - "mortgage calculator"
+      - "percentage calculator"
+    secondary:
+      - "loan calculator free"
+      - "calorie calculator"
+      - "bmi calculator"
+      - "tax calculator"
+    long_tail:
+      - "how to calculate monthly mortgage payment"
+      - "free online scientific calculator"
+      - "calculate compound interest"
+      - "pregnancy due date calculator"
+
+content_strategy:
+  content_categories:
+    - "finance_calculators"
+    - "math_calculators"
+    - "health_calculators"
+    - "conversion_calculators"
+  
+  content_types:
+    - "calculator_how_to_guides"
+    - "educational_articles"
+    - "calculation_examples"
+    - "formula_explanations"
+
+technical_priorities:
+  critical:
+    - "calculator_performance_optimization"
+    - "mobile_calculator_experience"
+    - "schema_markup_for_tools"
+    - "core_web_vitals_excellence"
+  
+  schema_markup:
+    - "WebApplication"
+    - "HowTo"
+    - "FAQ"
+    - "SoftwareApplication"
+
+competitive_landscape:
+  direct_competitors:
+    - "calculator.net"
+    - "rapidtables.com"
+    - "calculator.com"
+  
+  differentiation:
+    - "clean_user_interface"
+    - "mobile_first_design"
+    - "educational_content"
+    - "fast_loading_calculators"
+
+conversion_goals:
+  primary_cta: "calculator_usage"
+  secondary_ctas:
+    - "bookmark_calculator"
+    - "share_calculation"
+    - "explore_related_tools"
+  
+  tracking_events:
+    - "calculator_use"
+    - "result_generated"
+    - "formula_view"
+    - "help_article_read"
+
+link_building_strategy:
+  target_sites:
+    - "financial_education_sites"
+    - "math_learning_platforms"
+    - "health_wellness_blogs"
+    - "educational_directories"
+  
+  content_assets:
+    - "calculator_guides"
+    - "formula_explanations"
+    - "calculation_examples"
+    - "educational_infographics"
+
+monitoring_kpis:
+  traffic_metrics:
+    - "organic_sessions"
+    - "calculator_pageviews"
+    - "direct_traffic"
+  
+  engagement_metrics:
+    - "calculator_completion_rate"
+    - "time_on_calculator_pages"
+    - "bounce_rate"
+  
+  conversion_metrics:
+    - "calculations_completed"
+    - "return_visitors"
+    - "social_shares"
+    - "calculator_bookmarks"
+
+ai_search_optimization:
+  llms_txt: true
+  structured_data: true
+  calculator_schemas: true
+  educational_content: true
+
+# Mission Priorities
+mission_schedule:
+  immediate:
+    - "site-audit"
+    - "technical-fix"
+  
+  week_1:
+    - "content-gap"
+    - "keyword-research"
+  
+  month_1:
+    - "calculator-optimization"
+    - "mobile-experience-enhance"
+  
+  ongoing:
+    - "performance-monitoring"
+    - "calculator-accuracy-testing"
+    - "user-experience-optimization"
