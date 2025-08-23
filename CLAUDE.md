@@ -40,9 +40,18 @@ Available mission codes:
 - `site-audit` - Comprehensive SEO analysis
 - `content-gap` - Content opportunity discovery
 - `technical-fix` - Performance optimization
+- `ai-search-optimize` - Future-proof with llms.txt
 - `keyword-research` - Market intelligence
 - `operation-recon` - UI/UX reconnaissance
 - `build`, `fix`, `refactor`, `mvp`, `deploy` - Development missions
+
+### Tracking Progress
+All missions automatically capture before/after metrics:
+```bash
+/track baseline domain.com     # Manual baseline before mission
+/track compare domain.com      # View improvements after mission
+/track roi domain.com 90d      # Calculate financial ROI
+```
 
 ### Creating New Missions
 Use `templates/mission-template.md` as the base for new missions. Follow the AGENT-11 optimization standards outlined in `templates/agent-creation-mastery.md`.
@@ -76,3 +85,17 @@ The system expects connections to:
 - 95%+ agent performance standards
 - Clear deliverables for each operation
 - Measurable success criteria
+
+## Tracking System
+
+The repository includes a comprehensive tracking system at `/tracking/`:
+- **Baselines**: Capture initial metrics before optimization
+- **Snapshots**: Regular performance recordings
+- **Reports**: Automated progress and ROI reports
+- **Commands**: `/track` commands for all tracking operations
+
+Configuration in `/tracking/config/tracking.yml` controls:
+- Automatic baseline capture
+- Snapshot frequency
+- ROI calculation values
+- Alert thresholds

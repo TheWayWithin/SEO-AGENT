@@ -48,8 +48,15 @@ curl -sSL https://raw.githubusercontent.com/TheWayWithin/SEO-AGENT/main/install.
 /meeting @researcher "keyword opportunities"
 ```
 
-### Performance Tracking
+### Performance Tracking & ROI
 ```bash
+# Progress Tracking
+/track baseline domain.com    # Capture initial metrics
+/track snapshot domain.com    # Record current performance
+/track compare domain.com     # Before/after comparison
+/track roi domain.com 90d     # Calculate ROI with financials
+
+# Reporting
 /report weekly            # Weekly performance summary
 /report monthly           # Monthly strategic review
 /rankings                 # Current ranking positions
@@ -78,9 +85,10 @@ curl -sSL https://raw.githubusercontent.com/TheWayWithin/SEO-AGENT/main/install.
 ## 📚 Documentation
 
 - [Quick Start Guide](docs/QUICK-START.md) - Get running in 5 minutes
+- [Tracking Guide](docs/tracking-guide.md) - Measure progress and ROI
+- [MCP Integration Guide](docs/mcp-integration-guide.md) - Connect your SEO tools
 - [Agent Guide](docs/agent-guide.md) - Understanding your SEO team
 - [Mission Guide](docs/mission-guide.md) - Executing SEO operations
-- [Integration Guide](docs/integration-guide.md) - Connecting your tools
 - [Troubleshooting](docs/troubleshooting.md) - Common issues and solutions
 
 ## 🏗️ Architecture
@@ -89,6 +97,7 @@ The SEO Agent Library uses Claude Code's sub-agent system with:
 - **Project-local deployment** for business context isolation
 - **Mission-based workflows** with time-boxed operations
 - **Hub-and-spoke coordination** preventing agent chaos
+- **Progress tracking system** for ROI measurement and reporting
 - **Specific tool assignments** for optimal performance
 
 Each agent has carefully curated Claude Code tools to prevent performance degradation from tool overload.

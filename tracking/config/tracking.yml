@@ -1,0 +1,117 @@
+# SEO Agent Library - Tracking System Configuration
+# This file defines the tracking system settings and metrics
+
+version: "1.0"
+domain: "example.com"  # Update with your domain
+
+# Tracking Settings
+tracking:
+  enabled: true
+  auto_baseline: true  # Automatically create baseline on first mission
+  snapshot_frequency: "daily"  # daily, weekly, monthly
+  retention_policy:
+    daily: 30  # days
+    weekly: 52  # weeks
+    monthly: 24  # months
+    
+# Metric Categories
+metrics:
+  technical:
+    enabled: true
+    sources:
+      - google_search_console
+      - lighthouse
+      - pagespeed_insights
+    metrics:
+      - core_web_vitals
+      - lighthouse_scores
+      - page_load_speed
+      - mobile_usability
+      - crawl_errors
+      
+  traffic:
+    enabled: true
+    sources:
+      - google_analytics_4
+      - google_search_console
+    metrics:
+      - organic_sessions
+      - users
+      - pageviews
+      - bounce_rate
+      - session_duration
+      - conversions
+      
+  rankings:
+    enabled: true
+    sources:
+      - google_search_console
+      - ahrefs
+      - semrush
+    metrics:
+      - average_position
+      - keywords_tracked
+      - top_10_keywords
+      - impressions
+      - click_through_rate
+      
+  content:
+    enabled: true
+    sources:
+      - google_analytics_4
+      - content_audit
+    metrics:
+      - pages_indexed
+      - content_quality_score
+      - word_count_average
+      - engagement_metrics
+      
+  authority:
+    enabled: true
+    sources:
+      - ahrefs
+      - semrush
+    metrics:
+      - domain_rating
+      - backlinks_total
+      - referring_domains
+      - brand_mentions
+
+# Alert Thresholds
+alerts:
+  traffic_drop: -15  # percentage
+  ranking_drop: 3  # positions
+  core_web_vitals: 90  # minimum score
+  crawl_errors: 10  # maximum count
+
+# Reporting Settings
+reporting:
+  formats:
+    - markdown
+    - json
+    - html
+  templates:
+    weekly: "weekly-progress.md"
+    monthly: "executive-summary.md"
+    comparison: "before-after.md"
+  delivery:
+    email: false
+    slack: false
+    file: true
+
+# ROI Calculation Settings
+roi:
+  organic_session_value: 2.50  # USD
+  conversion_rate: 0.02  # 2%
+  average_order_value: 100  # USD
+  seo_hourly_rate: 150  # USD for time savings calculations
+
+# Marketing Features
+marketing:
+  case_studies: true
+  success_stories: true
+  competitive_benchmarking: true
+  export_formats:
+    - pdf
+    - pptx
+    - docx

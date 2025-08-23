@@ -1,0 +1,176 @@
+{
+  "metadata": {
+    "timestamp": "YYYY-MM-DDTHH:mm:ssZ",
+    "domain": "example.com",
+    "baseline_type": "initial|quarterly|manual",
+    "created_by": "agent|user",
+    "version": "1.0"
+  },
+  "technical_metrics": {
+    "core_web_vitals": {
+      "lcp": {
+        "value": 0,
+        "unit": "seconds",
+        "status": "good|needs_improvement|poor"
+      },
+      "fid": {
+        "value": 0,
+        "unit": "milliseconds",
+        "status": "good|needs_improvement|poor"
+      },
+      "cls": {
+        "value": 0,
+        "unit": "score",
+        "status": "good|needs_improvement|poor"
+      }
+    },
+    "lighthouse_scores": {
+      "performance": 0,
+      "accessibility": 0,
+      "best_practices": 0,
+      "seo": 0,
+      "pwa": 0
+    },
+    "technical_health": {
+      "crawl_errors": 0,
+      "broken_links": 0,
+      "redirect_chains": 0,
+      "duplicate_content": 0,
+      "missing_meta": 0,
+      "schema_errors": 0
+    },
+    "mobile_optimization": {
+      "mobile_friendly": true,
+      "responsive_design": true,
+      "viewport_configured": true,
+      "text_size_readable": true
+    }
+  },
+  "traffic_metrics": {
+    "organic_traffic": {
+      "sessions": 0,
+      "users": 0,
+      "new_users": 0,
+      "pageviews": 0,
+      "pages_per_session": 0,
+      "avg_session_duration": 0,
+      "bounce_rate": 0
+    },
+    "conversions": {
+      "total_conversions": 0,
+      "conversion_rate": 0,
+      "goal_completions": [],
+      "ecommerce_transactions": 0,
+      "revenue": 0
+    },
+    "traffic_sources": {
+      "organic_search": 0,
+      "direct": 0,
+      "referral": 0,
+      "social": 0,
+      "email": 0,
+      "paid_search": 0
+    }
+  },
+  "ranking_metrics": {
+    "visibility": {
+      "average_position": 0,
+      "impressions": 0,
+      "clicks": 0,
+      "ctr": 0
+    },
+    "keyword_distribution": {
+      "total_keywords": 0,
+      "top_3": 0,
+      "top_10": 0,
+      "top_20": 0,
+      "top_50": 0,
+      "top_100": 0
+    },
+    "serp_features": {
+      "featured_snippets": 0,
+      "local_pack": 0,
+      "knowledge_panel": 0,
+      "site_links": 0,
+      "image_pack": 0
+    }
+  },
+  "content_metrics": {
+    "content_inventory": {
+      "total_pages": 0,
+      "indexed_pages": 0,
+      "blog_posts": 0,
+      "product_pages": 0,
+      "category_pages": 0,
+      "landing_pages": 0
+    },
+    "content_quality": {
+      "avg_word_count": 0,
+      "readability_score": 0,
+      "unique_content_ratio": 0,
+      "multimedia_usage": 0
+    },
+    "engagement": {
+      "avg_time_on_page": 0,
+      "scroll_depth": 0,
+      "internal_links_clicked": 0,
+      "social_shares": 0,
+      "comments": 0
+    }
+  },
+  "authority_metrics": {
+    "domain_authority": {
+      "domain_rating": 0,
+      "trust_flow": 0,
+      "citation_flow": 0
+    },
+    "backlinks": {
+      "total_backlinks": 0,
+      "referring_domains": 0,
+      "dofollow_links": 0,
+      "nofollow_links": 0,
+      "gov_edu_links": 0
+    },
+    "brand_presence": {
+      "brand_searches": 0,
+      "brand_mentions": 0,
+      "social_followers": 0,
+      "reviews_count": 0,
+      "average_rating": 0
+    }
+  },
+  "competitive_metrics": {
+    "market_position": {
+      "organic_market_share": 0,
+      "visibility_score": 0,
+      "competitive_density": 0
+    },
+    "competitor_comparison": {
+      "vs_competitor_1": {
+        "name": "",
+        "domain_rating_diff": 0,
+        "traffic_diff": 0,
+        "keyword_overlap": 0
+      },
+      "vs_competitor_2": {
+        "name": "",
+        "domain_rating_diff": 0,
+        "traffic_diff": 0,
+        "keyword_overlap": 0
+      }
+    }
+  },
+  "business_metrics": {
+    "roi_indicators": {
+      "organic_revenue": 0,
+      "cost_per_acquisition": 0,
+      "lifetime_value": 0,
+      "roi_percentage": 0
+    },
+    "efficiency": {
+      "time_to_implement": 0,
+      "automation_coverage": 0,
+      "manual_hours_saved": 0
+    }
+  }
+}

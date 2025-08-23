@@ -1,0 +1,178 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "SEO Baseline Schema",
+  "description": "Schema for validating SEO baseline data capture",
+  "type": "object",
+  "required": ["metadata", "technical_metrics", "traffic_metrics", "ranking_metrics"],
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "required": ["timestamp", "domain", "baseline_type", "version"],
+      "properties": {
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 timestamp"
+        },
+        "domain": {
+          "type": "string",
+          "format": "hostname",
+          "description": "Domain being tracked"
+        },
+        "baseline_type": {
+          "type": "string",
+          "enum": ["initial", "quarterly", "manual"],
+          "description": "Type of baseline capture"
+        },
+        "created_by": {
+          "type": "string",
+          "description": "Agent or user who created baseline"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+$",
+          "description": "Schema version"
+        }
+      }
+    },
+    "technical_metrics": {
+      "type": "object",
+      "properties": {
+        "core_web_vitals": {
+          "type": "object",
+          "properties": {
+            "lcp": {
+              "type": "object",
+              "properties": {
+                "value": {"type": "number", "minimum": 0},
+                "unit": {"type": "string", "enum": ["seconds", "milliseconds"]},
+                "status": {"type": "string", "enum": ["good", "needs_improvement", "poor"]}
+              }
+            },
+            "fid": {
+              "type": "object",
+              "properties": {
+                "value": {"type": "number", "minimum": 0},
+                "unit": {"type": "string", "enum": ["milliseconds"]},
+                "status": {"type": "string", "enum": ["good", "needs_improvement", "poor"]}
+              }
+            },
+            "cls": {
+              "type": "object",
+              "properties": {
+                "value": {"type": "number", "minimum": 0, "maximum": 1},
+                "unit": {"type": "string", "enum": ["score"]},
+                "status": {"type": "string", "enum": ["good", "needs_improvement", "poor"]}
+              }
+            }
+          }
+        },
+        "lighthouse_scores": {
+          "type": "object",
+          "properties": {
+            "performance": {"type": "integer", "minimum": 0, "maximum": 100},
+            "accessibility": {"type": "integer", "minimum": 0, "maximum": 100},
+            "best_practices": {"type": "integer", "minimum": 0, "maximum": 100},
+            "seo": {"type": "integer", "minimum": 0, "maximum": 100},
+            "pwa": {"type": "integer", "minimum": 0, "maximum": 100}
+          }
+        },
+        "technical_health": {
+          "type": "object",
+          "properties": {
+            "crawl_errors": {"type": "integer", "minimum": 0},
+            "broken_links": {"type": "integer", "minimum": 0},
+            "redirect_chains": {"type": "integer", "minimum": 0},
+            "duplicate_content": {"type": "integer", "minimum": 0},
+            "missing_meta": {"type": "integer", "minimum": 0},
+            "schema_errors": {"type": "integer", "minimum": 0}
+          }
+        }
+      }
+    },
+    "traffic_metrics": {
+      "type": "object",
+      "properties": {
+        "organic_traffic": {
+          "type": "object",
+          "properties": {
+            "sessions": {"type": "integer", "minimum": 0},
+            "users": {"type": "integer", "minimum": 0},
+            "new_users": {"type": "integer", "minimum": 0},
+            "pageviews": {"type": "integer", "minimum": 0},
+            "pages_per_session": {"type": "number", "minimum": 0},
+            "avg_session_duration": {"type": "number", "minimum": 0},
+            "bounce_rate": {"type": "number", "minimum": 0, "maximum": 100}
+          }
+        },
+        "conversions": {
+          "type": "object",
+          "properties": {
+            "total_conversions": {"type": "integer", "minimum": 0},
+            "conversion_rate": {"type": "number", "minimum": 0, "maximum": 100},
+            "goal_completions": {"type": "array", "items": {"type": "object"}},
+            "ecommerce_transactions": {"type": "integer", "minimum": 0},
+            "revenue": {"type": "number", "minimum": 0}
+          }
+        }
+      }
+    },
+    "ranking_metrics": {
+      "type": "object",
+      "properties": {
+        "visibility": {
+          "type": "object",
+          "properties": {
+            "average_position": {"type": "number", "minimum": 1},
+            "impressions": {"type": "integer", "minimum": 0},
+            "clicks": {"type": "integer", "minimum": 0},
+            "ctr": {"type": "number", "minimum": 0, "maximum": 100}
+          }
+        },
+        "keyword_distribution": {
+          "type": "object",
+          "properties": {
+            "total_keywords": {"type": "integer", "minimum": 0},
+            "top_3": {"type": "integer", "minimum": 0},
+            "top_10": {"type": "integer", "minimum": 0},
+            "top_20": {"type": "integer", "minimum": 0},
+            "top_50": {"type": "integer", "minimum": 0},
+            "top_100": {"type": "integer", "minimum": 0}
+          }
+        }
+      }
+    },
+    "content_metrics": {
+      "type": "object",
+      "properties": {
+        "content_inventory": {
+          "type": "object",
+          "properties": {
+            "total_pages": {"type": "integer", "minimum": 0},
+            "indexed_pages": {"type": "integer", "minimum": 0},
+            "blog_posts": {"type": "integer", "minimum": 0},
+            "product_pages": {"type": "integer", "minimum": 0}
+          }
+        }
+      }
+    },
+    "authority_metrics": {
+      "type": "object",
+      "properties": {
+        "domain_authority": {
+          "type": "object",
+          "properties": {
+            "domain_rating": {"type": "integer", "minimum": 0, "maximum": 100}
+          }
+        },
+        "backlinks": {
+          "type": "object",
+          "properties": {
+            "total_backlinks": {"type": "integer", "minimum": 0},
+            "referring_domains": {"type": "integer", "minimum": 0}
+          }
+        }
+      }
+    }
+  }
+}
