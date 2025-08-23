@@ -1,0 +1,94 @@
+{
+  "metadata": {
+    "timestamp": "2025-08-23T13:11:09.562427",
+    "domain": "example.com",
+    "baseline_type": "current",
+    "created_by": "@seo-analyst",
+    "version": "1.0"
+  },
+  "technical_metrics": {
+    "core_web_vitals": {
+      "lcp": {
+        "value": 1.2,
+        "unit": "seconds",
+        "status": "good"
+      },
+      "fid": {
+        "value": 50,
+        "unit": "milliseconds",
+        "status": "good"
+      },
+      "cls": {
+        "value": 0.05,
+        "unit": "score",
+        "status": "good"
+      }
+    },
+    "lighthouse_scores": {
+      "performance": 95,
+      "accessibility": 85,
+      "best_practices": 78,
+      "seo": 98,
+      "pwa": 45
+    },
+    "technical_health": {
+      "crawl_errors": 0,
+      "broken_links": 0,
+      "redirect_chains": 12,
+      "duplicate_content": 15,
+      "missing_meta": 34,
+      "schema_errors": 6
+    }
+  },
+  "traffic_metrics": {
+    "organic_traffic": {
+      "sessions": 41906,
+      "users": 34433,
+      "new_users": 31287,
+      "pageviews": 65276,
+      "pages_per_session": 3.5,
+      "avg_session_duration": 300,
+      "bounce_rate": 35.0
+    },
+    "conversions": {
+      "total_conversions": 639,
+      "conversion_rate": 3.5,
+      "goal_completions": [],
+      "ecommerce_transactions": 306,
+      "revenue": 43707.7265625
+    }
+  },
+  "ranking_metrics": {
+    "visibility": {
+      "average_position": 8.5,
+      "impressions": 503073,
+      "clicks": 6601,
+      "ctr": 8.5
+    },
+    "keyword_distribution": {
+      "total_keywords": 1250,
+      "top_3": 644,
+      "top_10": 1010,
+      "top_20": 1453,
+      "top_50": 485,
+      "top_100": 780
+    }
+  },
+  "content_metrics": {
+    "content_inventory": {
+      "total_pages": 450,
+      "indexed_pages": 380,
+      "blog_posts": 125,
+      "product_pages": 89
+    }
+  },
+  "authority_metrics": {
+    "domain_authority": {
+      "domain_rating": 42
+    },
+    "backlinks": {
+      "total_backlinks": 2340,
+      "referring_domains": 145
+    }
+  }
+}

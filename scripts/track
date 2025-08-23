@@ -1,0 +1,209 @@
+#!/bin/bash
+#
+# SEO Agent Library - Tracking Command Interface
+# Provides the /track command functionality for the SEO Agent system
+#
+
+# Get the directory where the script is located
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
+TRACKING_DIR="$PROJECT_ROOT/tracking"
+
+# Color codes for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+PURPLE='\033[0;35m'
+CYAN='\033[0;36m'
+NC='\033[0m' # No Color
+
+# Function to print colored output
+print_status() {
+    echo -e "${BLUE}📊 $1${NC}"
+}
+
+print_success() {
+    echo -e "${GREEN}✅ $1${NC}"
+}
+
+print_error() {
+    echo -e "${RED}❌ $1${NC}"
+}
+
+print_warning() {
+    echo -e "${YELLOW}⚠️ $1${NC}"
+}
+
+print_info() {
+    echo -e "${CYAN}ℹ️ $1${NC}"
+}
+
+# Check if Python 3 is available
+check_python() {
+    if ! command -v python3 &> /dev/null; then
+        print_error "Python 3 is required but not found"
+        exit 1
+    fi
+}
+
+# Check if tracking system is initialized
+check_tracking_system() {
+    if [ ! -d "$TRACKING_DIR" ]; then
+        print_error "Tracking system not found at $TRACKING_DIR"
+        exit 1
+    fi
+    
+    if [ ! -f "$TRACKING_DIR/track.py" ]; then
+        print_error "Tracking CLI not found at $TRACKING_DIR/track.py"
+        exit 1
+    fi
+}
+
+# Show help information
+show_help() {
+    cat << EOF
+${BLUE}📊 SEO Agent Library - Tracking System${NC}
+
+${CYAN}USAGE:${NC}
+    /track <command> [options]
+
+${CYAN}COMMANDS:${NC}
+    ${GREEN}status${NC}      Show tracking system status and health
+    ${GREEN}roi${NC}         Calculate and display ROI metrics
+    ${GREEN}compare${NC}     Compare performance between periods
+    ${GREEN}report${NC}      Generate comprehensive SEO reports
+    ${GREEN}baseline${NC}    Manage baseline data
+    ${GREEN}help${NC}        Show this help information
+
+${CYAN}EXAMPLES:${NC}
+    /track status                    # Check system health
+    /track roi                       # Show ROI summary
+    /track compare                   # Performance comparison
+    /track report --type weekly      # Generate weekly report
+    /track report --type roi         # Generate ROI report
+
+${CYAN}REPORT TYPES:${NC}
+    • ${YELLOW}weekly${NC}     - Weekly progress report (traffic, rankings, health)
+    • ${YELLOW}monthly${NC}    - Monthly executive summary (ROI, strategy, wins)
+    • ${YELLOW}roi${NC}        - Focused ROI and business impact report
+    • ${YELLOW}comparison${NC} - Before/after mission impact analysis
+    • ${YELLOW}case_study${NC} - Marketing case study format
+
+${CYAN}ADVANCED OPTIONS:${NC}
+    --format     Output format (text, markdown, html, pdf)
+    --export     Export detailed reports
+    --detailed   Include comprehensive analysis
+
+${CYAN}INTEGRATION:${NC}
+    This system integrates with SEO Agent missions to automatically:
+    • Track baseline performance before missions
+    • Monitor progress during mission execution
+    • Calculate ROI and impact after completion
+    • Generate marketing case studies and reports
+
+${CYAN}DATA SOURCES:${NC}
+    • Google Analytics 4 (traffic metrics)
+    • Google Search Console (ranking data)
+    • Core Web Vitals (performance metrics)
+    • Mission execution data (agent activities)
+
+For detailed documentation: ${PURPLE}cat tracking/README.md${NC}
+EOF
+}
+
+# Initialize tracking system with sample data
+initialize_system() {
+    print_status "Initializing SEO tracking system..."
+    
+    cd "$TRACKING_DIR" || exit 1
+    
+    # Check if test data exists
+    if [ ! -d "baselines" ] || [ -z "$(ls -A baselines 2>/dev/null)" ]; then
+        print_info "No baseline data found. Generating sample data..."
+        
+        if python3 test_data.py; then
+            print_success "Sample data generated successfully"
+        else
+            print_warning "Could not generate sample data, but system is functional"
+        fi
+    fi
+    
+    print_success "Tracking system initialized"
+}
+
+# Execute tracking command
+execute_command() {
+    local cmd="$1"
+    shift
+    
+    cd "$TRACKING_DIR" || exit 1
+    
+    case "$cmd" in
+        "status")
+            print_status "Checking SEO tracking status..."
+            python3 track.py status "$@"
+            ;;
+        "roi")
+            print_status "Calculating SEO ROI..."
+            python3 track.py roi "$@"
+            ;;
+        "compare")
+            print_status "Comparing performance metrics..."
+            python3 track.py compare "$@"
+            ;;
+        "report")
+            print_status "Generating SEO report..."
+            python3 track.py report "$@"
+            ;;
+        "baseline")
+            print_status "Managing baseline data..."
+            if [[ "$1" == "--create" ]]; then
+                print_info "Creating baseline requires SEO agent integration"
+                print_info "Use: /coord site-audit to establish baseline through agents"
+            else
+                # Show baseline info
+                if [ -d "baselines" ] && [ -n "$(ls -A baselines 2>/dev/null)" ]; then
+                    print_success "Baseline data available:"
+                    ls -la baselines/ | tail -n +2 | while read -r line; do
+                        echo "  $line"
+                    done
+                else
+                    print_warning "No baseline data found"
+                    print_info "Generate sample data with: /track init"
+                fi
+            fi
+            ;;
+        "init")
+            initialize_system
+            ;;
+        "help"|"--help"|"-h")
+            show_help
+            ;;
+        *)
+            print_error "Unknown command: $cmd"
+            echo ""
+            show_help
+            exit 1
+            ;;
+    esac
+}
+
+# Main script execution
+main() {
+    # Check prerequisites
+    check_python
+    check_tracking_system
+    
+    # Handle no arguments
+    if [ $# -eq 0 ]; then
+        show_help
+        exit 0
+    fi
+    
+    # Execute the command
+    execute_command "$@"
+}
+
+# Run main function with all arguments
+main "$@"

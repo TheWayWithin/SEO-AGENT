@@ -1,0 +1,94 @@
+{
+  "metadata": {
+    "timestamp": "2024-01-01T00:00:00Z",
+    "domain": "example.com",
+    "baseline_type": "initial",
+    "created_by": "@seo-analyst",
+    "version": "1.0"
+  },
+  "technical_metrics": {
+    "core_web_vitals": {
+      "lcp": {
+        "value": 2.8,
+        "unit": "seconds",
+        "status": "needs_improvement"
+      },
+      "fid": {
+        "value": 180,
+        "unit": "milliseconds",
+        "status": "needs_improvement"
+      },
+      "cls": {
+        "value": 0.15,
+        "unit": "score",
+        "status": "needs_improvement"
+      }
+    },
+    "lighthouse_scores": {
+      "performance": 68,
+      "accessibility": 85,
+      "best_practices": 78,
+      "seo": 72,
+      "pwa": 45
+    },
+    "technical_health": {
+      "crawl_errors": 23,
+      "broken_links": 8,
+      "redirect_chains": 12,
+      "duplicate_content": 15,
+      "missing_meta": 34,
+      "schema_errors": 6
+    }
+  },
+  "traffic_metrics": {
+    "organic_traffic": {
+      "sessions": 12450,
+      "users": 10230,
+      "new_users": 8950,
+      "pageviews": 18670,
+      "pages_per_session": 1.5,
+      "avg_session_duration": 165,
+      "bounce_rate": 68.5
+    },
+    "conversions": {
+      "total_conversions": 185,
+      "conversion_rate": 1.48,
+      "goal_completions": [],
+      "ecommerce_transactions": 89,
+      "revenue": 12500.0
+    }
+  },
+  "ranking_metrics": {
+    "visibility": {
+      "average_position": 24.8,
+      "impressions": 45600,
+      "clicks": 1890,
+      "ctr": 4.14
+    },
+    "keyword_distribution": {
+      "total_keywords": 1250,
+      "top_3": 45,
+      "top_10": 125,
+      "top_20": 245,
+      "top_50": 485,
+      "top_100": 780
+    }
+  },
+  "content_metrics": {
+    "content_inventory": {
+      "total_pages": 450,
+      "indexed_pages": 380,
+      "blog_posts": 125,
+      "product_pages": 89
+    }
+  },
+  "authority_metrics": {
+    "domain_authority": {
+      "domain_rating": 42
+    },
+    "backlinks": {
+      "total_backlinks": 2340,
+      "referring_domains": 145
+    }
+  }
+}
