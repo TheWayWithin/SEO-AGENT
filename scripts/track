@@ -74,6 +74,10 @@ ${CYAN}COMMANDS:${NC}
     ${GREEN}compare${NC}     Compare performance between periods
     ${GREEN}report${NC}      Generate comprehensive SEO reports
     ${GREEN}baseline${NC}    Manage baseline data
+    ${GREEN}case-study${NC}  Generate marketing case studies
+    ${GREEN}dashboard${NC}   Create client-friendly dashboards
+    ${GREEN}export${NC}      Export presentation materials
+    ${GREEN}competitive${NC} Generate competitive analysis
     ${GREEN}help${NC}        Show this help information
 
 ${CYAN}EXAMPLES:${NC}
@@ -81,7 +85,10 @@ ${CYAN}EXAMPLES:${NC}
     /track roi                       # Show ROI summary
     /track compare                   # Performance comparison
     /track report --type weekly      # Generate weekly report
-    /track report --type roi         # Generate ROI report
+    /track case-study --client "Demo" # Generate case study
+    /track dashboard --client "Demo" # Create client dashboard
+    /track export --format social    # Export social media content
+    /track competitive --industry Tech # Competitive analysis
 
 ${CYAN}REPORT TYPES:${NC}
     • ${YELLOW}weekly${NC}     - Weekly progress report (traffic, rankings, health)
@@ -173,6 +180,22 @@ execute_command() {
                     print_info "Generate sample data with: /track init"
                 fi
             fi
+            ;;
+        "case-study")
+            print_status "Generating marketing case study..."
+            python3 marketing_generator.py "$@"
+            ;;
+        "dashboard")
+            print_status "Creating client dashboard..."
+            python3 client_dashboard.py "$@"
+            ;;
+        "export")
+            print_status "Exporting presentation materials..."
+            python3 presentation_exports.py "$@"
+            ;;
+        "competitive")
+            print_status "Generating competitive analysis..."
+            python3 competitive_benchmarking.py "$@"
             ;;
         "init")
             initialize_system

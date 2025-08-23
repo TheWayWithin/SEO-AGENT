@@ -1,0 +1,258 @@
+# SEO Agent Library - Marketing Configuration Template
+# Configure marketing automation settings for case studies, dashboards, and presentations
+
+# Domain and branding
+domain: "your-domain.com"
+client_name: "Your Company"
+industry: "Technology"  # Technology, E-commerce, Healthcare, Finance, etc.
+
+# Marketing automation settings
+marketing_automation:
+  # Formats to generate automatically
+  default_formats:
+    - case_study
+    - dashboard  
+    - presentation
+    - competitive
+  
+  # Auto-generation settings
+  auto_generate: true
+  frequency: "monthly"  # weekly, monthly, quarterly
+  
+  # Delivery options
+  delivery_options:
+    email: false
+    slack: false
+    file_export: true
+    
+  # Client profile defaults
+  client_defaults:
+    industry: "Technology"
+    company_size: "Mid-market"  # Startup, Small, Mid-market, Enterprise
+    challenge_type: "low_traffic"  # low_traffic, poor_rankings, manual_seo, competitive_pressure
+    goals:
+      - "Increase organic traffic"
+      - "Improve search rankings" 
+      - "Generate more leads"
+      - "Reduce manual SEO work"
+    website_type: "corporate website"
+    white_label: false
+
+# Branding and design
+branding:
+  # Primary brand colors (hex codes)
+  primary_color: "#2563eb"
+  secondary_color: "#64748b"
+  success_color: "#10b981"
+  warning_color: "#f59e0b"
+  danger_color: "#ef4444"
+  
+  # Company information
+  company_name: "SEO Agent Library"
+  tagline: "Elite SEO Operations Through AI Coordination"
+  logo_url: ""
+  
+  # Contact information
+  contact_info:
+    website: "https://seoagent.ai"
+    email: "success@seoagent.ai"
+    phone: "+1-800-SEO-AGENT"
+
+# Case study generation settings
+case_study:
+  # Success thresholds (minimum improvements to highlight)
+  success_metrics:
+    traffic_threshold: 25      # Minimum % traffic increase to feature
+    ranking_threshold: 5       # Minimum position improvement
+    roi_threshold: 200         # Minimum ROI % to highlight
+    
+  # Output formats
+  formats:
+    full: true                 # Comprehensive case study
+    executive: true            # Executive summary format
+    social: true               # Social media ready content
+    sales_deck: true           # Sales presentation format
+    
+  # Content customization
+  narrative_style: "data_driven"  # data_driven, story_focused, technical
+  include_testimonials: true
+  include_methodology: true
+  include_next_steps: true
+
+# Dashboard configuration
+dashboard:
+  # Default brand colors
+  default_brand:
+    primary: "#2563eb"
+    secondary: "#64748b"
+    success: "#10b981"
+    warning: "#f59e0b"
+    danger: "#ef4444"
+    
+  # Display options
+  display_options:
+    show_detailed_metrics: true
+    show_competitive_data: true
+    show_technical_health: true
+    show_mission_progress: true
+    show_roi_calculations: true
+    
+  # Chart and visualization settings
+  charts:
+    traffic_trend_period: 12   # Months of data to show
+    ranking_chart_keywords: 20 # Top keywords to display
+    performance_benchmark: 75  # Score benchmark line
+    
+  # Export formats
+  export_formats:
+    html: true                 # Interactive HTML dashboard
+    pdf: true                  # PDF report version
+    json: true                 # Raw data export
+
+# Presentation export settings  
+presentation:
+  # PowerPoint settings
+  powerpoint:
+    template: "professional"   # professional, minimal, branded
+    slide_count: 10           # Maximum slides to generate
+    include_charts: true
+    include_screenshots: false # Placeholder for future screenshot integration
+    
+  # PDF settings
+  pdf:
+    style: "executive"         # executive, detailed, minimal
+    include_charts: true
+    page_size: "A4"           # A4, Letter
+    
+  # Social media settings
+  social:
+    platforms:
+      - twitter
+      - linkedin
+      - instagram
+    image_size: "1200x630"    # Social media image dimensions
+    include_metrics: true
+    branded_graphics: true
+
+# Competitive analysis settings
+competitive:
+  # Market analysis
+  market_definition:
+    primary_competitors: 5     # Number of main competitors to analyze
+    secondary_competitors: 10  # Extended competitive set
+    industry_benchmarks: true
+    
+  # Analysis weighting (must total 1.0)
+  analysis_metrics:
+    traffic_weight: 0.30      # Weight for traffic volume
+    authority_weight: 0.20    # Weight for domain authority
+    content_weight: 0.20      # Weight for content volume
+    technical_weight: 0.15    # Weight for technical performance
+    keywords_weight: 0.15     # Weight for keyword coverage
+    
+  # Opportunity identification thresholds
+  opportunity_thresholds:
+    traffic_gap: 25           # % traffic difference to flag opportunity
+    keyword_gap: 50           # Keyword count difference
+    content_gap: 100          # Content volume difference
+    technical_gap: 15         # Technical score difference
+    
+  # Reporting options
+  reporting:
+    include_market_share: true
+    include_positioning_matrix: true
+    include_gap_analysis: true
+    include_recommendations: true
+
+# ROI calculation framework
+roi:
+  # Traffic valuation
+  organic_session_value: 2.50    # $ value per organic session
+  conversion_rate: 0.02          # Site conversion rate (2%)
+  average_order_value: 100       # Average purchase value
+  
+  # Cost calculations
+  seo_hourly_rate: 150          # Internal SEO hourly cost
+  tool_costs_monthly: 500       # SEO tool subscription costs
+  
+  # Time savings estimates
+  automation_hours_saved: 40    # Hours saved monthly through automation
+  
+  # Business impact multipliers
+  brand_value_multiplier: 1.2   # Brand awareness impact
+  long_term_value_multiplier: 1.5 # Long-term customer value
+
+# Alert and notification settings
+alerts:
+  # Performance thresholds
+  traffic_drop: -15            # % traffic drop to trigger alert
+  ranking_drop: 3              # Position drop to trigger alert
+  core_web_vitals: 90          # Minimum CWV score
+  crawl_errors: 10             # Maximum crawl errors
+  
+  # Success celebrations
+  traffic_milestone: 25        # % growth to celebrate
+  ranking_milestone: 10        # Ranking improvements to celebrate
+  roi_milestone: 300           # ROI % to celebrate
+
+# Integration settings
+integrations:
+  # Data sources
+  google_analytics: true
+  google_search_console: true
+  lighthouse: true
+  
+  # Optional SEO tools
+  ahrefs: false
+  semrush: false
+  moz: false
+  screaming_frog: false
+  
+  # CMS integrations
+  wordpress: false
+  shopify: false
+  
+  # Communication platforms
+  slack:
+    enabled: false
+    webhook_url: ""
+    channel: "#seo-updates"
+  
+  email:
+    enabled: false
+    smtp_server: ""
+    from_address: ""
+    to_addresses: []
+
+# Reporting schedule
+reporting_schedule:
+  # Automated report generation
+  weekly_reports:
+    enabled: true
+    day: "monday"        # Day of week
+    time: "09:00"        # Time (24h format)
+    formats: ["dashboard", "case_study"]
+    
+  monthly_reports:
+    enabled: true
+    day: 1               # Day of month
+    time: "09:00"
+    formats: ["presentation", "competitive"]
+    
+  quarterly_reports:
+    enabled: false
+    formats: ["comprehensive"]
+
+# File management
+file_management:
+  # Storage settings
+  retention_days: 365          # Days to keep generated files
+  archive_old_files: true      # Archive files after retention period
+  
+  # Naming conventions
+  filename_format: "{client}_{type}_{timestamp}"
+  timestamp_format: "%Y%m%d_%H%M%S"
+  
+  # Organization
+  organize_by_client: true     # Create client-specific folders
+  organize_by_date: false      # Create date-based folders
