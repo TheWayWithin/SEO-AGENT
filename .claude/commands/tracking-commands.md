@@ -100,6 +100,8 @@ Period: [start_date] to [end_date]
 - @seo-strategist: Strategic insights and recommendations
 - @coordinator: Report assembly and quality check
 
+**Note**: For stakeholder progress reports, use `/report` command
+
 ---
 
 ### /track roi
@@ -283,6 +285,22 @@ roi:
 - Trends identified accurately
 - Competitive insights actionable
 - Marketing value documented
+
+---
+
+---
+
+## ADDITIONAL ANALYSIS COMMANDS
+
+### /report
+**Purpose**: Generate comprehensive stakeholder progress reports
+**Syntax**: `/report [date]`
+**Description**: Creates executive-level progress reports with completed tasks, metrics, issues, and milestones. See `/report` command documentation for details.
+
+### /pmd
+**Purpose**: Post Mortem Diagnostic - Root cause analysis
+**Syntax**: `/pmd [issue]`
+**Description**: Conducts deep analysis of failures, performance issues, and systemic problems. See `/pmd` command documentation for details.
 
 ---
 

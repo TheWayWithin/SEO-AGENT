@@ -56,10 +56,14 @@ curl -sSL https://raw.githubusercontent.com/TheWayWithin/SEO-AGENT/main/install.
 /track compare domain.com     # Before/after comparison
 /track roi domain.com 90d     # Calculate ROI with financials
 
-# Reporting
-/report weekly            # Weekly performance summary
-/report monthly           # Monthly strategic review
-/rankings                 # Current ranking positions
+# Reporting & Analysis
+/report                   # Full project progress report
+/report 2025-08-20       # Report since specific date
+/pmd                     # Analyze recent failures (root cause)
+/pmd "specific issue"    # Diagnose specific problem
+/report weekly           # Weekly performance summary
+/report monthly          # Monthly strategic review
+/rankings                # Current ranking positions
 /traffic-report          # Traffic analysis with conversions
 ```
 
