@@ -46,19 +46,28 @@ Manage baseline performance data.
 
 ## INTEGRATION WITH MISSIONS
 
-The tracking system automatically integrates with SEO Agent missions:
+The tracking system automatically integrates with SEO Agent missions and context preservation:
 
 ### Mission Lifecycle Tracking
 1. **Pre-Mission**: Captures baseline performance metrics
-2. **During Mission**: Monitors progress and intermediate results
-3. **Post-Mission**: Calculates impact and ROI attribution
-4. **Reporting**: Generates before/after analysis and case studies
+2. **Context Initialization**: Tracks context file creation from templates
+3. **During Mission**: Monitors progress and context preservation compliance
+4. **Post-Mission**: Calculates impact and ROI attribution
+5. **Reporting**: Generates before/after analysis and case studies
+
+### Context Preservation Integration
+- **Context Files Tracked**: `/workspace/seo-context.md`, `/workspace/seo-handoff.md`, `/workspace/seo-evidence.md`
+- **Compliance Monitoring**: Validates all agents read/update context files
+- **Handoff Tracking**: Monitors successful handoffs between specialists
+- **Evidence Repository**: Tracks contributions to shared evidence file
+- **Mission State**: Real-time tracking via `/workspace/mission-state.md`
 
 ### Agent Data Collection
 - `@seo-analyst`: Performance monitoring and metrics analysis
 - `@seo-technical`: Core Web Vitals and technical health tracking
 - `@seo-content`: Content performance and engagement metrics
 - `@seo-strategist`: Ranking improvements and competitive analysis
+- **All Agents**: Context preservation compliance metrics (100% required)
 
 ## REPORT TYPES GENERATED
 

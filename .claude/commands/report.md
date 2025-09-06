@@ -66,15 +66,23 @@ Gather information from:
    - `/progress.md` - Issue logging
    - `/tracking/reports/` - Previous reports
 
-2. **Mission Records**:
+2. **Context Preservation System**:
+   - `/workspace/seo-context.md` - Mission discoveries and decisions
+   - `/workspace/seo-evidence.md` - Shared evidence repository
+   - `/workspace/mission-state.md` - Real-time mission tracking
+   - Context compliance metrics from all agents
+
+3. **Mission Records**:
    - Completed missions in `/missions/`
    - Agent performance logs
    - Deliverable artifacts
+   - Handoff document quality
 
-3. **Tracking System**:
+4. **Tracking System**:
    - Baseline metrics from `/tracking/baselines/`
    - Snapshots from `/tracking/snapshots/`
    - ROI calculations from tracking system
+   - Context preservation compliance rates
 
 ### REPORT FORMATS
 
