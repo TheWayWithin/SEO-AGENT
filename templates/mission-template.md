@@ -6,6 +6,18 @@
 **Complexity**: [Low/Medium/High]  
 **Squad Required**: [List key agents]
 
+## Context Initialization (MANDATORY)
+
+Before starting this mission, the coordinator MUST:
+1. Initialize context files from templates in `/templates/`:
+   - `seo-context-template.md` → `/workspace/seo-context.md`
+   - `seo-handoff-template.md` → `/workspace/seo-handoff.md`
+   - `seo-evidence-template.md` → `/workspace/seo-evidence.md`
+   - `mission-state-template.md` → `/workspace/mission-state.md`
+2. Update mission details in all context files
+3. Ensure ALL agents acknowledge context before starting
+4. Validate context preservation at phase boundaries
+
 ## Mission Briefing
 
 [Provide a clear, compelling description of what this mission accomplishes and why it matters. Include the primary goal and expected outcome.]
@@ -23,6 +35,11 @@
 **Lead**: @[agent]  
 **Support**: @[agent] (optional)  
 **Objective**: [Clear objective for this phase]
+
+**Context Requirements**:
+- Agent MUST read `/workspace/seo-context.md` before starting
+- Update context files with all findings during work
+- Create handoff document for next phase
 
 ```bash
 @[agent] [Specific instructions]:

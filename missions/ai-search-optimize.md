@@ -5,6 +5,18 @@
 **Agents:** @seo-strategist, @seo-content, @seo-technical, @seo-researcher
 **Deliverables:** Complete llms.txt implementation, AI-optimized content library, technical AI search infrastructure, monitoring dashboard
 
+## CONTEXT INITIALIZATION (MANDATORY)
+
+Before starting this mission, the coordinator MUST:
+1. Initialize context files from templates:
+   - Copy `seo-context-template.md` → `/workspace/seo-context.md`
+   - Copy `seo-handoff-template.md` → `/workspace/seo-handoff.md`
+   - Copy `seo-evidence-template.md` → `/workspace/seo-evidence.md`
+   - Copy `mission-state-template.md` → `/workspace/mission-state.md`
+2. Update mission details in context files
+3. Ensure ALL agents read context before starting work
+4. Validate context updates after each phase
+
 ## MISSION OBJECTIVES
 
 Optimize for AI-powered search experiences to:
@@ -15,6 +27,11 @@ Optimize for AI-powered search experiences to:
 
 ## PHASE 1: AI SEARCH ANALYSIS (4 hours)
 **Lead:** @seo-strategist + @seo-researcher
+
+### Context Requirements:
+- Agents MUST read `/workspace/seo-context.md` before starting
+- Update context files with all findings during work
+- Create handoff document for Phase 2 agents
 
 ### Tasks:
 - [ ] Analyze current AI search visibility
