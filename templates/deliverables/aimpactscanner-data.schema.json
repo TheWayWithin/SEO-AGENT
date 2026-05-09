@@ -1,0 +1,148 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "AImpactScanner Mission Data",
+  "description": "Structured ingestion schema for AImpactScanner dashboard. Produced by every SEO mission as data.json in the run-scoped directory. Extends tracking/schemas/baseline.schema.json with AI-readiness scorecard, mission metadata, and prioritised fix list.",
+  "type": "object",
+  "required": ["schema_version", "mission", "site", "scorecards", "fixes"],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0",
+      "description": "Locked at 1.0 by Sprint 5. Bump only via documented migration."
+    },
+    "mission": {
+      "type": "object",
+      "required": ["name", "timestamp", "run_directory"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "enum": ["site-audit", "content-gap", "technical-fix", "ai-search-optimize"]
+        },
+        "mode": {
+          "type": "string",
+          "enum": ["lite", "full", "deep", "default"]
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "run_directory": {
+          "type": "string",
+          "description": "Path of the run-scoped directory containing this file, e.g. runs/2026-05-09-freecalchub-site-audit-lite/"
+        },
+        "agents_invoked": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "List of @seo-* agents that contributed"
+        }
+      }
+    },
+    "site": {
+      "type": "object",
+      "required": ["domain"],
+      "properties": {
+        "domain": {"type": "string", "format": "hostname"},
+        "scope": {
+          "type": "string",
+          "description": "Whole domain, branch path, or single page URL"
+        },
+        "pages_assessed": {"type": "integer", "minimum": 1}
+      }
+    },
+    "scorecards": {
+      "type": "object",
+      "description": "Constitution rule 3 — both AI and traditional scorecards in every output.",
+      "required": ["ai_search_readiness", "traditional_seo"],
+      "properties": {
+        "ai_search_readiness": {
+          "type": "object",
+          "required": ["total"],
+          "properties": {
+            "total": {"type": "integer", "minimum": 0, "maximum": 50},
+            "llms_txt": {"$ref": "#/$defs/scoreDimension"},
+            "structured_data_coverage": {"$ref": "#/$defs/scoreDimension"},
+            "answerability": {"$ref": "#/$defs/scoreDimension"},
+            "sitemap_freshness": {"$ref": "#/$defs/scoreDimension"},
+            "ai_crawler_policy": {"$ref": "#/$defs/scoreDimension"}
+          }
+        },
+        "traditional_seo": {
+          "type": "object",
+          "required": ["total"],
+          "properties": {
+            "total": {"type": "integer", "minimum": 0, "maximum": 50},
+            "core_web_vitals": {"$ref": "#/$defs/scoreDimension"},
+            "crawlability": {"$ref": "#/$defs/scoreDimension"},
+            "on_page": {"$ref": "#/$defs/scoreDimension"},
+            "internal_linking": {"$ref": "#/$defs/scoreDimension"},
+            "authority": {"$ref": "#/$defs/scoreDimension"}
+          }
+        }
+      }
+    },
+    "fixes": {
+      "type": "array",
+      "description": "Prioritised fix list. Sort by roi descending in the array.",
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "category", "impact", "effort", "roi", "min_diff"],
+        "properties": {
+          "id": {"type": "string", "description": "stable hash or sequential id"},
+          "title": {"type": "string"},
+          "category": {
+            "type": "string",
+            "enum": ["technical", "content", "authority", "ai-search"]
+          },
+          "impact": {"type": "integer", "minimum": 1, "maximum": 10},
+          "effort": {"type": "integer", "minimum": 1, "maximum": 10},
+          "roi": {"type": "number", "description": "Typically impact/effort"},
+          "estimated_traffic_lift": {
+            "type": "object",
+            "properties": {
+              "value": {"type": "number"},
+              "unit": {"type": "string", "enum": ["sessions_per_month", "percent", "keywords_top10"]},
+              "confidence": {"type": "string", "enum": ["low", "medium", "high"]}
+            }
+          },
+          "min_diff": {
+            "type": "boolean",
+            "description": "Constitution rule 4 — true if change touches only necessary tags/schema."
+          },
+          "owner_agent": {"type": "string", "description": "@seo-technical, @seo-content, etc."},
+          "evidence_path": {"type": "string", "description": "Path to evidence file or section in seo-evidence.md"}
+        }
+      }
+    },
+    "metrics_snapshot": {
+      "type": "object",
+      "description": "Optional. When this run also captures live metrics, embed the baseline.schema.json shape here.",
+      "$ref": "tracking/schemas/baseline.schema.json"
+    },
+    "prior_findings_referenced": {
+      "type": "array",
+      "description": "Constitution rule 1 — what we re-used from seo-evidence.md instead of re-discovering.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "run_directory": {"type": "string"},
+          "finding": {"type": "string"}
+        }
+      }
+    },
+    "next_suggested_mission": {
+      "type": "string",
+      "enum": ["site-audit", "content-gap", "technical-fix", "ai-search-optimize", "none"]
+    }
+  },
+  "$defs": {
+    "scoreDimension": {
+      "type": "object",
+      "required": ["score"],
+      "properties": {
+        "score": {"type": "integer", "minimum": 0, "maximum": 10},
+        "status": {"type": "string"},
+        "notes": {"type": "string"}
+      }
+    }
+  }
+}

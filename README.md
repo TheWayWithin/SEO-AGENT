@@ -92,6 +92,18 @@ seo-evidence-template.md     # Shared evidence repository (Constitution rule 1)
 
 The previous four-template context-preservation system was retired in Sprint 3 (see `progress.md`). Mission state lives in `agent-context.md`; SEO findings live in `seo-evidence.md`.
 
+### Mission Deliverables (Sprint 5)
+Every SEO mission writes named deliverables into a run-scoped directory under `runs/`:
+
+```
+runs/YYYY-MM-DD-<domain-slug>-<mission>[-<mode>]/
+  analysis.md       # Prioritised fix list with ROI (always)
+  marketing.md      # Before/after framing for case studies (when applicable)
+  data.json         # Structured AImpactScanner ingestion (always)
+```
+
+Templates live in `templates/deliverables/` — see `templates/deliverables/README.md` for the full contract and the JSON Schema (`aimpactscanner-data.schema.json`) that `data.json` validates against.
+
 ## 📈 Expected Results
 
 - **25-50% organic traffic growth** within 90 days

@@ -96,31 +96,22 @@ Conduct a comprehensive SEO audit to:
 - ROI potential identified
 - Strategic opportunities highlighted
 
-## MISSION DELIVERABLES
+## OUTPUTS (Sprint 5 Deliverable Contract)
 
-### 1. Executive Summary
-- SEO health score
-- Top 5 critical issues
-- Top 5 opportunities
-- Recommended next steps
+Produce three named files in a run-scoped directory:
 
-### 2. Technical Audit Report
-- Core Web Vitals analysis
-- Technical issue inventory
-- Performance optimization plan
-- Implementation priorities
+```
+runs/YYYY-MM-DD-<domain-slug>-site-audit[-<mode>]/
+  analysis.md       (REQUIRED) — fill template: templates/deliverables/analysis-report.md
+  marketing.md      (REQUIRED) — fill template: templates/deliverables/marketing-report.md
+  data.json         (REQUIRED) — validates against: templates/deliverables/aimpactscanner-data.schema.json
+```
 
-### 3. Content Audit Report
-- Content performance analysis
-- Gap identification
-- Optimization opportunities
-- Content strategy recommendations
+Phase deliverables (executive summary, technical audit, content audit, action plan) are now sections WITHIN `analysis.md`, not standalone files.
 
-### 4. Action Plan
-- Prioritized task list
-- Timeline estimates
-- Resource requirements
-- Expected outcomes
+**AI Search lens (Constitution rule 3)**: both AI Search Readiness AND Traditional SEO scorecards required in `analysis.md` and `data.json`. The schema enforces this — `data.json` will fail validation if the AI scorecard is missing.
+
+**Coordinator verification**: confirm all three files exist on filesystem before marking mission complete. Append a one-line pointer to this run in `seo-evidence.md` so future missions can read prior findings (Constitution rule 1).
 
 ## QUALITY CHECKLIST
 

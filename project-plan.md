@@ -1,7 +1,8 @@
 # SEO-Agent v2 — Evolution Plan
 
-**Status**: ACTIVE
+**Status**: COMPLETE 2026-05-09 (all sprints closed; Sprint 4 cancelled in rescope)
 **Started**: 2026-04-19
+**Closed**: 2026-05-09
 **Source of truth**: `ideation/SEO-Agent v2 Blueprint_ Applying the Agent-11 Lessons.md`
 **v1 archive**: `project-plan.v1-archive.md`
 
@@ -27,9 +28,9 @@ Rescoped 2026-05-09 after Agent-11 v5 → v6.1.1 framework upgrade. See `sprints
 | 1 | Register SEO missions in `/coord`; normalise mission paths | De-bloat | S | none | **COMPLETE 2026-05-09** (Mode D added; ai-search-optimize moved) |
 | 3 | Agent De-Bloat & SEO Context Consolidation | De-bloat | M | 2 | **COMPLETE 2026-05-09** (-214 lines / -8.7% words across 7 agents; 3 templates + 2 docs archived) |
 | 4 | Universal Mission Router | — | — | — | **Cancelled** (merged into Sprint 1) |
-| 5 | Deliverable-First Missions | Uplevel | M | 3 | Not started |
-| 6 | SEO Routine Templates on framework Routines (Mode C) | Uplevel | S | 3 | Not started — shrunk |
-| 7 | AI Search First Lens | Uplevel | S | 5 | Not started |
+| 5 | Deliverable-First Missions | Uplevel | M | 3 | **COMPLETE 2026-05-09** (3 deliverable templates + JSON Schema; 4 missions wired; deployment gap fixed) |
+| 6 | SEO Routine Templates on framework Routines (Mode C) | Uplevel | S | 3 | **COMPLETE 2026-05-09** (2 routine templates: weekly-snapshot, monthly-report) |
+| 7 | AI Search First Lens | Uplevel | S | 5 | **COMPLETE 2026-05-09** (ai-search-optimize strengthened with concrete blueprint guidance; AI lens reminder in seo-strategist; AI scorecard explicit in all 4 mission OUTPUTS) |
 
 Sprint detail lives in `/sprints/sprint-0N-name.md`. Each affected file carries a `RESCOPE 2026-05-09` callout at the top.
 
@@ -123,26 +124,30 @@ Detail in `/sprints/`. This index tracks completion across sprints.
 - [ ] Build 20-utterance test harness
 - [ ] Route `/coord run a lite scan on freecalchub.com/calculators` correctly
 
-### Sprint 5 — Deliverable-First Missions
-- [ ] Define three deliverable templates (Analysis, Marketing, AImpactScanner)
-- [ ] Update site-audit mission to output all three
-- [ ] Update content-gap, technical-fix, ai-search-optimize to output applicable subset
-- [ ] Run end-to-end on freecalchub.com
-- [ ] Verify all three deliverables produced
+### Sprint 5 — Deliverable-First Missions — COMPLETE 2026-05-09
+- [x] Three deliverable templates created in `templates/deliverables/` (analysis-report.md, marketing-report.md, aimpactscanner-data.schema.json) + README.md
+- [x] Run-scoped directory convention agreed: `runs/YYYY-MM-DD-<domain-slug>-<mission>[-<mode>]/`
+- [x] `site-audit` mission updated to require all three deliverables
+- [x] `content-gap`, `technical-fix`, `ai-search-optimize` updated with OUTPUTS sections (applicable subset)
+- [x] Deployment gap fix bundled: 7 SEO agents moved from `/agents/` to `.claude/agents/` for Task tool dispatch
+- [x] CLAUDE.md and README.md updated with deliverables contract
+- [→] End-to-end freecalchub.com run — for user to fire when ready (now actually possible end-to-end)
 
-### Sprint 6 — Automated Tracking Routines
-- [ ] Design routine scheduling mechanism (Claude Code routine or cron-equivalent)
-- [ ] Convert `/track snapshot` to weekly Monday routine
-- [ ] Convert `/track report` to monthly routine
-- [ ] Add API/token health check at start of each routine
-- [ ] Validate two complete automation cycles on freecalchub.com
+### Sprint 6 — SEO Routine Templates — COMPLETE 2026-05-09
+- [x] Scheduling mechanism: framework Routines (Mode C) — no local cron needed
+- [x] Created `routines/weekly-snapshot.md` (Mondays 07:00, produces data.json snapshot)
+- [x] Created `routines/monthly-report.md` (1st of month, aggregates weekly snapshots into full deliverable set)
+- [x] Token health check is STEP 1 of each routine prompt; fails loudly via GitHub issue
+- [x] CLAUDE.md updated with SEO routines section
+- [→] Manual setup on `claude.ai/code/routines` + observe 2 cycles — for user to do when ready
 
-### Sprint 7 — AI Search First Lens
-- [ ] Add LLM ingestion scorecard to site-audit output
-- [ ] Add llms.txt readiness check to technical-fix mission
-- [ ] Strengthen ai-search-optimize mission with current blueprint guidance
-- [ ] Add AI-ingestion section to all deliverable templates
-- [ ] Validate on freecalchub.com: AI scorecard present in every deliverable
+### Sprint 7 — AI Search First Lens — COMPLETE 2026-05-09
+- [x] AI scorecard already encoded in `aimpactscanner-data.schema.json` (Sprint 5) — schema validation enforces presence
+- [x] AI scorecard section already in `templates/deliverables/analysis-report.md` (Sprint 5)
+- [x] Strengthened `ai-search-optimize.md`: added llms.txt spec (two-file pattern, format requirements), AI crawler policy table (10 crawlers with operator + recommended policy), structured data priorities for AI (7 schema types ranked), answerability patterns (7 concrete patterns LLMs reward)
+- [x] Removed duplicated MISSION DELIVERABLES section from ai-search-optimize.md (now redundant with OUTPUTS contract)
+- [x] Added AI lens reminder to `seo-strategist.md` agent ("Every mission you scope must include AI Search Readiness alongside traditional SEO")
+- [x] Added explicit "AI Search lens (Constitution rule 3)" line to OUTPUTS section of site-audit, content-gap, technical-fix missions (each tailored to mission focus)
 
 ---
 

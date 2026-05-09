@@ -107,6 +107,21 @@ Resolve technical SEO issues to:
 - Maintenance procedures
 - Best practices
 
+## OUTPUTS (Sprint 5 Deliverable Contract)
+
+Produce named files in a run-scoped directory:
+
+```
+runs/YYYY-MM-DD-<domain-slug>-technical-fix/
+  analysis.md       (REQUIRED) — fill template: templates/deliverables/analysis-report.md
+  data.json         (REQUIRED) — validates against: templates/deliverables/aimpactscanner-data.schema.json
+  marketing.md      (OPTIONAL but RECOMMENDED) — technical fixes typically produce clear before/after Core Web Vitals deltas worth marketing
+```
+
+**AI Search lens (Constitution rule 3)**: technical fixes also serve AI crawlers. Audit `/robots.txt` for AI crawler directives (GPTBot, Claude-User, PerplexityBot, OAI-SearchBot, etc.) as part of the fix list. Check `/llms.txt` and `/llms-full.txt` accessibility. Both scorecards required in `analysis.md` and `data.json`.
+
+**Coordinator verification**: confirm required files exist on filesystem before marking mission complete. Append a one-line pointer to this run in `seo-evidence.md` so future missions can read prior findings (Constitution rule 1).
+
 ---
 
 **Mission Success:** Technical SEO issues resolved with measurable performance improvements and ongoing monitoring established.

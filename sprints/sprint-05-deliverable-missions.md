@@ -3,7 +3,7 @@
 **Theme**: Uplevel
 **Effort**: M (10 to 14 hours)
 **Dependencies**: Sprint 3 (agents are slim), Sprint 4 (router dispatches cleanly)
-**Status**: Not started
+**Status**: COMPLETE 2026-05-09 (deployment gap fix bundled in)
 
 ## Sprint Goal
 
@@ -32,18 +32,22 @@ Per blueprint section 3: the most valuable code in the repo is the tracking syst
 
 ## Task List
 
-- [ ] Inspect existing tracking system output to understand AImpactScanner data schema (@analyst)
-- [ ] Draft Analysis Report template (@strategist)
-- [ ] Draft Marketing Report template (@marketer)
-- [ ] Draft AImpactScanner Data schema and example (@architect)
-- [ ] Decide run-scoped output directory convention (@architect)
-- [ ] Update `site-audit` mission to produce all three deliverables (@developer)
-- [ ] Update `content-gap` mission to produce Analysis Report + AImpactScanner Data (@developer)
-- [ ] Update `technical-fix` mission to produce Analysis Report + AImpactScanner Data, and Marketing Report when a before/after is captured (@developer)
-- [ ] Update `ai-search-optimize` mission to produce Analysis Report + AImpactScanner Data with explicit AI readiness scoring (@developer)
-- [ ] End-to-end run on freecalchub.com; confirm three files produced (@tester)
-- [ ] Validate AImpactScanner Data parses correctly against the dashboard schema (@developer)
-- [ ] Document the deliverable contract in README (@documenter)
+- [x] **Deployment gap fix** (bundled in from Sprint 3 finding): `git mv /agents/seo-*.md → .claude/agents/seo-*.md` so Task tool can dispatch (2026-05-09)
+- [x] Inspect existing tracking system — found `tracking/schemas/baseline.schema.json` (178 lines, ready to extend) plus `tracking/templates/{executive-summary,before-after,case-study-executive}.md` (Mustache templates for Python report flow). Reused structure rather than reinventing. (2026-05-09)
+- [x] Draft `templates/deliverables/analysis-report.md` — agent-friendly markdown with prioritised fix table, AI scorecard, traditional scorecard, prior-findings reference (Constitution rule 1) (2026-05-09)
+- [x] Draft `templates/deliverables/marketing-report.md` — headline + TL;DR + before/after table + visual evidence + case-study framing for content team (2026-05-09)
+- [x] Draft `templates/deliverables/aimpactscanner-data.schema.json` — JSON Schema v1.0 extending baseline.schema.json with AI-readiness scorecard, fixes array, prior-findings, mission metadata (2026-05-09)
+- [x] Draft `templates/deliverables/README.md` — full contract documentation, per-mission deliverable subset, run directory convention (2026-05-09)
+- [x] Run-scoped directory convention agreed: `runs/YYYY-MM-DD-<domain-slug>-<mission>[-<mode>]/` (2026-05-09)
+- [x] Created `runs/` directory with `.gitkeep` (2026-05-09)
+- [x] Update `site-audit` mission with OUTPUTS section requiring all three deliverables (replaces old prose MISSION DELIVERABLES) (2026-05-09)
+- [x] Update `content-gap` mission with OUTPUTS section (analysis + data required, marketing optional) (2026-05-09)
+- [x] Update `technical-fix` mission with OUTPUTS section (analysis + data required, marketing recommended for CWV before/after) (2026-05-09)
+- [x] Update `ai-search-optimize` mission with OUTPUTS section + note that AI Readiness Scorecard is the headline of analysis.md (2026-05-09)
+- [x] CLAUDE.md updated — agent path corrected from `/agents/` to `.claude/agents/`, deliverables/runs documented (2026-05-09)
+- [x] README.md updated with Mission Deliverables section pointing at templates/deliverables/ (2026-05-09)
+- [→] End-to-end freecalchub.com run — for user to fire when ready. Now possible because: SEO agents are deployed to `.claude/agents/` (Sprint 1 deployment fix) AND `/coord site-audit` is registered (Sprint 1) AND missions specify required output files (this sprint).
+- [→] AImpactScanner Data validation against the actual dashboard — defer to when AImpactScanner ingestion is wired up; schema is locked at v1.0 and migration path documented in `data.json` `schema_version` field.
 
 ## Acceptance Criteria
 

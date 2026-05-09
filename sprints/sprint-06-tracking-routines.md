@@ -3,7 +3,7 @@
 **Theme**: Uplevel
 **Effort**: S (3 to 5 hours after rescope)
 **Dependencies**: Sprint 3 (agents are slim, routine runs are cheap)
-**Status**: Not started — shrunk 2026-05-09
+**Status**: COMPLETE 2026-05-09
 
 > **RESCOPE 2026-05-09** (see `sprints/RESCOPE-2026-05-09.md`)
 > Framework v6 introduced **Routines (Mode C)**: cloud-scheduled, no local cron. Templates already exist in `routines/` (pr-review, nightly-qa, backlog-triage). `/coord` already detects cadence keywords.
@@ -38,18 +38,20 @@ Per blueprint section 3: the Python tracking system is one of the most valuable 
 - Deliverable content (Sprint 5)
 - AI search scorecard (Sprint 7)
 
-## Task List
+## Task List (post-rescope — framework provides scheduling, we wrote SEO templates)
 
-- [ ] Decide scheduling mechanism (@architect)
-- [ ] Design the routine registry schema (@architect)
-- [ ] Implement token health check (@developer)
-- [ ] Implement weekly `/track snapshot` routine (@developer)
-- [ ] Implement monthly `/track report` routine (@developer)
-- [ ] Implement failure logging and retry logic (@developer)
-- [ ] Register freecalchub.com in the routine registry (@developer)
-- [ ] Run the routines manually once to verify end-to-end; store output in `seo-evidence.md` (@tester)
-- [ ] Schedule the routines; observe two scheduled cycles of the snapshot routine (@operator)
-- [ ] Document the routine system in README (@documenter)
+- [x] Scheduling mechanism: framework Routines (Mode C) on `claude.ai/code/routines` — no local cron needed (2026-05-09)
+- [x] Created `routines/` directory with `.gitkeep` (framework expected it but install hadn't created one) (2026-05-09)
+- [x] Wrote `routines/README.md` — established the routine template pattern (no prior templates existed in this repo to copy) (2026-05-09)
+- [x] Wrote `routines/weekly-snapshot.md` — Mondays 07:00 cron, GSC/GA4/PageSpeed connectors, token health check first, produces `runs/<date>-<site>-weekly-snapshot/data.json` per AImpactScanner schema (2026-05-09)
+- [x] Wrote `routines/monthly-report.md` — 1st of month 08:00, aggregates 4+ weekly snapshots into full deliverable set (analysis.md + marketing.md + data.json), validates against schema, opens PR, "no inflation" guardrail (Constitution rule 5) (2026-05-09)
+- [x] Token health check pattern documented in both routine prompt blocks — fail loudly, open issue, stop (2026-05-09)
+- [x] Failure modes table documented per routine (token stale, rate limit, schema validation, site unreachable) (2026-05-09)
+- [x] Backfill protocol documented — manual `/coord site-audit` invocation with tag suffix (2026-05-09)
+- [x] CLAUDE.md updated with "SEO routines (Mode C — operational)" section (2026-05-09)
+- [→] Manual setup on `claude.ai/code/routines` for freecalchub.com — for user to do when ready
+- [→] Observe two scheduled cycles — requires the manual setup above to happen first
+- [→] No registry needed (framework handles scheduling); no failure log file needed (failures open GitHub issues per the routine prompts)
 
 ## Acceptance Criteria
 

@@ -135,6 +135,21 @@ If data limitations encountered:
 4. Recommend data acquisition
 5. Adjust scope accordingly
 
+## OUTPUTS (Sprint 5 Deliverable Contract)
+
+Produce named files in a run-scoped directory:
+
+```
+runs/YYYY-MM-DD-<domain-slug>-content-gap/
+  analysis.md       (REQUIRED) — fill template: templates/deliverables/analysis-report.md
+  data.json         (REQUIRED) — validates against: templates/deliverables/aimpactscanner-data.schema.json
+  marketing.md      (OPTIONAL) — only when meaningful before/after content performance captured
+```
+
+**AI Search lens (Constitution rule 3)**: content gaps include LLM citation gaps — pages where competitors get cited by ChatGPT/Claude/Perplexity but you don't. Score answerability per the AI Search Readiness scorecard in `analysis.md` and `data.json`. Look for question-format heading gaps, missing FAQPage schema, lead-paragraph answer absence.
+
+**Coordinator verification**: confirm required files exist on filesystem before marking mission complete. Append a one-line pointer to this run in `seo-evidence.md` so future missions can read prior findings (Constitution rule 1).
+
 ## POST-MISSION ACTIONS
 
 1. Distribute content briefs to writers
