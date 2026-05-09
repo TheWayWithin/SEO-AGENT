@@ -80,6 +80,34 @@ Apply five Agent-11 v6 lessons to SEO-Agent, delivered as seven sequential sprin
 - Baseline + post-change freecalchub.com audit on the same single page (recommend `freecalchub.com/calculators/bmi-calculator` per original Sprint 3 doc) for real token-cost and quality comparison.
 - Now that SEO missions dispatch via Sprint 1, Sprint 3's baseline audit is actually runnable end-to-end.
 
+### Sprint 3 — Agent De-Bloat (closed 2026-05-09, Option B hybrid gate)
+
+- Stripped MANDATORY CONTEXT PROTOCOL header + CONTEXT PRESERVATION REQUIREMENTS section + 3 scattered tracking lines from all 7 SEO agents. Net: −214 lines (−13.9%), −740 words (−8.7%) across 7 agents.
+- Coordinator extras: cleaned Mission Planning Protocol + Mission Execution Framework of `mission-state.md` and `/workspace/` references.
+- ai-search-optimize.md: stripped CONTEXT INITIALIZATION + Phase 1 Context Requirements. Other 3 missions (site-audit, content-gap, technical-fix) confirmed clean by grep.
+- 3 SEO templates archived to `templates/archive/` via `git mv` (seo-context-template, seo-handoff-template, mission-state-template). seo-evidence-template retained per Constitution rule 1.
+- 2 obsolete docs archived to `docs/archive/` via `git mv` (context-preservation-implementation, context-preservation-complete).
+- README.md and `.claude/commands/track.md` updated to reference only `seo-evidence.md`.
+- Repo-wide grep verification: ZERO context-protocol residue in active source. Historical references in planning docs are correct and retained.
+
+**Gate decision rationale**: Option B chosen by user over original strict full-gate plan to respect 90-day IPP time pressure. Static measurement provides defensible "prompts are smaller" evidence; live audit deferred to user discretion.
+
+**Finding for downstream sprints — DEPLOYMENT GAP**:
+SEO agents at `/agents/seo-*.md` are NOT deployed to `.claude/agents/` (where Claude Code's Task tool looks). Current SEO mission flow uses `@agent` text-syntax delegation, not Task-tool dispatch. The slimmed agent prompts function as reference profiles, not loaded prompts. **Sprint 5 should resolve this** — either by deploying the agents into `.claude/agents/` or by explicitly documenting that the SEO system runs as text delegation only.
+
+### Phase Handoff: Sprint 3 → Sprint 5
+
+**Next sprint**: Sprint 5 — Deliverable-First Missions (Sprint 4 cancelled in rescope).
+**Gate**: Full freecalchub.com run required (per rescope conditional matrix).
+
+**Critical context for Sprint 5**:
+- Slimmer agents now in place — Sprint 3 baseline metrics in this changelog if you want to compare token cost in a real run later.
+- Three deliverable templates needed: Analysis Report, Marketing Report, AImpactScanner Data.
+- Update site-audit, content-gap, technical-fix, ai-search-optimize missions to produce all three (or applicable subset).
+- **Resolve the deployment gap noted above** before the gate run, otherwise the live audit won't actually exercise the SEO agents.
+- End-to-end freecalchub.com run (not single-page) — gate requires three named deliverables to appear.
+- ai-search-optimize.md was substantively trimmed in Sprint 3 — check whether the deliverable templates fit cleanly with the reduced structure.
+
 ## Known Constraints
 
 - British English in all output

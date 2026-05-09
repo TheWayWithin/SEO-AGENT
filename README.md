@@ -84,14 +84,13 @@ curl -sSL https://raw.githubusercontent.com/TheWayWithin/SEO-AGENT/main/install.
 /traffic-report          # Traffic analysis with conversions
 ```
 
-### Context Preservation Templates
+### Evidence Template
 ```bash
 # Available in /templates/ for mission customization:
-seo-context-template.md      # Mission overview and discoveries
-seo-handoff-template.md      # Detailed task handoffs
-seo-evidence-template.md     # Shared evidence repository
-mission-state-template.md    # Real-time mission status
+seo-evidence-template.md     # Shared evidence repository (Constitution rule 1)
 ```
+
+The previous four-template context-preservation system was retired in Sprint 3 (see `progress.md`). Mission state lives in `agent-context.md`; SEO findings live in `seo-evidence.md`.
 
 ## 📈 Expected Results
 

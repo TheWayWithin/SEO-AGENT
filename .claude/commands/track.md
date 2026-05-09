@@ -50,24 +50,19 @@ The tracking system automatically integrates with SEO Agent missions and context
 
 ### Mission Lifecycle Tracking
 1. **Pre-Mission**: Captures baseline performance metrics
-2. **Context Initialization**: Tracks context file creation from templates
-3. **During Mission**: Monitors progress and context preservation compliance
-4. **Post-Mission**: Calculates impact and ROI attribution
-5. **Reporting**: Generates before/after analysis and case studies
+2. **During Mission**: Monitors progress and evidence capture to `seo-evidence.md`
+3. **Post-Mission**: Calculates impact and ROI attribution
+4. **Reporting**: Generates before/after analysis and case studies
 
-### Context Preservation Integration
-- **Context Files Tracked**: `/workspace/seo-context.md`, `/workspace/seo-handoff.md`, `/workspace/seo-evidence.md`
-- **Compliance Monitoring**: Validates all agents read/update context files
-- **Handoff Tracking**: Monitors successful handoffs between specialists
-- **Evidence Repository**: Tracks contributions to shared evidence file
-- **Mission State**: Real-time tracking via `/workspace/mission-state.md`
+### Evidence Integration
+- **Evidence File**: `seo-evidence.md` — single backward-looking artefact store (Constitution rule 1)
+- **Mission State**: tracked in `agent-context.md` (framework convention)
 
 ### Agent Data Collection
 - `@seo-analyst`: Performance monitoring and metrics analysis
 - `@seo-technical`: Core Web Vitals and technical health tracking
 - `@seo-content`: Content performance and engagement metrics
 - `@seo-strategist`: Ranking improvements and competitive analysis
-- **All Agents**: Context preservation compliance metrics (100% required)
 
 ## REPORT TYPES GENERATED
 

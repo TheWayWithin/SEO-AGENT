@@ -3,7 +3,7 @@
 **Theme**: De-bloat
 **Effort**: M (6 to 10 hours after rescope)
 **Dependencies**: Sprint 2 (the new constitution shapes what can safely come out of agents)
-**Status**: Not started — adjusted 2026-05-09
+**Status**: COMPLETE 2026-05-09 (Option B hybrid gate)
 
 > **RESCOPE 2026-05-09** (see `sprints/RESCOPE-2026-05-09.md`)
 > Agent count is **7** (was 6 — includes seo-coordinator). All 7 still carry the old MANDATORY CONTEXT PROTOCOL.
@@ -40,17 +40,21 @@ Per blueprint section 1: forcing every agent to read and write four meta-files b
 - Routing changes (Sprint 4)
 - Mission deliverable format (Sprint 5)
 
-## Task List
+## Task List (Option B hybrid gate)
 
-- [ ] **Baseline capture**: run `/coord site-audit freecalchub.com/calculators/bmi-calculator` on a single page; record token cost, runtime, and output into `seo-evidence.md` (@tester)
-- [ ] Inventory the MANDATORY CONTEXT PROTOCOL block across the six agents; capture line counts per agent (@analyst)
-- [ ] Strip the protocol from each agent, replacing with a single line reference to the constitution (@developer)
-- [ ] Archive redundant templates (`seo-context-template.md`, `seo-handoff-template.md`, `mission-state-template.md`) to `/templates/archive/` (@developer)
-- [ ] Update coordinator logic in `.claude/agents/seo-coordinator.md` (and any referring mission files) to remove references to deleted context files (@developer)
-- [ ] Update `.claude/commands/coord.md` to drop the initialise-four-files step (@developer)
-- [ ] Update all four SEO mission files (`site-audit`, `content-gap`, `technical-fix`, `ai-search-optimize`) to reference only the two retained context files (@developer)
-- [ ] **Re-run**: same single-page audit; record new token cost, runtime, output (@tester)
-- [ ] Compare baseline vs post-change; document in `progress.md` (@coordinator)
+- [x] Static baseline captured for all 7 agents + 4 missions + templates (line/word/byte counts) (2026-05-09)
+- [x] Strip MANDATORY CONTEXT PROTOCOL header from all 7 SEO agents, replacing with one-line constitution pointer (2026-05-09)
+- [x] Strip CONTEXT PRESERVATION REQUIREMENTS section from all 7 agents (2026-05-09)
+- [x] Strip 3 scattered context-compliance lines (compliance metric, Track context line, TRACK_CONTEXT command) from agents (2026-05-09)
+- [x] Extra coordinator cleanup: Mission Planning Protocol + Mission Execution Framework + mission-state.md refs (2026-05-09)
+- [x] Strip CONTEXT INITIALIZATION block + Phase 1 Context Requirements from `.claude/missions/ai-search-optimize.md` (2026-05-09)
+- [x] Other 3 SEO missions confirmed clean (no context refs to strip) (2026-05-09)
+- [x] Archive 3 templates via `git mv` to `templates/archive/` (seo-context-template, seo-handoff-template, mission-state-template) (2026-05-09)
+- [x] Archive 2 obsolete docs via `git mv` to `docs/archive/` (context-preservation-implementation, context-preservation-complete) (2026-05-09)
+- [x] Update README.md "Context Preservation Templates" section → "Evidence Template" (single retained template) (2026-05-09)
+- [x] Update `.claude/commands/track.md` "Context Preservation Integration" section → "Evidence Integration" (2026-05-09)
+- [x] Static post-strip measurement captured (-13.9% lines, -8.7% words across 7 agents) (2026-05-09)
+- [→] Smoke `/coord site-audit` for user to fire when ready — caveat: SEO agents at `/agents/` are not deployed to `.claude/agents/`, so live dispatch may not exercise them. Smoke run validates `/coord` parse path, not agent execution.
 
 ## Acceptance Criteria
 

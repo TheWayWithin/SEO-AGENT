@@ -1,5 +1,61 @@
 # SEO Agent Library - Progress Log
 
+## 2026-05-09 — Sprint 3 Complete: Agent De-Bloat & SEO Context Consolidation
+
+**Sprint**: 3 — Agent De-Bloat & SEO Context Consolidation
+**Status**: COMPLETE
+**Gate**: Option B Hybrid (static measurement + caveat-noted smoke audit deferred to user)
+
+### Static measurement (gate evidence)
+
+| Surface | Before | After | Delta |
+|---|---|---|---|
+| 7 SEO agents (lines) | 1,544 | 1,330 | **−214 (−13.9%)** |
+| 7 SEO agents (words) | 8,456 | 7,716 | **−740 (−8.7%)** |
+| ai-search-optimize.md mission | 192 lines / 800 words | 179 lines / 743 words | −13 lines / −57 words |
+| Active SEO templates | 4 (547 lines) | 1 (155 lines) | **−3 templates / −392 lines** |
+| Active context-preservation docs | 2 in `docs/` | 0 (archived) | −2 from active surface |
+
+Per-agent prompt is ~14% smaller. Per-mission overhead drop is much larger — every previous mission run initialised 4 templates (~390 lines of file creation) that no longer happens.
+
+### Strip work executed
+
+**Per-agent (× 7 agents)**:
+1. Replaced `MANDATORY CONTEXT PROTOCOL` header (4-6 lines) with one-line constitution pointer: `CONSTITUTION: Read project-root CLAUDE.md for the Five Rules. Check seo-evidence.md first for prior findings (rule 1).`
+2. Replaced ~25-line `CONTEXT PRESERVATION REQUIREMENTS` section with 1-2 line `EVIDENCE CAPTURE` pointer (rule 5).
+3. Removed 3 scattered context-compliance lines from `TRACKING SYSTEM INTEGRATION` (compliance metric, "Track context compliance" line, `TRACK_CONTEXT` integration command).
+
+**Coordinator extras**:
+- Mission Planning Protocol: removed initialise-templates step + context-validation/preservation-compliance steps.
+- Mission Execution Framework: collapsed 9 steps to 7, removed all `/workspace/` and `mission-state.md` refs.
+
+**Mission file**: stripped `CONTEXT INITIALIZATION (MANDATORY)` block + Phase 1 `Context Requirements` from `ai-search-optimize.md` (other 3 SEO missions were already clean).
+
+**Templates archived** via `git mv` to `templates/archive/`: `seo-context-template.md`, `seo-handoff-template.md`, `mission-state-template.md`. Retained: `seo-evidence-template.md` (Constitution rule 1).
+
+**Docs archived** via `git mv` to `docs/archive/`: `context-preservation-implementation.md`, `context-preservation-complete.md`.
+
+**Ancillary updates**: `README.md` "Context Preservation Templates" → "Evidence Template" section. `.claude/commands/track.md` "Context Preservation Integration" → "Evidence Integration".
+
+### Finding worth preserving (deployment gap)
+
+7 SEO agents live at `/agents/seo-*.md` but are **not deployed to `.claude/agents/`** where Claude Code's Task tool looks for subagent profiles. Current SEO mission flow uses `@agent` text-syntax delegation rather than Task-tool dispatch, so the agent prompt files function as reference profiles rather than loaded prompts. Today's slimming saves tokens whenever the files are read, but a smoke `/coord site-audit` run may not exercise them in the way originally assumed.
+
+**Action required (later)**: future sprint should either (a) deploy the SEO agents to `.claude/agents/` so they become Task-tool dispatchable, or (b) document explicitly that the SEO system runs through text-based delegation only and remove any references that imply Task-tool execution. Sprint 5 (deliverable-first missions) is a likely candidate to address this.
+
+### Verification
+
+- ✅ Repo-wide grep for `MANDATORY CONTEXT`, `seo-context.md`, `seo-handoff.md`, `/workspace/seo`, `/workspace/mission-state` returns ZERO matches in active source files (residue only in historical planning docs, which is correct).
+- ✅ All 7 agents and ai-search-optimize.md re-measured; deltas captured above.
+- ✅ Template archive directory created and 3 files moved with `git mv` (history preserved).
+- ✅ Doc archive directory created and 2 files moved with `git mv`.
+
+### Next Step
+
+Sprint 5 (Deliverable-First Missions) is next — Sprint 4 already cancelled, so we skip to 5. Sprint 5 should also address the `/agents/` vs `.claude/agents/` deployment gap so the three deliverable templates can be exercised end-to-end. Sprint 5 is a Full-gate sprint and will need a real freecalchub run.
+
+---
+
 ## 2026-05-09 — Sprint 1 Complete: SEO Missions Registered in /coord
 
 **Sprint**: 1 — Register SEO missions in `/coord`; normalise mission paths

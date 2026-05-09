@@ -25,7 +25,7 @@ Rescoped 2026-05-09 after Agent-11 v5 → v6.1.1 framework upgrade. See `sprints
 |---|--------|-------|--------|--------------|--------|
 | 2 | Karpathy SEO Constitution (project-root `CLAUDE.md`) | De-bloat | S | none | **COMPLETE 2026-05-09** (424 → 50 lines) |
 | 1 | Register SEO missions in `/coord`; normalise mission paths | De-bloat | S | none | **COMPLETE 2026-05-09** (Mode D added; ai-search-optimize moved) |
-| 3 | Agent De-Bloat & SEO Context Consolidation | De-bloat | M | 2 | Not started — adjusted |
+| 3 | Agent De-Bloat & SEO Context Consolidation | De-bloat | M | 2 | **COMPLETE 2026-05-09** (-214 lines / -8.7% words across 7 agents; 3 templates + 2 docs archived) |
 | 4 | Universal Mission Router | — | — | — | **Cancelled** (merged into Sprint 1) |
 | 5 | Deliverable-First Missions | Uplevel | M | 3 | Not started |
 | 6 | SEO Routine Templates on framework Routines (Mode C) | Uplevel | S | 3 | Not started — shrunk |
@@ -105,13 +105,15 @@ Detail in `/sprints/`. This index tracks completion across sprints.
 - [x] Replace existing CLAUDE.md (archived to `CLAUDE.v1-archive.md`)
 - [→] Test constitution holds during a site-audit run — deferred to Sprint 1 verification (blocked: SEO missions not registered in `/coord` yet)
 
-### Sprint 3 — Agent De-Bloat & Context Consolidation
-- [ ] Baseline: run site-audit on freecalchub.com with current agents, store output
-- [ ] Strip MANDATORY CONTEXT PROTOCOL from 6 SEO agents
-- [ ] Consolidate 4 context templates to 2
-- [ ] Delete redundant templates
-- [ ] Update coordinator enforcement logic
-- [ ] Re-run site-audit; compare output quality and token cost
+### Sprint 3 — Agent De-Bloat & Context Consolidation — COMPLETE 2026-05-09
+- [x] Static baseline captured (Option B hybrid gate — agreed in lieu of full audit)
+- [x] Strip MANDATORY CONTEXT PROTOCOL from 7 SEO agents (was 6 — count corrected)
+- [x] Archive 3 SEO context templates (seo-context, seo-handoff, mission-state) → templates/archive/
+- [x] Update seo-coordinator Mission Planning + Execution frameworks (no longer references retired files)
+- [x] Strip CONTEXT INITIALIZATION blocks from ai-search-optimize.md (other 3 SEO missions already clean)
+- [x] Update README.md and .claude/commands/track.md to reference only seo-evidence.md
+- [x] Archive 2 obsolete context-preservation docs to docs/archive/
+- [→] Live freecalchub re-run deferred — see Sprint 3 doc for caveat about /agents/ vs .claude/agents/ deployment
 
 ### Sprint 4 — Universal Mission Router
 - [ ] Design routing keyword map
