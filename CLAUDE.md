@@ -1,101 +1,50 @@
-# CLAUDE.md
+# CLAUDE.md — SEO-Agent (product layer)
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file is the SEO Constitution. Five behavioural rules for any SEO work in this repo. Framework rules (Karpathy constitution, mission routing, tracking-file protocols, MCP, hooks, security) live in `.claude/CLAUDE.md`. Read both.
 
-## Repository Overview
+## The Five Rules (SEO Constitution)
 
-SEOAgent (SearchOps-11™) is an elite SEO agent suite designed for business growth through coordinated AI specialists. This is a mission-based framework for SEO operations using Claude Code's sub-agent system.
+1. **Read before scanning.** Check `seo-evidence.md` and Google Search Console data before crawling. Do not re-scrape what you already know.
+2. **Prioritise ROI.** Do not recommend a hard technical fix when a content update yields more traffic for less effort. Compare cost-to-fix against estimated traffic impact in every recommendation.
+3. **AI Search First.** Evaluate every change against LLM ingestion (llms.txt readiness, structured data, answerability) alongside traditional Google bots. Both scorecards in every output.
+4. **Minimal diffs.** When fixing SEO issues in code, change only the necessary tags or schema. Do not refactor surrounding components.
+5. **Prove it.** Run `/track baseline` before any change set, `/track compare` after. No claim of improvement without evidence in `seo-evidence.md`.
 
-## Architecture
+## Two layers in this repo
 
-This repository follows a hub-and-spoke coordination model with:
-- **Mission templates** in `missions/` - Predefined workflows for SEO operations
-- **Agent templates** in `templates/` - Framework for creating optimized agents
-- **Ideation/documentation** in `ideation/` - Strategic planning and product specs
+| Layer | What | Where |
+|---|---|---|
+| Agent-11 (framework) | Generic dev squad we use to build SEO-Agent | `.claude/`, `/missions/mission-*.md`, `/templates/` (non-seo), `/field-manual/`, `/gates/`, `/schemas/`. Refresh via `bash install.sh --upgrade` |
+| SEO-Agent (product) | The SEO suite we deploy | `/agents/seo-*.md`, `.claude/missions/{site-audit,content-gap,technical-fix,ai-search-optimize}.md`, `/templates/seo-*-template.md`, `.claude/commands/{seo-commands,track,tracking-commands}.md` |
 
-## Key Concepts
+Sprint work targets the product layer only. Treat the framework as a dependency.
 
-### Agent System
-- 6 specialized SEO agents: Strategist, Technical, Content, Researcher, Analyst, Builder
-- Each agent has specific tools and responsibilities
-- Coordination through @coordinator to prevent conflicts
-- "Stay in Lane" principle - agents escalate outside their scope
+## SEO-Agent product files
 
-### Mission Structure
-Missions follow this pattern:
-1. Briefing - objectives and requirements
-2. Phases - step-by-step execution
-3. Specialists - agents involved
-4. Deliverables - expected outputs
-5. Success criteria - completion metrics
+- **Agents** (7): seo-strategist, seo-coordinator, seo-technical, seo-content, seo-researcher, seo-analyst, seo-builder
+- **Missions** (4): site-audit, content-gap, technical-fix, ai-search-optimize
+- **Templates**: seo-context-template, seo-handoff-template, seo-evidence-template (Sprint 3 will consolidate)
+- **Tracking files**: `seo-evidence.md` for SEO artefacts and audit history
 
-## Working with Missions
+## Mission dispatch
 
-### Launching Missions
-```bash
-/coord [mission-name] [inputs...]
-```
+`/coord <mission> [mode] [target]` — positional args, no NLP. Examples:
+- `/coord site-audit lite freecalchub.com/calculators`
+- `/coord ai-search-optimize freecalchub.com`
+- `/coord content-gap freecalchub.com/calculators/bmi-calculator`
 
-Available mission codes:
-- `site-audit` - Comprehensive SEO analysis
-- `content-gap` - Content opportunity discovery
-- `technical-fix` - Performance optimization
-- `ai-search-optimize` - Future-proof with llms.txt
-- `keyword-research` - Market intelligence
-- `operation-recon` - UI/UX reconnaissance
-- `build`, `fix`, `refactor`, `mvp`, `deploy` - Development missions
+Mission must be one of the four SEO missions or a framework mission. Full routing table in `.claude/commands/coord.md`.
 
-### Tracking Progress
-All missions automatically capture before/after metrics:
-```bash
-/track baseline domain.com     # Manual baseline before mission
-/track compare domain.com      # View improvements after mission
-/track roi domain.com 90d      # Calculate financial ROI
-```
+## SEO-specific commands
 
-### Creating New Missions
-Use `templates/mission-template.md` as the base for new missions. Follow the AGENT-11 optimization standards outlined in `templates/agent-creation-mastery.md`.
+- `/track baseline` — set baseline before changes (rule 5)
+- `/track compare` — diff vs baseline (rule 5)
+- `/track status` — system and performance overview
+- `/track roi` — ROI metrics
+- `/track report --type weekly|monthly|roi` — generate report
+- `/seo-commands` — `/rankings`, `/traffic-report`, `/technical-health`, `/report`
+- `/tracking-commands` — tracking helper reference
 
-## Agent Creation Guidelines
+## Framework rules
 
-When creating new agents:
-1. Use ALL CAPS headers (never ## markdown)
-2. Consistent dash bullets (-) throughout
-3. Keep agents under 150 lines for optimal performance
-4. Include clear ✅/❌ scope boundaries
-5. Always escalate to @coordinator for cross-agent work
-
-## File Conventions
-
-- Mission files: `mission-[name].md` in `missions/`
-- Agent templates: descriptive names in `templates/`
-- Documentation: descriptive markdown in `ideation/`
-
-## Integration Points
-
-The system expects connections to:
-- Google Search Console (required)
-- Google Analytics 4 (required)
-- SEO platforms (Ahrefs, SEMrush, or Moz)
-- Optional: WordPress/Shopify, Screaming Frog
-
-## Performance Targets
-
-- Mission completion within estimated timeframes
-- 95%+ agent performance standards
-- Clear deliverables for each operation
-- Measurable success criteria
-
-## Tracking System
-
-The repository includes a comprehensive tracking system at `/tracking/`:
-- **Baselines**: Capture initial metrics before optimization
-- **Snapshots**: Regular performance recordings
-- **Reports**: Automated progress and ROI reports
-- **Commands**: `/track` commands for all tracking operations
-
-Configuration in `/tracking/config/tracking.yml` controls:
-- Automatic baseline capture
-- Snapshot frequency
-- ROI calculation values
-- Alert thresholds
+`.claude/CLAUDE.md` covers the Karpathy constitution, mission routing via `/coord`, tracking-file protocols, MCP tool discovery, hooks, security. Defer to it for anything not SEO-specific.

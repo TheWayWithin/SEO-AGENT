@@ -33,7 +33,52 @@ Apply five Agent-11 v6 lessons to SEO-Agent, delivered as seven sequential sprin
 
 ## Accumulated Findings
 
-None yet (planning sprint just closed).
+### Sprint 2 — Karpathy SEO Constitution (closed 2026-05-09)
+
+- Project-root `CLAUDE.md` reduced 424 → 50 lines (88% line cut, 82% word cut)
+- Old file preserved at `CLAUDE.v1-archive.md`
+- Five blueprint rules encoded; two-layer model documented; product file map included
+- `/coord site-audit` smoke-dispatch test deferred to Sprint 1 (currently fails with "Unknown mission" because SEO missions not yet registered in framework `/coord`)
+- Verified `/track` subcommand names against `.claude/commands/track.md` before drafting (avoided guessed contents)
+- Verified `/seo-commands` exposes `/rankings`, `/traffic-report`, `/technical-health`, `/report` (not just `seo-commands` itself)
+
+### Phase Handoff: Sprint 2 → Sprint 1
+
+**Next sprint**: Sprint 1 — Register SEO missions in `/coord`; normalise mission paths.
+
+**Inherited tasks from Sprint 2**:
+- Run `/coord site-audit freecalchub.com` smoke dispatch as part of Sprint 1 acceptance — proves both Sprint 1 (registration) and Sprint 2 (constitution) end-to-end.
+
+**Critical context for Sprint 1**:
+- Decisions locked in rescope memo: drop NLP routing entirely; move `ai-search-optimize.md` from `/missions/` into `.claude/missions/`.
+- Four SEO missions to register: `site-audit`, `content-gap`, `technical-fix`, `ai-search-optimize`.
+- Routing should follow framework v6 deterministic style: `/coord <mission> [mode] [target]` positional args. No keyword maps, no inference.
+- Edit target: `.claude/commands/coord.md` routing table + Unknown Mission Behaviour section.
+- Also update `.claude/commands/seo-commands.md` to point at the four canonical mission paths.
+
+### Sprint 1 — SEO Missions Registered (closed 2026-05-09)
+
+- New **Mode D — SEO** introduced in `coord.md` (per-run scoped, loads `seo-evidence.md` only). Cleaner than folding into Maintenance B2.
+- All 4 SEO missions now co-located in `.claude/missions/` (`ai-search-optimize.md` moved via `git mv`).
+- coord.md additions wrapped in `<!-- SEO-PRODUCT-LAYER-START/END -->` marker comments for upgrade resilience. After any framework refresh, search for the marker; if absent, re-apply per progress.md Sprint 1 entry.
+- `seo-commands.md` confirmed untouched — uses `@agent` delegation directly, no mission paths to update.
+- Rejected alternative: standalone `/seo` wrapper command. Edited framework `coord.md` instead per rescope memo wording. Trade-off accepted: maintenance friction vs cleaner UX.
+
+### Phase Handoff: Sprint 1 → Sprint 3
+
+**Next sprint**: Sprint 3 — Agent de-bloat & SEO context consolidation.
+**Skipping Sprint 4** (cancelled in rescope; merged into Sprint 1 above).
+**First Full-gate sprint** — requires real freecalchub.com audit before/after.
+
+**Critical context for Sprint 3**:
+- 7 SEO agents to de-bloat (not 6 — count includes `seo-coordinator`): seo-strategist, seo-coordinator, seo-technical, seo-content, seo-researcher, seo-analyst, seo-builder. All ~200-260 lines each, total ~1,544 lines.
+- All 7 confirmed (via grep) to still carry MANDATORY CONTEXT PROTOCOL block.
+- Templates to archive: `seo-context-template.md`, `seo-handoff-template.md`, `mission-state-template.md` (note: `mission-state-template.md` exists in `/templates/` but no `seo-` prefix; verify it's actually SEO-specific).
+- Templates to keep: `seo-evidence-template.md` (the back-looking artefact store, referenced by SEO Constitution rule 1).
+- Coordinator enforcement edits target `agents/seo-coordinator.md` only — leave `.claude/agents/coordinator.md` (framework) alone.
+- Mission files in `.claude/missions/` (all 4) likely reference the old context files in their CONTEXT INITIALIZATION sections — example seen in `ai-search-optimize.md` lines 9-15. Will need de-referencing.
+- Baseline + post-change freecalchub.com audit on the same single page (recommend `freecalchub.com/calculators/bmi-calculator` per original Sprint 3 doc) for real token-cost and quality comparison.
+- Now that SEO missions dispatch via Sprint 1, Sprint 3's baseline audit is actually runnable end-to-end.
 
 ## Known Constraints
 
