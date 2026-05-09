@@ -1,0 +1,102 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git branch:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(git pull:*)",
+      "Bash(mv:*)",
+      "Bash(cp:*)",
+      "Bash(gh pr create:*)",
+      "Bash(ls:*)",
+      "Bash(cat:*)",
+      "Bash(pwd:*)",
+      "Bash(npm test:*)",
+      "Bash(npm run:*)",
+      "Bash(chmod +x:*)",
+      "Edit(*.md)",
+      "Edit(**/*.md)",
+      "Edit(*.json)",
+      "Edit(**/*.json)",
+      "Edit(**/package.json)",
+      "Write(*.md)",
+      "Write(**/*.md)",
+      "Write(*.json)",
+      "Write(**/*.json)",
+      "Write(**/package.json)",
+      "Write(.env*)",
+      "Edit(.env*)",
+      "WebFetch(domain:docs.claude.com)",
+      "WebFetch(domain:github.com)",
+      "SlashCommand(*)"
+    ],
+    "ask": [
+      "Bash(rm:*)"
+    ],
+    "deny": [
+      "Read(.env)",
+      "Read(**/.env.*)",
+      "Read(**/secrets/**)",
+      "Read(**/*.key)",
+      "Read(**/*.pem)",
+      "Edit(.env)",
+      "Edit(**/.env.*)",
+      "Write(**/*.key)",
+      "Write(**/*.pem)",
+      "Bash(curl:*)",
+      "Bash(wget:*)",
+      "Bash(rm -rf /*)",
+      "Bash(sudo:*)"
+    ]
+  },
+  "env": {
+    "AGENT_11_PROJECT": "true",
+    "ENABLE_TOOL_SEARCH": "auto"
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "if": "Edit(*.ts|*.tsx)|Write(*.ts|*.tsx)|MultiEdit(*.ts|*.tsx)",
+            "command": "command -v npx >/dev/null 2>&1 && [ -f package.json ] && [ -f tsconfig.json ] && npx --no-install tsc --noEmit 2>&1 || true",
+            "statusMessage": "tsc --noEmit",
+            "timeout": 60
+          },
+          {
+            "type": "command",
+            "if": "Edit(*.py)|Write(*.py)|MultiEdit(*.py)",
+            "command": "command -v ruff >/dev/null 2>&1 && [ -f pyproject.toml ] && ruff check 2>&1 || true",
+            "statusMessage": "ruff check",
+            "timeout": 30
+          },
+          {
+            "type": "command",
+            "if": "Edit(*.rb)|Write(*.rb)|MultiEdit(*.rb)",
+            "command": "command -v rubocop >/dev/null 2>&1 && [ -f Gemfile ] && rubocop --force-exclusion 2>&1 || true",
+            "statusMessage": "rubocop",
+            "timeout": 30
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "prompt",
+            "if": "Bash(rm -rf *)|Bash(git push --force*)|Bash(git push -f *)|Bash(git reset --hard*)|Bash(git clean -f*)|Bash(git branch -D*)",
+            "prompt": "This command is destructive and hard to reverse. Confirm to proceed: $ARGUMENTS",
+            "timeout": 60
+          }
+        ]
+      }
+    ]
+  }
+}

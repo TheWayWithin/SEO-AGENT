@@ -1,166 +1,134 @@
 ---
 name: coord
-description: Orchestrate multi-agent missions with THE COORDINATOR
+description: Universal mission router — dispatches to THE COORDINATOR with deterministic mission-based routing
 ---
 
-# COORDINATOR MISSION ACTIVATION 🎖️
-
-**Command**: `/coord [mission] [input1] [input2] ... [inputN]`
+# /coord — Universal Mission Router
 
 **Arguments Provided**: $ARGUMENTS
 
-## MISSION CONTROL PROTOCOL
+Dispatch a mission via THE COORDINATOR. Parse the arguments, validate the mission name, hand off to the coordinator with the right mode. The coordinator (`project/agents/specialists/coordinator.md`) owns the orchestration logic — do not duplicate it here.
 
-You are now operating as THE COORDINATOR for AGENT-11. Your role is to orchestrate complex multi-agent missions to successful completion.
+## Routing Table
 
-### COMMAND PARSING
+| Mission         | Mode | Context at start                                  | Notes |
+|-----------------|------|---------------------------------------------------|-------|
+| `build`         | A    | project-plan.md, agent-context.md, mission file   | Greenfield feature build |
+| `mvp`           | A    | project-plan.md, agent-context.md, mission file   | Rapid MVP from concept |
+| `dev-setup`     | A    | ideation input only                               | Greenfield bootstrap; creates tracking files |
+| `dev-alignment` | A    | existing codebase, agent-context.md if present    | Brownfield onboarding |
+| `integrate`     | A    | project-plan.md, agent-context.md, mission file   | Third-party integration |
+| `migrate`       | A    | project-plan.md, agent-context.md, mission file   | Data/schema migration |
+| `fix`           | B1   | bug report input only                             | Surgical fix; no tracking unless escalates |
+| `refactor`      | B2   | project-plan.md if exists, mission file           | Multi-step refactor |
+| `optimize`      | B2   | project-plan.md if exists, mission file           | Performance work |
+| `document`      | B2   | project-plan.md if exists, mission file           | Documentation pass |
+| `release`       | B2   | project-plan.md, agent-context.md, mission file   | Higher stakes |
+| `deploy`        | B2   | project-plan.md, agent-context.md, mission file   | Higher stakes |
+| `security`      | B2   | project-plan.md, agent-context.md, mission file   | Audit + fixes |
 
-Parse the arguments to determine:
-1. **Mission Type** (first argument) - If not provided, enter interactive mode
-2. **Input Documents** (subsequent arguments) - File references to load as context
+**Modes**: A = greenfield (long-horizon, full tracking). B1 = surgical (minimal context). B2 = maintenance (moderate context). `evidence-repository.md` loads on demand only — never at start.
 
-### AVAILABLE MISSIONS
+### Control Commands
 
-**Core Missions**:
-- `build` - Build new service/feature from PRD
-- `fix` - Emergency bug fix with root cause analysis  
-- `refactor` - Code improvement and optimization
-- `deploy` - Production deployment preparation
-- `document` - Comprehensive documentation creation
-- `migrate` - System/database migration
-- `optimize` - Performance optimization  
-- `security` - Security audit and fixes
-- `integrate` - Third-party integration
-- `mvp` - Rapid MVP development from concept
+- `continue` — Coordinator resumes from project-plan.md until blocked.
+- `complete phase N` — Mark phase N complete; generate phase-(N+1) context.
+- `vision-check` — Verify current work against vision in project-plan.md.
 
-**View detailed mission briefings**: Check `/missions/mission-[name].md`
+### Standalone (NOT routed via /coord)
 
-### EXECUTION PROTOCOL
+`/foundations`, `/architect`, `/bootstrap` — pipeline commands; run independently.
 
-1. **No Mission Specified**:
-   - Present mission selection menu
-   - Ask for mission objectives
-   - Gather required inputs interactively
+## Mode Override
 
-2. **Mission Specified**:
-   - Load mission briefing from `/missions/mission-[name].md`
-   - Parse all provided input documents
-   - **IMMEDIATELY BEGIN DELEGATION** - no confirmation needed
-   - Start orchestration following mission protocol
+Prefix with `mode:` when default routing is wrong:
 
-3. **Mission Execution - IMMEDIATE ACTION WITH MANDATORY UPDATES**:
-   - **INITIALIZE CONTEXT FILES** from `/templates/` to `/workspace/`:
-     - `seo-context-template.md` → `/workspace/seo-context.md`
-     - `seo-handoff-template.md` → `/workspace/seo-handoff.md`
-     - `seo-evidence-template.md` → `/workspace/seo-evidence.md`
-     - `mission-state-template.md` → `/workspace/mission-state.md`
-   - **CREATE/UPDATE `project-plan.md`** with all planned mission tasks marked [ ]
-   - **IMMEDIATELY DELEGATE** to specialists using Task tool with subagent_type parameter
-     - Include "MANDATORY: READ FIRST /workspace/seo-context.md" in prompt
-     - Include "MANDATORY: UPDATE AFTER completion to context files" in prompt
-   - **WAIT FOR EACH TASK TOOL RESPONSE** before proceeding to next
-   - **VERIFY CONTEXT COMPLIANCE** after each agent completes work
-   - **UPDATE `project-plan.md`** mark tasks [x] ONLY after Task tool confirms completion AND context verified
-   - **LOG TO `progress.md`** any issues, blockers, or context preservation failures
-   - **UPDATE `progress.md`** with root causes and fixes when resolved
-   - **PHASE END UPDATES** required including context validation before next phase
-   - Report ACTUAL status (not planned status)
-
-### COORDINATION RULES - NO WAITING PROTOCOL WITH MANDATORY UPDATES
-
-- You orchestrate but do NOT implement
-- ALL technical work MUST be delegated to specialists
-- **DELEGATE IMMEDIATELY** - use Task tool with subagent_type='agent_name' parameter
-- **NO AWAITING CONFIRMATIONS** - call Task tool and wait for actual responses
-- **MANDATORY project-plan.md UPDATES**: Update before each phase and after each completion
-- **MANDATORY progress.md LOGGING**: Log all issues and resolutions immediately
-- Track ACTUAL completion - only mark [x] when Task tool returns completion
-- If Task tool doesn't respond with work, immediately try different approach or agent
-- Report "Currently using Task tool with subagent_type='[agent]'" while waiting for response
-- **PHASE END REQUIREMENT**: Must update both files before starting next phase
-
-### IMMEDIATE DELEGATION EXAMPLES
-
-**RIGHT**: "Using Task tool with subagent_type='tester' to validate the coffee button fixes..."
-**WRONG**: "Will delegate to @tester when ready" or "@tester please validate..."
-
-**RIGHT**: "Calling Task tool with subagent_type='developer' for environment variable debugging..."
-**WRONG**: "Planning to have developer work on environment issues" or "@developer begin..."
-
-### TROUBLESHOOTING NON-RESPONSIVE AGENTS
-
-If Task tool doesn't return actual work:
-
-1. **Immediate Escalation**:
-   ```
-   # Task tool didn't return work
-   Task(subagent_type='strategist', description='Alternative approach needed', 
-        prompt='Previous delegation failed. Provide alternative approach for [task]...')
-   ```
-
-2. **Task Breakdown**:
-   ```
-   # Break complex tasks into smaller pieces
-   Task(subagent_type='developer', description='Identify env issue',
-        prompt='Step 1: Just identify the environment variable loading issue...')
-   ```
-
-3. **Alternative Agent**:
-   ```
-   # Try different specialist
-   Task(subagent_type='analyst', description='Analyze env problem',
-        prompt='Developer unavailable. Please analyze the environment variable problem...')
-   ```
-
-4. **Direct User Escalation**:
-   ```
-   MISSION BLOCKED: Task tool not returning useful responses.
-   USER ACTION REQUIRED: Please use direct @agent calls manually
-   ```
-
-### SUCCESS INDICATORS
-- Agents respond with actual work (not acknowledgments)
-- Tasks move from [ ] to [x] with real deliverables
-- Progress.md gets updated with actual results
-- Project-plan.md reflects completed work
-
-### SPECIALIST ROSTER (Use with Task tool subagent_type parameter)
-
-- strategist - Requirements and strategic planning
-- architect - Technical design and architecture  
-- developer - Code implementation
-- designer - UI/UX design
-- tester - Quality assurance
-- documenter - Technical documentation
-- operator - DevOps and deployment
-- support - Customer success
-- analyst - Data and metrics
-- marketer - Growth and content
-
-**CRITICAL**: Use these names as the subagent_type parameter value when calling Task tool.
-Example: Task(subagent_type='developer', description='Fix bug', prompt='...')
-
-### EXAMPLE USAGE
-
-```bash
-# Interactive mode - coordinator guides you
-/coord
-
-# Build mission with PRD
-/coord build requirements.md
-
-# Build mission with multiple inputs  
-/coord build prd.md architecture.md brand-guide.md
-
-# Quick fix mission
-/coord fix bug-report.md
-
-# MVP mission with vision doc
-/coord mvp startup-vision.md
+```
+/coord mode:maintenance security audit-2026-q2
 ```
 
-## BEGIN MISSION COORDINATION
+Valid prefixes: `mode:greenfield` (A), `mode:surgical` (B1), `mode:maintenance` (B2). The override applies that mode's loading rules regardless of mission name.
 
-Based on the arguments provided, initiate the appropriate mission protocol. If no arguments, begin interactive mission selection.
+## Dispatch Behaviour
 
-Remember: You are THE COORDINATOR - the strategic orchestrator who ensures mission success through expert delegation and meticulous tracking.
+1. **Routine detection** (run first). If the arguments contain cadence keywords (see below), do NOT delegate — print the Routine pointer (below) and stop.
+2. Parse first argument. If it starts with `mode:`, consume it; the next arg is the mission name.
+3. Validate mission name against the routing table or control-command list.
+4. If unknown, print the unknown-mission error (below) and stop. No NLP inference.
+5. Load mission file if applicable: `project/missions/mission-[name].md` (or `[name].md` for `dev-setup`/`dev-alignment`).
+6. Hand off to THE COORDINATOR with mission name, mode, and input paths. The coordinator's DYNAMIC CONTEXT LOADING protocol applies the per-mode rules.
+
+## Routine Detection (Mode C — operational work)
+
+Recurring or scheduled work belongs in Claude Code Routines, not `/coord`. Routines run on Anthropic-managed cloud, no local session needed.
+
+**Cadence keywords that trigger Routine detection** (case-insensitive, requires explicit cadence):
+- Time keywords: `daily`, `weekly`, `monthly`, `hourly`, `nightly`
+- Day-of-week patterns: `every Monday`, `every Tuesday`, …, `every weekend`, `every weekday`
+- Frequency patterns: `every N hours`, `every N days`, `every N minutes`
+- Setup keywords paired with cadence: `schedule`, `set up automatic`, `set up recurring`, `recurring`
+
+**Specific operational phrases** (also trigger):
+- `pr review`, `code review on every PR`, `review PRs automatically`
+- `nightly QA`, `nightly tests`, `daily smoke test`
+- `weekly triage`, `backlog triage`, `triage on Monday`
+- `daily report`, `weekly report` (when paired with cadence intent)
+
+**When detected, print this pointer** (don't execute, don't delegate):
+
+```
+This looks like recurring/operational work. Claude Code Routines handle this
+natively (Anthropic-managed cloud, scheduled, no local session needed).
+
+Closest matching template: project/routines/[NAME].md
+  - pr-review.md       → PR-triggered code review
+  - nightly-qa.md      → scheduled QA sweep
+  - backlog-triage.md  → scheduled backlog review
+
+To set up:
+  1. Open claude.ai/code/routines and click "New routine".
+  2. Paste the prompt block from project/routines/[NAME].md into the prompt field.
+  3. Configure repos, trigger, connectors per the template's setup notes.
+
+To run once now (no schedule), invoke /coord with the appropriate mission and
+no cadence keywords. Examples:
+  /coord document       (one-time doc pass)
+  /coord refactor       (one-time refactor)
+```
+
+If no template clearly matches, point to `project/routines/README.md` instead and let the user pick.
+
+**Do NOT** trigger Routine detection for plain mission names without cadence words. `/coord deploy` executes; `/coord set up daily deploys` outputs the Routine pointer.
+
+## Unknown Mission Behaviour
+
+If the mission name does not match, print exactly:
+
+```
+Unknown mission: <name>
+
+Valid missions:
+  Greenfield (Mode A):    build, mvp, dev-setup, dev-alignment, integrate, migrate
+  Surgical (Mode B1):     fix
+  Maintenance (Mode B2):  refactor, optimize, document, release, deploy, security
+
+Control:                  continue, complete phase N, vision-check
+Override:                 /coord mode:maintenance <anything>
+Standalone (not /coord):  /foundations, /architect, /bootstrap
+```
+
+…and stop.
+
+## Interactive Mode
+
+If `/coord` is invoked with no arguments, present the routing table and ask which mission to run. Require an explicit mission name in the next response — do not infer from free text.
+
+## Examples
+
+```
+/coord build prd.md
+/coord fix bug-report.md
+/coord mvp vision.md
+/coord mode:maintenance security
+/coord continue
+```

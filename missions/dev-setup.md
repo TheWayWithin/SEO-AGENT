@@ -1,656 +1,390 @@
-# Mission: DEV SETUP
-## New Project Initialization Workflow
+# Mission: Dev-Setup 🚀
+## Greenfield Project Initialization
 
-**Objective**: Complete setup and initialization of new development projects with SEO-first architecture  
-**Duration**: 2-4 hours depending on project complexity  
-**Squad Required**: Multi-specialist coordination with development focus
+### Mission Type
+**Initial Setup** - Foundation laying for new projects
 
-## Mission Overview
+### Estimated Duration
+30-45 minutes
 
-The DEV SETUP mission establishes new projects from the ground up with SEO optimization, performance, and scalability built into the foundation. This mission ensures projects start with best practices, proper tooling, and measurable success criteria.
+### Required Assets
+- Ideation document (PRD, brand guidelines, architecture specs, vision doc)
+- GitHub repository name/URL
+- Project vision and goals
 
-## Prerequisites
+---
 
-### Required Information
-- Project name and description
-- Target technology stack (React, Vue, WordPress, etc.)
-- Domain name and hosting preferences  
-- Business objectives and target audience
-- SEO goals and competitive landscape
-- Timeline and resource constraints
+## Mission Briefing
 
-### System Requirements
-- Development environment configured
-- Git repository access
-- Domain registration and DNS access
-- Hosting platform account (if determined)
-- API access for required integrations
+This mission establishes the foundation for a new greenfield project by:
+1. Setting up GitHub integration
+2. Analyzing ideation documents
+3. Creating initial project plan
+4. Establishing progress tracking
+5. Configuring CLAUDE.md for ongoing development
 
-## Mission Phases
+### Prerequisites
+- AGENT-11 deployed to project
+- Ideation document prepared
+- GitHub repository created (or ready to create)
 
-### Phase 1: Project Discovery and Strategy (30 minutes)
+---
 
-**Lead Agent**: @seo-strategist  
-**Support**: @developer (for technical feasibility)
+## Execution Protocol
 
+### Phase 0: MCP Setup (2 min)
+
+The user's `.mcp.json` lists configured MCP servers. Tools defer-load by default; specialists discover what they need at runtime via `tool_search_tool_regex_20251119`.
+
+**Agent Actions:**
+- @coordinator confirms which MCP servers the project will need
+- Documents required servers in project-plan.md (so user can add API keys to `.env.mcp`)
+- No profile switching required — tools auto-load on demand
+
+### Phase 1: GitHub Setup (5 min)
 ```bash
-@seo-strategist Define new project strategic foundation:
-1. Analyze business objectives and target audience
-2. Research competitive landscape and SEO opportunities  
-3. Define primary and secondary keywords for the project
-4. Establish SEO goals and success metrics
-5. Create technical requirements based on SEO needs
-6. Identify critical integrations (Analytics, Search Console, etc.)
-
-@developer Assess technical feasibility:
-1. Evaluate technology stack options for SEO requirements
-2. Confirm hosting and performance capabilities
-3. Identify potential technical constraints or opportunities
-4. Estimate development timeline and resource requirements
+/coord "Let's set up this greenfield project. First, what's the GitHub repository URL or name for this project?"
 ```
 
-**Expected Output**:
-- Project strategy document with SEO objectives
-- Technical architecture recommendations
-- Competitive analysis and keyword research
-- Success metrics and measurement framework
-- Technology stack recommendations with SEO considerations
+**Agent Actions:**
+- @coordinator prompts for GitHub details
+- Initializes git if needed
+- Sets up remote origin
+- Creates initial commit structure
 
-**Success Criteria**:
-- Clear project objectives aligned with SEO goals
-- Technical architecture optimized for search performance
-- Measurable success criteria established
-
-### Phase 2: Repository and Environment Setup (45 minutes)
-
-**Lead Agent**: @developer  
-**Support**: @operator
-
+### Phase 2: Ideation Analysis (10 min)
 ```bash
-@developer Initialize project repository and development environment:
-1. Create new Git repository with proper structure
-2. Set up development environment with SEO tools
-3. Configure linting, testing, and build tools
-4. Initialize package management and dependencies
-5. Set up environment configuration for different stages
-6. Create initial project documentation structure
-
-@operator Configure deployment and hosting environment:
-1. Set up hosting environment optimized for performance
-2. Configure CDN and caching strategies
-3. Set up SSL certificates and security headers  
-4. Configure monitoring and performance tracking
-5. Establish deployment pipeline and automation
-6. Set up backup and disaster recovery procedures
+/coord "Please share your ideation document - this could be a PRD, vision doc, brand guidelines, or architecture specs"
 ```
 
-**Expected Output**:
-- Initialized Git repository with proper structure
-- Development environment with SEO tooling configured
-- Hosting environment optimized for performance and SEO
-- Deployment pipeline and monitoring setup
-- Initial project documentation and README
+**Agent Actions:**
+- @strategist analyzes ideation document
+- Extracts key requirements
+- Identifies technical constraints
+- Maps business objectives
+- Notes brand/design requirements
 
-**Success Criteria**:
-- Development environment fully functional with SEO tools
-- Hosting environment configured for optimal performance
-- Deployment pipeline tested and operational
-
-### Phase 3: SEO Foundation Architecture (60 minutes)
-
-**Lead Agent**: @seo-technical  
-**Support**: @developer
-
+### Phase 3: Architecture Documentation (10 min)
 ```bash
-@seo-technical Implement technical SEO foundation:
-1. Configure Core Web Vitals optimization architecture
-2. Set up structured data and schema markup framework
-3. Implement meta tag and Open Graph management system
-4. Configure XML sitemap generation and submission
-5. Set up robots.txt and crawl optimization
-6. Implement canonical URL and redirect management
-7. Configure image optimization and lazy loading
-8. Set up performance monitoring and Web Vitals tracking
-
-@developer Implement SEO-optimized development patterns:
-1. Create SEO-friendly routing and URL structures
-2. Implement server-side rendering or static generation
-3. Set up component patterns for SEO optimization
-4. Configure build-time SEO validation and checks
-5. Implement automated performance testing
-6. Create development guidelines for SEO best practices
+/coord "Creating architecture documentation based on ideation and requirements..."
 ```
 
-**Expected Output**:
-- Technical SEO foundation implemented and tested
-- Core Web Vitals optimization architecture in place
-- Structured data and meta tag management system
-- Performance monitoring and automated testing configured
-- Developer guidelines for SEO-optimized coding
+**Agent Actions:**
+- @architect creates `architecture.md` using template:
+  - System overview and boundaries
+  - Infrastructure architecture
+  - Application architecture
+  - Data architecture
+  - Integration points
+  - Architecture decisions
+  - Current limitations
+  - Next steps
 
-**Success Criteria**:
-- All technical SEO fundamentals implemented
-- Performance optimization architecture validated
-- Automated SEO checks integrated into development workflow
+**Note**: Uses `/templates/architecture.md` as starting point
+**Reference**: See `/project/field-manual/architecture-sop.md` for comprehensive guidelines
 
-### Phase 4: Content Architecture and CMS Setup (45 minutes)
-
-**Lead Agent**: @seo-content  
-**Support**: @developer
-
+### Phase 4: Project Planning (15 min)
 ```bash
-@seo-content Design content architecture for SEO optimization:
-1. Create content type definitions and taxonomies
-2. Design URL structure and internal linking strategy
-3. Set up content templates optimized for search
-4. Define content workflow and optimization processes
-5. Create content guidelines and SEO checklists
-6. Design content personalization and targeting framework
-
-@developer Implement content management and optimization tools:
-1. Set up CMS or content management system
-2. Implement content optimization tools and plugins
-3. Configure content versioning and workflow management
-4. Set up automated content analysis and suggestions
-5. Implement content performance tracking
-6. Create content migration and import tools if needed
+/coord "Creating initial project plan based on ideation analysis and architecture..."
 ```
 
-**Expected Output**:
-- Content architecture optimized for search and user experience
-- CMS configured with SEO optimization features
-- Content templates and guidelines established
-- Content workflow and optimization processes defined
-- Content performance tracking system implemented
+**Agent Actions:**
+- @strategist creates `project-plan.md` with:
+  - Executive summary
+  - Core objectives
+  - Technical architecture (referencing architecture.md)
+  - Milestone roadmap
+  - Success metrics
+  - Risk assessment
+  - Resource requirements
 
-**Success Criteria**:
-- Content management system fully configured for SEO
-- Content templates tested and optimized
-- Content workflow processes documented and validated
+**project-plan.md Structure:**
+```markdown
+# Project Plan
 
-### Phase 5: Analytics and Tracking Implementation (30 minutes)
+## Executive Summary
+[2-3 paragraph overview from ideation doc]
 
-**Lead Agent**: @seo-analyst  
-**Support**: @seo-technical
+## Core Objectives
+- [ ] Primary goal 1
+- [ ] Primary goal 2
+- [ ] Primary goal 3
 
-```bash
-@seo-analyst Configure comprehensive analytics and tracking:
-1. Set up Google Analytics 4 with enhanced ecommerce (if applicable)
-2. Configure Google Search Console and submit property
-3. Implement Google Tag Manager for flexible tracking
-4. Set up conversion tracking and goal configuration
-5. Configure custom events for SEO performance monitoring
-6. Establish baseline metrics and reporting dashboards
-7. Set up automated alerts for performance changes
+## Technical Architecture
+### Stack
+- Frontend: [from ideation or TBD]
+- Backend: [from ideation or TBD]
+- Database: [from ideation or TBD]
+- Infrastructure: [from ideation or TBD]
 
-@seo-technical Implement technical tracking and monitoring:
-1. Configure Core Web Vitals monitoring and alerts
-2. Set up uptime monitoring and performance tracking
-3. Implement error tracking and debugging tools
-4. Configure security monitoring and threat detection
-5. Set up backup monitoring and verification
-6. Implement automated health checks and diagnostics
+### Key Components
+1. Component A
+2. Component B
+3. Component C
+
+## Milestones
+### Phase 1: Foundation (Week 1-2)
+- [ ] Setup development environment
+- [ ] Create basic project structure
+- [ ] Implement core data models
+
+### Phase 2: Core Features (Week 3-4)
+- [ ] Feature 1
+- [ ] Feature 2
+- [ ] Feature 3
+
+### Phase 3: Polish & Launch (Week 5-6)
+- [ ] Testing & QA
+- [ ] Performance optimization
+- [ ] Deployment
+
+## Success Metrics
+- Metric 1: [target]
+- Metric 2: [target]
+- Metric 3: [target]
+
+## Risk Mitigation
+| Risk | Impact | Mitigation |
+|------|--------|------------|
+| Risk 1 | High | Strategy |
+| Risk 2 | Medium | Strategy |
+
+## Dependencies
+- [ ] Dependency 1
+- [ ] Dependency 2
 ```
 
-**Expected Output**:
-- Complete analytics implementation with all required tracking
-- Google Search Console configured and verified
-- Performance monitoring and alerting system active
-- Baseline metrics established and documented
-- Automated reporting and dashboard configuration
-
-**Success Criteria**:
-- All analytics platforms properly configured and receiving data
-- Performance monitoring active with appropriate alerts
-- Baseline metrics documented for future comparison
-
-### Phase 6: Initial Content and Launch Preparation (60 minutes)
-
-**Lead Agent**: @seo-content  
-**Support**: @seo-strategist
-
+### Phase 5: Progress Tracking Setup (5 min)
 ```bash
-@seo-content Create initial content foundation:
-1. Write homepage content optimized for primary keywords
-2. Create essential pages (About, Contact, Privacy Policy, Terms)
-3. Develop initial blog post or content marketing foundation
-4. Optimize all content for target keywords and user intent
-5. Implement internal linking strategy across initial content
-6. Create content calendar and editorial guidelines
-
-@seo-strategist Prepare launch strategy and validation:
-1. Review all implemented SEO foundations against strategy
-2. Create post-launch optimization roadmap
-3. Identify immediate post-launch tasks and monitoring
-4. Prepare competitive tracking and analysis schedule
-5. Define success measurement and reporting schedule
-6. Create launch checklist and validation procedures
+/coord "Setting up progress tracking system..."
 ```
 
-**Expected Output**:
-- Initial content foundation optimized for SEO
-- Essential pages created with proper optimization
-- Content calendar and editorial guidelines established
-- Launch strategy and post-launch roadmap defined
-- Success measurement framework implemented
+**Agent Actions:**
+- @documenter creates `progress.md` from `/templates/progress-template.md`:
 
-**Success Criteria**:
-- All essential content created and optimized
-- Launch strategy validated against SEO objectives
-- Post-launch monitoring and optimization plan established
+**progress.md Structure:**
+```markdown
+# Progress Log
+# BACKWARD-LOOKING changelog: deliverables, changes, and complete issue history
 
-### Phase 7: Testing and Quality Assurance (30 minutes)
+**Mission**: [Project Name]
+**Started**: [YYYY-MM-DD]
+**Last Updated**: [YYYY-MM-DD]
 
-**Lead Agent**: @tester  
-**Support**: All previous agents for validation
+## 📦 Deliverables
+[Log what was created/changed with descriptions]
 
-```bash
-@tester Conduct comprehensive project testing:
-1. Test all functionality across devices and browsers
-2. Validate SEO implementation and technical foundation
-3. Test performance and Core Web Vitals across pages
-4. Verify analytics tracking and conversion measurement
-5. Test content management and optimization workflows
-6. Validate security implementation and SSL configuration
-7. Test backup and recovery procedures
+## 🔨 Changes Made
+[Record modifications with rationale]
 
-Quality assurance validation by all agents:
-@seo-technical: Validate technical SEO implementation
-@seo-content: Review content optimization and workflow
-@seo-analyst: Verify tracking and measurement setup
-@seo-strategist: Confirm strategic alignment and objectives
+## 🐛 Issues Encountered
+[Complete issue history with ALL fix attempts - including failures]
+
+### Issue #[ID]: [Title]
+**Discovered**: [timestamp] by @[agent]
+**Status**: [🔴 Open | 🟡 In Progress | 🟢 Resolved]
+
+#### Fix Attempts
+##### Attempt #1: [Approach]
+**Result**: [✅ Success | ❌ Failed | ⚠️ Partial]
+**Rationale**: Why we thought this would work
+**What We Tried**: Specific changes made
+**Outcome**: What actually happened
+**Learning**: What this taught us
+
+#### Resolution (if resolved)
+**Root Cause**: Underlying reason
+**Why Previous Attempts Failed**: Analysis
+**Prevention Strategy**: How to avoid in future
+
+## 🎓 Lessons Learned
+[Key insights and patterns]
+
+## 📊 Metrics & Progress
+[Time tracking, velocity, quality indicators]
 ```
 
-**Expected Output**:
-- Comprehensive testing report with all issues resolved
-- SEO implementation validated by technical specialist
-- Content optimization confirmed by content specialist
-- Analytics tracking verified by analyst
-- Strategic alignment confirmed by strategist
-
-**Success Criteria**:
-- All functionality tested and validated across devices
-- SEO implementation passes technical validation
-- Analytics tracking confirmed operational
-- No critical issues remaining before launch
-
-### Phase 8: Launch and Initial Monitoring (15 minutes)
-
-**Lead Agent**: @operator  
-**Support**: @seo-analyst
-
+### Phase 6: CLAUDE.md Configuration (10 min)
 ```bash
-@operator Execute project launch:
-1. Deploy to production environment with final checks
-2. Configure production monitoring and alerting
-3. Submit sitemap to search engines
-4. Verify all production systems operational  
-5. Implement initial backup and monitoring verification
-6. Document launch completion and handoff procedures
-
-@seo-analyst Begin initial performance monitoring:
-1. Verify analytics data collection in production
-2. Monitor initial Core Web Vitals and performance metrics
-3. Check search engine indexing and crawling status
-4. Set up ongoing performance alerts and reporting
-5. Document baseline metrics for future optimization
+/coord "Updating CLAUDE.md with project-specific instructions..."
 ```
 
-**Expected Output**:
-- Project successfully launched in production
-- All monitoring systems active and operational
-- Search engine submission completed
-- Initial performance metrics documented
-- Ongoing monitoring and alerting configured
+**Agent Actions:**
+- @coordinator updates CLAUDE.md with:
+  - Project overview from ideation
+  - Available MCPs and their usage
+  - Tracking requirements
+  - Performance insights section
+  - Update protocols
 
-**Success Criteria**:
-- Project live and fully operational
-- All monitoring systems confirmed functional
-- Search engine crawling and indexing initiated
-- Baseline performance metrics established
+**CLAUDE.md Additions:**
+```markdown
+## Project Overview
+[Extracted from ideation document]
 
-## Deliverables and Success Criteria
+## Available MCPs
+[Discovered MCPs and their assigned usage]
+- mcp__supabase: Database operations (@developer, @operator)
+- mcp__context7: Documentation (@all agents)
+- mcp__playwright: Testing (@tester)
+- mcp__firecrawl: Research (@architect, @developer)
+- [Additional MCPs as discovered]
 
-### Primary Deliverables
+## Ideation Context
+Location: `./ideation.md` (or specified location)
+Key Requirements:
+- [Requirement 1]
+- [Requirement 2]
+- [Requirement 3]
 
-#### 1. Project Foundation Package
-- **Git Repository**: Properly structured with SEO-optimized code
-- **Development Environment**: Configured with SEO tools and automation
-- **Documentation**: Complete setup and operational procedures
-- **Guidelines**: SEO development standards and best practices
+## Progress Tracking Protocol
 
-#### 2. Technical SEO Implementation
-- **Core Web Vitals Optimization**: Architecture for superior performance
-- **Structured Data**: Schema markup framework implemented
-- **Meta Management**: Dynamic meta tag and Open Graph system
-- **Performance Monitoring**: Real-time tracking and alerting
+### project-plan.md (FORWARD-LOOKING)
+**What we're PLANNING to do**:
+- Update when: Mission start, phase start, task completion
+- Task lists with checkboxes [ ] → [x]
+- Milestones, success metrics, risk assessment
 
-#### 3. Content Management Foundation
-- **CMS Configuration**: Optimized for SEO workflow and content creation
-- **Content Templates**: Search-optimized page and post templates
-- **Editorial Guidelines**: SEO content creation standards
-- **Internal Linking**: Strategic linking architecture implemented
+### progress.md (BACKWARD-LOOKING CHANGELOG)
+**What we DID and what we LEARNED**:
+- Update when: After EACH deliverable, after EACH fix attempt, when issue resolved
+- Log ALL fix attempts (including failures) - not just final solutions
+- Root cause analysis for all issues
+- Prevention strategies and lessons learned
+- **CRITICAL**: Failed attempts teach us what doesn't work and why
 
-#### 4. Analytics and Tracking Suite
-- **Google Analytics 4**: Complete implementation with ecommerce tracking
-- **Search Console**: Property verified with sitemap submission
-- **Tag Manager**: Flexible tracking system configured
-- **Performance Monitoring**: Core Web Vitals and uptime tracking
+### Update After:
+1. **Each Deliverable**: Log to progress.md with description
+2. **Each Change**: Record in progress.md with rationale
+3. **Issue Discovery**: Create issue entry in progress.md immediately
+4. **EACH Fix Attempt**: Log attempt, rationale, result, learning (even if it fails)
+5. **Issue Resolution**: Add root cause analysis and prevention strategy
+6. **Task Completion**: Mark [x] in project-plan.md
+7. **Phase End**: Update both files with results and lessons
 
-#### 5. Launch Readiness Package
-```yaml
-PRE-LAUNCH CHECKLIST:
-✓ Technical SEO foundation implemented and tested
-✓ Content management system configured and optimized
-✓ Analytics tracking verified and operational
-✓ Performance monitoring active with alerts configured
-✓ Security implementation tested and validated
-✓ Backup systems tested and verified
-✓ Search engine submission prepared
-✓ Launch monitoring and support procedures documented
-
-POST-LAUNCH MONITORING (First 48 Hours):
-□ Analytics data collection verified
-□ Core Web Vitals performance confirmed
-□ Search engine crawling and indexing monitored
-□ Conversion tracking validated
-□ Performance alerts tested and functional
-□ Content optimization workflow validated
-□ User experience monitoring active
-□ Backup and recovery procedures verified
-```
-
-### Mission Success Metrics
-
-#### Quantitative Success Criteria
-- **Technical Implementation**: 100% of technical SEO requirements implemented
-- **Performance Standards**: Core Web Vitals scores in "Good" range
-- **Content Foundation**: All essential pages created and optimized
-- **Analytics Setup**: 100% tracking coverage with validation
-- **Launch Readiness**: All checklist items completed successfully
-
-#### Qualitative Success Criteria
-- **Strategic Alignment**: All implementations support defined SEO objectives
-- **Development Quality**: Code follows SEO best practices and standards
-- **User Experience**: Site optimized for both users and search engines
-- **Scalability**: Architecture supports future growth and optimization
-- **Documentation**: Complete operational and development documentation
-
-## Usage Patterns and Customization
-
-### Standard Development Setup
-
-```bash
-# Comprehensive new project setup
-/coord dev-setup --project="Project Name" --stack=react --domain=newproject.com
-
-# WordPress project setup with SEO optimization
-/coord dev-setup --type=wordpress --seo-focus=local --domain=localbusiness.com
-
-# E-commerce project setup
-/coord dev-setup --type=ecommerce --platform=shopify --seo-focus=product-pages
-```
-
-### Specialized Project Types
-
-#### SaaS Application Setup
-```bash
-# SaaS project with user onboarding optimization
-/coord dev-setup --type=saas --focus=onboarding,conversion --analytics=enhanced
-
-# Expected customizations:
-# - User journey tracking and optimization
-# - Free trial to paid conversion measurement
-# - Feature adoption analytics
-# - Customer success metrics integration
-```
-
-#### Local Business Website Setup
-```bash
-# Local business with Google My Business integration
-/coord dev-setup --type=local-business --location="City, State" --gmb-integration=true
-
-# Expected customizations:
-# - Local SEO schema implementation
-# - Google My Business API integration
-# - Local citation and review management
-# - Location-specific landing pages
-```
-
-#### E-commerce Platform Setup
-```bash
-# E-commerce with product catalog optimization
-/coord dev-setup --type=ecommerce --products=1000+ --platforms=shopify,wordpress
-
-# Expected customizations:
-# - Product schema markup automation
-# - Category and product page optimization
-# - Shopping feed optimization
-# - Product review and rating systems
-```
-
-### Technology Stack Specialization
-
-#### React/Next.js Setup
-```bash
-@developer Implement React/Next.js with SEO optimization:
-1. Configure Next.js with static generation and SEO optimization
-2. Implement React components with SEO best practices
-3. Set up dynamic meta tag management with Next.js Head
-4. Configure image optimization and lazy loading
-5. Implement structured data with React components
-```
-
-#### WordPress Setup
-```bash
-@developer Configure WordPress with advanced SEO capabilities:
-1. Install and configure premium SEO plugins (Yoast, RankMath)
-2. Set up custom post types and taxonomies for content strategy
-3. Implement advanced caching and performance optimization
-4. Configure WordPress security and backup systems
-5. Set up custom themes with SEO optimization built-in
-```
-
-#### Static Site Generator Setup
-```bash
-@developer Configure static site generator (Gatsby, Hugo, Jekyll) with SEO:
-1. Set up static generation with dynamic content capability
-2. Implement build-time SEO validation and optimization
-3. Configure headless CMS integration for content management
-4. Set up automated deployment and optimization pipeline
-5. Implement progressive web app features
-```
-
-## Advanced Setup Patterns
-
-### Multi-Domain Architecture Setup
-```bash
-@seo-strategist Configure multi-domain SEO strategy:
-1. Plan domain architecture and canonicalization strategy
-2. Design cross-domain tracking and analytics setup
-3. Implement domain-specific SEO optimization
-4. Plan content distribution and internal linking across domains
-5. Set up centralized performance monitoring
-
-@developer Implement multi-domain technical architecture:
-1. Configure shared infrastructure and common libraries
-2. Implement cross-domain session and user management
-3. Set up shared analytics and tracking systems
-4. Configure domain-specific performance optimization
-5. Implement centralized content management capabilities
-```
-
-### International/Multilingual Setup
-```bash
-@seo-content Design international content architecture:
-1. Plan URL structure for international/multilingual content
-2. Implement hreflang and international SEO signals
-3. Set up content management for multiple languages
-4. Design localized content workflows and guidelines
-5. Plan cultural adaptation and localization processes
-
-@seo-technical Implement international technical requirements:
-1. Configure server infrastructure for global performance
-2. Set up CDN optimization for international users
-3. Implement currency and language detection systems
-4. Configure international analytics and tracking
-5. Set up compliance with international privacy regulations
-```
-
-### Enterprise-Scale Setup
-```bash
-@seo-strategist Plan enterprise SEO architecture:
-1. Design scalable content taxonomy and governance
-2. Plan enterprise analytics and reporting structure
-3. Design multi-team workflow and approval processes
-4. Implement enterprise security and compliance requirements
-5. Plan integration with existing enterprise systems
-
-@developer Implement enterprise development architecture:
-1. Set up enterprise-grade security and authentication
-2. Configure scalable hosting and performance infrastructure
-3. Implement enterprise development workflow and CI/CD
-4. Set up integration APIs and data synchronization
-5. Configure enterprise monitoring and alerting systems
-```
-
-## Integration with Existing Systems
-
-### CRM and Marketing Automation Integration
-```bash
-@seo-analyst Configure marketing system integrations:
-1. Integrate with CRM systems for lead tracking and attribution
-2. Set up marketing automation platform connections
-3. Configure lead scoring and nurturing workflow integration
-4. Implement customer journey tracking across systems
-5. Set up unified reporting and analytics dashboard
-
-@developer Implement technical integrations:
-1. Configure API connections and data synchronization
-2. Set up webhook systems for real-time data exchange
-3. Implement single sign-on and user management integration
-4. Configure data privacy and compliance systems
-5. Set up backup and disaster recovery for integrated systems
-```
-
-### E-commerce Platform Integration
-```bash
-@seo-content Configure e-commerce content optimization:
-1. Set up product information management and optimization
-2. Configure review and rating system integration
-3. Implement product schema markup automation
-4. Set up inventory-based content management
-5. Configure promotional content and seasonal optimization
-
-@seo-analyst Configure e-commerce analytics and tracking:
-1. Set up enhanced ecommerce tracking and attribution
-2. Configure product performance monitoring and optimization
-3. Implement customer lifetime value and cohort analysis
-4. Set up inventory and pricing optimization analytics
-5. Configure multi-channel attribution and reporting
-```
-
-## Quality Assurance and Validation
-
-### Technical Validation Checklist
-```bash
-@seo-technical Validate technical implementation:
-□ Core Web Vitals scores meet Google's "Good" thresholds
-□ Mobile responsiveness tested across all devices
-□ Structured data validates without errors
-□ XML sitemap generated and accessible
-□ SSL certificate installed and configured
-□ Security headers implemented and tested
-□ Performance monitoring active and alerting
-□ Backup systems tested and verified
-
-@tester Validate functionality and user experience:
-□ All forms and interactive elements function properly
-□ Content management workflow tested and documented
-□ Analytics tracking verified across all page types
-□ Conversion tracking tested with test transactions
-□ Error handling and 404 pages optimized
-□ Cross-browser compatibility verified
-□ Accessibility standards met and tested
-□ User experience tested across all devices
-```
-
-### SEO Implementation Validation
-```bash
-@seo-content Validate content and optimization:
-□ All essential pages created and optimized
-□ Meta titles and descriptions optimized for all pages
-□ Header structure follows SEO best practices
-□ Internal linking strategy implemented
-□ Image alt tags and optimization completed
-□ Content follows SEO guidelines and standards
-□ Editorial workflow tested and documented
-□ Content calendar and publishing schedule established
-
-@seo-analyst Validate tracking and measurement:
-□ Google Analytics 4 implemented and receiving data
-□ Google Search Console verified and sitemap submitted
-□ Conversion goals configured and tested
-□ Custom events and tracking validated
-□ Performance monitoring active with appropriate alerts
-□ Baseline metrics documented and benchmarked
-□ Reporting dashboards configured and accessible
-□ Data privacy compliance verified and documented
-```
-
-## Post-Setup Optimization Schedule
-
-### Week 1: Initial Monitoring and Adjustment
-```bash
-@seo-analyst Monitor initial performance and identify quick wins:
-1. Review analytics data collection and accuracy
-2. Monitor Core Web Vitals and performance metrics
-3. Check search engine crawling and indexing progress
-4. Identify any technical issues or optimization opportunities
-5. Review user behavior and engagement metrics
-
-@seo-content Optimize initial content based on data:
-1. Analyze content performance and engagement
-2. Optimize meta titles and descriptions based on CTR data
-3. Identify content gaps and opportunities
-4. Plan content calendar based on initial insights
-5. Set up ongoing content optimization workflows
-```
-
-### Month 1: Strategic Optimization and Expansion
-```bash
-@seo-strategist Review strategic performance and plan growth:
-1. Analyze competitive position and market changes
-2. Review SEO goal progress and adjust objectives
-3. Identify expansion opportunities and new initiatives
-4. Plan content strategy based on performance data
-5. Optimize resource allocation and priorities
-
-@seo-technical Implement performance optimizations:
-1. Fine-tune Core Web Vitals and performance metrics
-2. Optimize technical configuration based on real user data
-3. Implement advanced caching and performance strategies
-4. Plan technical infrastructure scaling and optimization
-5. Set up advanced monitoring and diagnostic capabilities
-```
-
-### Quarter 1: Strategic Growth and Scaling
-```bash
-@seo-strategist Plan strategic growth initiatives:
-1. Develop comprehensive content marketing strategy
-2. Plan link building and authority development campaigns
-3. Identify new market opportunities and expansion plans
-4. Develop partnerships and collaboration opportunities
-5. Plan budget allocation and resource scaling
-
-@seo-builder Begin authority building and link development:
-1. Identify high-quality link building opportunities
-2. Develop outreach and relationship building campaigns  
-3. Create linkable asset and content marketing campaigns
-4. Monitor competitor link building and identify opportunities
-5. Track domain authority and link profile development
+## Update Checklist
+- [ ] Deliverable created → Log in progress.md with description
+- [ ] Code/config changed → Record in progress.md with rationale
+- [ ] Issue discovered → Create issue entry in progress.md
+- [ ] Fix attempted → Log attempt with result and learning in progress.md
+- [ ] Issue resolved → Add root cause analysis to progress.md
+- [ ] Task completed → Mark [x] in project-plan.md
+- [ ] Performance insight → Update CLAUDE.md
+- [ ] MCP pattern discovered → Document usage in CLAUDE.md
 ```
 
 ---
 
-**Mission DEV SETUP transforms project initialization from basic setup to strategic SEO foundation. Master this mission to ensure every new project starts with competitive advantages built into its DNA.**
+## Success Metrics
+
+✅ **Mission Complete When:**
+- [ ] GitHub repository configured
+- [ ] Ideation document analyzed
+- [ ] architecture.md created from template
+- [ ] project-plan.md created with FORWARD-LOOKING roadmap
+- [ ] progress.md initialized from template with BACKWARD-LOOKING changelog structure
+- [ ] CLAUDE.md updated with tracking instructions (including Critical Software Development Principles)
+
+---
+
+## Post-Mission Checklist
+
+1. **Verify Setup:**
+   - Git repository initialized and connected
+   - All tracking files created
+   - CLAUDE.md properly configured
+
+2. **First Commit:**
+   ```bash
+   git add .
+   git commit -m "🚀 Initial project setup with AGENT-11 framework"
+   git push origin main
+   ```
+
+3. **Ready for Development:**
+   - Project plan established
+   - Tracking system in place
+   - Team aligned on objectives
+
+---
+
+## Troubleshooting
+
+### Common Issues
+
+**No Ideation Document:**
+- Work with user to create basic requirements
+- Use @strategist to help structure vision
+
+**Unclear Requirements:**
+- @strategist conducts discovery session
+- Creates preliminary PRD from discussion
+
+**GitHub Not Ready:**
+- Guide through repository creation
+- Offer to initialize locally first
+
+---
+
+## Related Missions
+- **Dev-Alignment** - For existing projects
+- **MVP** - Rapid prototype development
+- **Build** - Full feature implementation
+
+---
+
+## Command Reference
+
+```bash
+# Quick start for greenfield project
+/coord dev-setup ideation.md
+
+# With specific GitHub repo
+/coord dev-setup ideation.md --repo github.com/user/project
+
+# With multiple ideation sources
+/coord dev-setup "PRD.md, brand-guidelines.pdf, architecture.md"
+```
+
+---
+
+## Post-Mission Cleanup Decision
+
+After completing this mission, decide on cleanup approach based on project status:
+
+### ✅ Milestone Transition (Every 2-4 weeks)
+**When**: This mission completes a major project milestone, but more work remains.
+
+**Actions** (30-60 min):
+1. Extract lessons to `lessons/[category]/` from progress.md
+2. Archive milestone-relevant Phase Handoff blocks from agent-context.md if needed
+3. Clean agent-context.md (retain essentials, archive historical details)
+4. Continue using agent-context.md (Phase Handoff blocks accumulate across milestones)
+5. Update project-plan.md with next milestone tasks
+
+**See**: `templates/cleanup-checklist.md` Section A for detailed steps
+
+### 🎯 Project Completion (Mission accomplished!)
+**When**: All project objectives achieved, ready for new mission.
+
+**Actions** (1-2 hours):
+1. Extract ALL lessons from entire progress.md to `lessons/`
+2. Create mission archive in `archives/missions/mission-[name]-YYYY-MM-DD/`
+3. Update CLAUDE.md with system-level learnings
+4. Archive all tracking files (project-plan.md, progress.md, etc.)
+5. Prepare fresh start for next mission
+
+**See**: `templates/cleanup-checklist.md` Section B for detailed steps
+
+### 🔄 Continue Active Work (No cleanup needed)
+**When**: Mission complete but continuing active development in same phase.
+
+**Actions**: Update progress.md and project-plan.md, continue working.
+
+---
+
+**Reference**: See `project/field-manual/project-lifecycle-guide.md` for complete lifecycle management procedures.
+
+---
+
+*"From blank canvas to battle-ready in 30 minutes."* - AGENT-11 Field Manual

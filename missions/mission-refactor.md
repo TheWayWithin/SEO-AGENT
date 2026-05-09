@@ -1,9 +1,16 @@
+---
+mission: refactor
+expected_duration: 15-30 min for small targeted refactors (e.g., extract-to-middleware across ~3 files); 2-4 hours for system-wide refactors
+expected_interactions: 8-20 tool-use or delegation turns for a small targeted refactor
+on_budget_exceeded: summarise current state to context.md, mark next step in project-plan.md, stop cleanly. Do NOT continue refactoring beyond the requested scope — speculative refactors violate Karpathy principle 5.
+---
+
 # Mission: REFACTOR ♻️
 ## Code Quality Improvement
 
-**Mission Code**: REFACTOR  
-**Estimated Duration**: 2-4 hours  
-**Complexity**: Medium  
+**Mission Code**: REFACTOR
+**Estimated Duration**: 2-4 hours (see frontmatter `expected_duration` for targeted-refactor budget)
+**Complexity**: Medium
 **Squad Required**: Architect, Developer, Tester
 
 ## Mission Briefing
@@ -205,10 +212,49 @@ Improve code quality, maintainability, and performance without changing external
 
 ## Coordination Notes
 
-- Update project-plan.md with progress
+- Update project-plan.md with progress (FORWARD-LOOKING)
 - Small, reviewable pull requests
 - Daily progress check-ins
-- Document decisions in progress.md
+- Document decisions, refactoring attempts (including failures), and learnings in progress.md (BACKWARD-LOOKING)
+
+---
+
+## Post-Mission Cleanup Decision
+
+After completing this mission, decide on cleanup approach based on project status:
+
+### ✅ Milestone Transition (Every 2-4 weeks)
+**When**: This mission completes a major project milestone, but more work remains.
+
+**Actions** (30-60 min):
+1. Extract lessons to `lessons/[category]/` from progress.md
+2. Archive milestone-relevant Phase Handoff blocks from agent-context.md if needed
+3. Clean agent-context.md (retain essentials, archive historical details)
+4. Continue using agent-context.md (Phase Handoff blocks accumulate across milestones)
+5. Update project-plan.md with next milestone tasks
+
+**See**: `templates/cleanup-checklist.md` Section A for detailed steps
+
+### 🎯 Project Completion (Mission accomplished!)
+**When**: All project objectives achieved, ready for new mission.
+
+**Actions** (1-2 hours):
+1. Extract ALL lessons from entire progress.md to `lessons/`
+2. Create mission archive in `archives/missions/mission-[name]-YYYY-MM-DD/`
+3. Update CLAUDE.md with system-level learnings
+4. Archive all tracking files (project-plan.md, progress.md, etc.)
+5. Prepare fresh start for next mission
+
+**See**: `templates/cleanup-checklist.md` Section B for detailed steps
+
+### 🔄 Continue Active Work (No cleanup needed)
+**When**: Mission complete but continuing active development in same phase.
+
+**Actions**: Update progress.md and project-plan.md, continue working.
+
+---
+
+**Reference**: See `project/field-manual/project-lifecycle-guide.md` for complete lifecycle management procedures.
 
 ---
 

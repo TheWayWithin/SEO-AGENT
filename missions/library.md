@@ -4,6 +4,33 @@
 
 This library contains standardized mission protocols for common development scenarios. Each mission provides a proven execution pattern for multi-agent collaboration.
 
+## MCP Profile Recommendations by Mission
+
+Different missions benefit from different MCP profiles for optimal context usage:
+
+| Mission | Recommended Profile | Reason |
+|---------|-------------------|---------|
+| connect-mcp | core | Lightweight MCP setup and configuration |
+| dev-setup | core | Initial project setup with essential tools |
+| dev-alignment | core | Project analysis and understanding |
+| mission-build | core or fullstack | Depends on feature requirements |
+| mission-fix | core | Bug diagnosis and quick fixes |
+| mission-refactor | core | Code improvement and optimization |
+| mission-deploy | deployment | Direct Netlify + Railway access |
+| mission-document | core | Documentation creation |
+| mission-architecture | core | Architecture documentation |
+| mission-product-description | core | Product definition and planning |
+| mission-mvp | fullstack | Comprehensive toolset for rapid development |
+| mission-migrate | database-staging | Safe database migration with read/write access |
+| mission-optimize | core | Performance analysis and improvement |
+| mission-security | database-production | Read-only production database review |
+| mission-integrate | varies | Depends on integration type (payments, deployment, etc.) |
+| mission-release | deployment | Deployment and release coordination |
+| operation-genesis | core | Intelligence gathering and analysis |
+| operation-recon | core | Design reconnaissance |
+
+**Profile Switching (RETIRED in v6.0)**: Tools now defer-load and are discovered via Tool Search at runtime. No profile switching is needed — `tool_search_tool_regex_20251119(pattern="mcp__SERVERNAME")` loads what's required on demand.
+
 ### Project Setup Missions
 
 #### 🚀 DEV-SETUP - Greenfield Project Initialization
@@ -64,7 +91,21 @@ This library contains standardized mission protocols for common development scen
 **Required**: System or feature to document  
 **Squad**: Documenter, Developer, Architect
 
+#### 📐 ARCHITECTURE - System Architecture Documentation
+**File**: `mission-architecture.md`  
+**Purpose**: Create or update comprehensive architecture documentation  
+**Duration**: 2-3 hours  
+**Required**: Existing codebase or design requirements  
+**Squad**: Strategist, Architect, Developer, Documenter
+
 ### Strategic Missions
+
+#### 📋 PRODUCT-DESCRIPTION - Product Definition with Risk Management
+**File**: `mission-product-description.md`  
+**Purpose**: Create comprehensive product description with risk assessment  
+**Duration**: 2-3 hours  
+**Required**: Product vision or PRD  
+**Squad**: Strategist, Analyst, Marketer, Documenter
 
 #### 💡 MVP - Minimum Viable Product
 **File**: `mission-mvp.md`  
@@ -107,6 +148,22 @@ This library contains standardized mission protocols for common development scen
 **Duration**: 2-4 hours  
 **Required**: Release scope and timeline  
 **Squad**: Coordinator, Developer, Operator, Marketer
+
+### Operations Missions
+
+#### 🔍 GENESIS - Project Reconnaissance
+**File**: `operation-genesis.md`  
+**Purpose**: Deep reconnaissance and analysis of project requirements  
+**Duration**: 1-2 hours  
+**Required**: None (self-contained intelligence gathering)  
+**Squad**: Coordinator, Strategist, Analyst
+
+#### 🎨 RECON - Design Intelligence
+**File**: `operation-recon.md`  
+**Purpose**: Design system reconnaissance and UI/UX intelligence gathering  
+**Duration**: 1-3 hours  
+**Required**: None (autonomous design analysis)  
+**Squad**: Coordinator, Designer, Analyst
 
 ## Mission Execution Guide
 
@@ -156,6 +213,45 @@ To create a new mission:
 - Track progress in project-plan.md
 - Document learnings in progress.md
 - Iterate based on outcomes
+
+---
+
+## Post-Mission Cleanup Decision
+
+After completing this mission, decide on cleanup approach based on project status:
+
+### ✅ Milestone Transition (Every 2-4 weeks)
+**When**: This mission completes a major project milestone, but more work remains.
+
+**Actions** (30-60 min):
+1. Extract lessons to `lessons/[category]/` from progress.md
+2. Archive milestone-relevant Phase Handoff blocks from agent-context.md if needed
+3. Clean agent-context.md (retain essentials, archive historical details)
+4. Continue using agent-context.md (Phase Handoff blocks accumulate across milestones)
+5. Update project-plan.md with next milestone tasks
+
+**See**: `templates/cleanup-checklist.md` Section A for detailed steps
+
+### 🎯 Project Completion (Mission accomplished!)
+**When**: All project objectives achieved, ready for new mission.
+
+**Actions** (1-2 hours):
+1. Extract ALL lessons from entire progress.md to `lessons/`
+2. Create mission archive in `archives/missions/mission-[name]-YYYY-MM-DD/`
+3. Update CLAUDE.md with system-level learnings
+4. Archive all tracking files (project-plan.md, progress.md, etc.)
+5. Prepare fresh start for next mission
+
+**See**: `templates/cleanup-checklist.md` Section B for detailed steps
+
+### 🔄 Continue Active Work (No cleanup needed)
+**When**: Mission complete but continuing active development in same phase.
+
+**Actions**: Update progress.md and project-plan.md, continue working.
+
+---
+
+**Reference**: See `project/field-manual/project-lifecycle-guide.md` for complete lifecycle management procedures.
 
 ---
 
