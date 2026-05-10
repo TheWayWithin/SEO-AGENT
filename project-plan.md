@@ -31,6 +31,7 @@ Rescoped 2026-05-09 after Agent-11 v5 → v6.1.1 framework upgrade. See `sprints
 | 5 | Deliverable-First Missions | Uplevel | M | 3 | **COMPLETE 2026-05-09** (3 deliverable templates + JSON Schema; 4 missions wired; deployment gap fixed) |
 | 6 | SEO Routine Templates on framework Routines (Mode C) | Uplevel | S | 3 | **COMPLETE 2026-05-09** (2 routine templates: weekly-snapshot, monthly-report) |
 | 7 | AI Search First Lens | Uplevel | S | 5 | **COMPLETE 2026-05-09** (ai-search-optimize strengthened with concrete blueprint guidance; AI lens reminder in seo-strategist; AI scorecard explicit in all 4 mission OUTPUTS) |
+| 8 | Installer + Fleet Bulk Operator | Ops | M | 5 | **COMPLETE 2026-05-10** (install.sh, install-fleet.sh, seo-fleet-registry.yaml with 14 active SEO targets across P1-P4) |
 
 Sprint detail lives in `/sprints/sprint-0N-name.md`. Each affected file carries a `RESCOPE 2026-05-09` callout at the top.
 

@@ -1,5 +1,70 @@
 # SEO Agent Library - Progress Log
 
+## 2026-05-10 — Sprint 8 Complete: Installer + Fleet Bulk Operator
+
+**Sprint**: 8 — Installer + Fleet Bulk Operator (first operational sprint after v2 architectural completion)
+**Status**: BUILD complete; real-run pending user approval
+**Trigger**: Jamie has 15-site SEO scope; manual install on freecalchub took 30+ min; needs scaling tool.
+
+### Deliverables
+
+- `install.sh` — single-site installer (9.8KB, executable)
+  - Takes target path + optional `--clone-from <url> --branch <branch>`
+  - Phases: dirs → 7 agents → 4 missions → 3 commands → coord.md replace → deliverables → routines → site-specific (CLAUDE.md + seo-evidence.md + .gitignore) → version stamp
+  - Modes: `install` (default), `--upgrade` (refresh SEO product files only, preserve site config), `--force`, `--dry-run`
+  - **Hard safety rule**: refuses any target path under `~/DevProjects/`. Tested — refuses immediately.
+  - Idempotent. Auto-switches to `--upgrade` when `.seo-agent-version` detected (unless `--force`).
+  - Writes `.seo-agent-version` stamp with source commit + install date.
+
+- `install-fleet.sh` — bulk operator (6.6KB, executable)
+  - Reads `~/Shared/tools/agent-11-fleet/seo-fleet-registry.yaml`
+  - For each tier=active, installed!=true repo: clones into `~/SEO-Agents/[name]/` then calls install.sh
+  - Filters: `--filter p1` (priority), `--filter aisearchmastery` (name substring), `--filter p1,p2` (comma-separated)
+  - Defence-in-depth: refuses workspace paths under `~/DevProjects/` even if registry has them
+  - `--dry-run`, `--keep-going`, `--skip-clone`, `--upgrade` flags
+  - Per-repo and final summary output
+
+- `~/Shared/tools/agent-11-fleet/seo-fleet-registry.yaml` — SEO fleet registry
+  - 14 active SEO targets across P1-P4 (excluding freecalchub which is marked `installed: true`)
+  - Sourced from agent-11 fleet registry; adds workspace path, public_url, priority
+  - P1 (AI Search Mastery portfolio, 5 repos): aisearchmastery, llm-txt-mastery, aimpactscanner-mvp, aisearcharena, aimpactmonitor
+  - P2 (other portfolio sites, 2 repos): mastery-ai-framework, agent-11-website
+  - P3 (other ventures, 6 repos): Trader-7, PlebTest, ISOTracker, modeloptix, solomarket, evolve-7
+  - P4 (dormant, 1 repo): ASMGE
+  - Skip tier (7 repos): SEOAgent, BOS-AI, agent-11, Socrates, SoloCMD, mcp-11, mcp-7, test-project
+
+### Dry-run validation
+
+Full-fleet `bash install-fleet.sh --dry-run` output:
+- planned: 14 (matches P1+P2+P3+P4 count)
+- done in dry-run: 14
+- skipped: 1 (freecalchub, installed=true)
+- failed: 0
+- All branches correctly read from registry (main/develop variations honoured)
+- aisearcharena correctly uses remote `ai-search-arena` with hyphens but workspace `aisearcharena` without
+
+### Design decisions
+
+- **Two scripts, not one**: install.sh is the foundation (works standalone for ad-hoc single-site installs); install-fleet.sh orchestrates. Keeps surface area small.
+- **No tracking/ Python copy**: Sprint 5 install lesson said skip the Python tracking system. Same here. Add as v2.2 if `/track baseline|compare|report` are needed.
+- **YAML parsed via awk, not Python**: registry is structurally simple; no dependency on Python. install-fleet.sh stays pure bash.
+- **Defence-in-depth for DevProjects refusal**: both scripts independently check, plus registry workspaces are all under ~/SEO-Agents/. Three layers of protection per Jamie's hard rule.
+- **No auto-push**: install.sh stops at install; user creates seo-tooling branch and commits manually. Reduces blast radius.
+
+### Next step
+
+User approval to execute the **real** run. Options:
+1. Start with `--filter p1` (5 repos, AI Search Mastery portfolio) to validate at smaller scale, then iterate
+2. Run the full fleet (14 repos) in one go
+3. Phased: P1 today, P2-P3 across the week
+4. Pause; sleep on it
+
+### What this enables going forward
+
+Each new site Jamie wants to track gets a 2-line addition to the SEO fleet registry plus a `bash install-fleet.sh --filter <name>` run. ~5 min per new site instead of 30+ min manual.
+
+---
+
 ## 2026-05-09 — Sprint 7 Complete: AI Search First Lens (v2 Evolution Programme COMPLETE)
 
 **Sprint**: 7 — AI Search First Lens
