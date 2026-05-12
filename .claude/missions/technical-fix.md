@@ -124,7 +124,7 @@ runs/YYYY-MM-DD-<domain-slug>-technical-fix/
 - READ `seo-backlog.md` and identify items targeted by this mission (status `identified` or `planned`)
 - For each item picked up: status → `in_progress`; record start timestamp
 - For each item shipped (commit/PR landed): status → `shipped`; record ship timestamp + PR/commit ref
-- DO NOT mark items `verified` from this mission — verification requires confirming the change is LIVE on the deployed site (Sprint 9 finding from Jamie's freecalchub work: local commit ≠ shipped). Verification belongs to a separate sitewide-verify pass.
+- DO NOT mark items `verified` from this mission — verification requires confirming the change is LIVE on the deployed site (Sprint 9 finding from Jamie's freecalchub work: local commit ≠ shipped). Verification belongs to a separate sitewide-verify pass: **next step is `/coord sitewide-verify <domain>`** (Sprint 10 mission, see `.claude/missions/sitewide-verify.md`).
 - DO NOT mark items `closed` from this mission — closing requires confirmed metric movement via `/track compare` (Constitution rule 5: Prove it).
 
 **Roadmap touch (Sprint 9)**:

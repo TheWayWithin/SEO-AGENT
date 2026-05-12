@@ -1,5 +1,86 @@
 # SEO Agent Library - Progress Log
 
+## 2026-05-11 — Sprint 10 Complete: Sitewide-verify + Python /track retirement
+
+**Sprint**: 10 — Sitewide-verify mission + Python /track decision
+**Status**: COMPLETE
+**Trigger**: Sprint 9 closed with two open items: (1) the verified-state gap in the lifecycle (no mission to actually verify shipped items are LIVE), (2) the Python /track decision left dangling. Both addressed in this sprint.
+
+### Sitewide-verify mission (Top 5 #4 + #5 addressed)
+
+- New mission file: `.claude/missions/sitewide-verify.md`
+- Mode D mission, invoked via `/coord sitewide-verify <domain>`
+- Reads `seo-backlog.md` for items in `shipped` status
+- For each item, fetches the LIVE site and verifies the change actually landed
+- Per-category verification methods: HTML head tags (canonical, meta, OG), JSON-LD schema, robots.txt directives, llms.txt presence, page content
+- **Critical rule**: claims of "sitewide" coverage require checking 100% of the affected directory pattern, NOT a sample. This closes the freecalchub Twitter-tag gap (2 of 110 pages missed because verify was a spot-check).
+- Updates backlog: `shipped → verified` for confirmed items; `shipped → in_progress` with note for items not actually deployed; `shipped → reverted` if change broke something
+- Refuses to mark items `closed` (closure still requires `/track compare` confirming metric movement, Constitution rule 5)
+- Produces `verification.md` deliverable in `runs/<date>-<domain>-sitewide-verify/`
+
+### coord.md restoration + 5th SEO mission
+
+- Discovered the dev repo's `.claude/commands/coord.md` had been reverted at some point to the framework version (lost the SEO Mode D additions). This would have propagated bad coord.md to any new install (install.sh copies the dev repo's coord.md into workspaces).
+- Restored Mode D block (4 SEO missions) AND added `sitewide-verify` as the 5th in same edit. Wrapped in `<!-- SEO-PRODUCT-LAYER-START/END -->` markers per established convention.
+- Updated dispatch step 5, Unknown Mission help, Examples section to include the new mission.
+- Updated mode legend to document seo-backlog.md context loading per Sprint 9.
+
+### technical-fix wiring
+
+- `technical-fix.md` OUTPUTS section now explicitly directs users to `/coord sitewide-verify <domain>` as the canonical next step after items reach `shipped` state. Closes the gap between "shipped" claim and "live" reality.
+
+### Python /track retirement (Top 5 #1 fully resolved)
+
+Sprint 9 made the docs honest ("not validated end-to-end"). Sprint 10 made the structure match:
+
+- Moved 11 Python files from `tracking/` to `tracking/legacy/` via `git mv`:
+  - `track.py`, `track_cli.py` (the main /track entry)
+  - `client_dashboard.py`, `competitive_benchmarking.py`, `marketing_automation.py`, `marketing_generator.py`, `presentation_exports.py`, `report_engine.py`, `report_exports.py`, `report_types.py`, `test_data.py` (supporting modules)
+- Added `tracking/legacy/README.md` with: full archive context, what was in each file, what replaced it (Sprint 9 agent-prompt /track baseline + compare), revival instructions if a future sprint wants to prove the Python end-to-end
+- Kept `tracking/schemas/` and `tracking/templates/` at top level — schemas still useful as documentation for `data.json` shape; Mustache templates may be reused for future report generation
+- Updated `.claude/commands/track.md` "LEGACY COMMANDS" section → "ARCHIVED PATH" pointing at `tracking/legacy/`. No more documented commands that don't actually work.
+
+### install.sh extension
+
+- `install.sh` Phase 3 updated: SEO missions count 4 → 5; copies `sitewide-verify.md` into workspaces alongside the other four
+- Smoke test confirmed: `bash install.sh /tmp/install-test --dry-run` picks up sitewide-verify and the restored Mode D coord.md correctly
+
+### Closed-loop workflow now complete
+
+```
+1. BASELINE       /track baseline                ✓ Sprint 9
+2. ANALYSE        /coord site-audit              ✓ Sprint 5
+3. PLAN           seo-roadmap.md + seo-backlog.md ✓ Sprint 9
+4. EXECUTE        /coord technical-fix           ✓ Sprint 5 (lifecycle wiring Sprint 9)
+5. VERIFY         /coord sitewide-verify         ✓ Sprint 10 (this sprint)
+6. RE-BASELINE    /track baseline                ✓ Sprint 9
+7. COMPARE        /track compare                 ✓ Sprint 9
+8. UPDATE PLAN    Lifecycle backlog updates      ✓ Sprint 9 + 10
+```
+
+All 8 steps of the close-the-loop workflow now have explicit support. The library has the full operational discipline Jamie's freecalchub field findings called for.
+
+### Field findings status
+
+From `docs/library-improvements-input.md`:
+- Top 5 #1 (`/track` vapourware) — **CLOSED**: Sprint 9 made it honest, Sprint 10 archived the unproven Python
+- Top 5 #2 (no roadmap template) — **CLOSED Sprint 9**
+- Top 5 #3 (no backlog template) — **CLOSED Sprint 9**
+- Top 5 #4 (missions don't define "done" as live and verified) — **CLOSED Sprint 10**: technical-fix refuses to mark verified; sitewide-verify is the explicit handoff
+- Top 5 #5 (no post-deploy sitewide verification) — **CLOSED Sprint 10**: sitewide-verify mission with explicit "no spot-check on sitewide claims" rule
+
+All 5 priority gaps from yesterday's freecalchub work are now closed. Suggested artefacts list (10 items) — 4-5 of those built in Sprints 9-10; remaining 5-6 are deferred to when they become relevant.
+
+### Next step
+
+Two choices for the user (not blocking):
+1. Run Sprint 9+10 capabilities on a real site (aisearcharena, freecalchub) to surface friction
+2. Upgrade existing 13 SEO workspaces with `bash install.sh ~/SEO-Agents/<name> --upgrade` to get sitewide-verify + the Mode D coord.md fix everywhere
+
+freecalchub's workspace already has the Sprint 5 Mode D coord.md (predates the dev-repo revert), so its Mode D works. But sitewide-verify is missing from all 14 workspaces until install.sh --upgrade is run.
+
+---
+
 ## 2026-05-11 — Sprint 9 Complete: Plan + Compare (close-the-loop discipline)
 
 **Sprint**: 9 — Plan + Compare

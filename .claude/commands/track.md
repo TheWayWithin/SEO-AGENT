@@ -33,15 +33,13 @@ Diff two snapshots and produce a comparison report.
 - Whether the comparison window is long enough for the metrics in question
 - Whether deltas exceed natural noise floors
 
-## LEGACY COMMANDS (Python — surface defined, runtime not validated)
+## ARCHIVED PATH (Python — formally retired Sprint 10)
 
-The `tracking/` Python system has substantial code (`track.py`, `track_cli.py`, etc.) defining `status`, `roi`, `report` subcommands. As of 2026-05-11 these have **not been validated end-to-end**: `tracking/baselines/` and `tracking/snapshots/` directories are empty in the source repo.
+The `tracking/` Python system (`track.py`, `track_cli.py`, etc., defining `status`, `roi`, `report` subcommands) was archived to `tracking/legacy/` on 2026-05-11. It had defined CLI surface but no validated runtime path; `tracking/baselines/` and `tracking/snapshots/` were empty in source.
 
-If you invoke `/track status`, `/track roi`, or `/track report --type weekly|monthly|roi`, the Python may execute but is unproven. Treat outputs as exploratory until validated. Either:
-- Use the agent-driven `/track baseline` and `/track compare` (Sprint 9, validated)
-- Or accept the Python output as best-effort with explicit caveats
+If `/track status`, `/track roi`, or `/track report` are needed, build agent-prompt versions following the Sprint 9 pattern (operate on existing `data.json` files and `seo-evidence.md`). Do not revive the Python without an explicit re-validation pass.
 
-A future sprint will either prove the Python path end-to-end or formally retire it.
+See `tracking/legacy/README.md` for full archive context and revival instructions.
 
 ## INTEGRATION WITH MISSIONS
 

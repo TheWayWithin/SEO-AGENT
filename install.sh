@@ -177,8 +177,8 @@ for agent in seo-strategist seo-coordinator seo-technical seo-content seo-resear
 done
 
 # ---- Phase 3: SEO missions ----
-phase "Phase 3: SEO missions (4)"
-for mission in site-audit content-gap technical-fix ai-search-optimize; do
+phase "Phase 3: SEO missions (5)"
+for mission in site-audit content-gap technical-fix ai-search-optimize sitewide-verify; do
   copy_file "$SOURCE/.claude/missions/$mission.md" "$TARGET/.claude/missions/$mission.md"
 done
 
