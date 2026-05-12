@@ -2,13 +2,24 @@
 
 Every SEO mission produces named deliverables in a run-scoped directory. No free-form prose dumped in a chat reply — concrete files at predictable paths.
 
-## The three deliverables
+## The deliverables
+
+### Per-run deliverables (in `runs/<date>-<domain>-<mission>/`)
 
 | Deliverable | Filename | Format | Purpose |
 |---|---|---|---|
 | Analysis Report | `analysis.md` | Markdown | Prioritised fix list with ROI, effort, expected lift. The "what to do" doc. |
 | Marketing Report | `marketing.md` | Markdown | Before/after framing suitable for case studies, blog posts, social. The "what to tell people" doc. |
-| AImpactScanner Data | `data.json` | JSON (validates against `tracking/schemas/baseline.schema.json`) | Structured ingestion file for the AImpactScanner dashboard. The "what the dashboard reads" file. |
+| AImpactScanner Data | `data.json` | JSON (validates against `aimpactscanner-data.schema.json`) | Structured ingestion file. The "what the dashboard reads" file. |
+| Comparison Report | `comparison.md` | Markdown (when applicable) | Delta between two snapshots. Produced by `/track compare` and by missions that re-baseline. |
+
+### Per-site persistent deliverables (in workspace root, updated across runs)
+
+| Deliverable | Filename | Format | Purpose |
+|---|---|---|---|
+| SEO Roadmap | `seo-roadmap.md` | Markdown | Strategic, longer-lived view of where SEO is heading for this site. Refreshed quarterly or on strategic shifts. |
+| SEO Backlog | `seo-backlog.md` | Markdown | Operational action list with stable item IDs and lifecycle states. Updated by every mission. |
+| SEO Evidence | `seo-evidence.md` | Markdown | Rolling artefact store + run pointers. Constitution rule 1: read before scanning. |
 
 ## Per-mission deliverable subset
 

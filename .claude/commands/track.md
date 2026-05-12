@@ -1,48 +1,47 @@
 # /track - SEO Performance Tracking & Reporting
 
-**PURPOSE:** Automated report generation system that processes SEO tracking data into actionable business insights and marketing materials.
+**PURPOSE**: Capture point-in-time snapshots of SEO state and compare them over time to prove (or disprove) that fixes moved the needle. Constitution rule 5 ("Prove it") made operational.
 
-## COMMAND USAGE
+## SHIPPED COMMANDS (Sprint 9, 2026-05-11)
 
-```bash
-/track <command> [options]
-```
+### `/track baseline <domain>`
 
-## AVAILABLE COMMANDS
+Capture the current SEO state for a domain as a versioned baseline snapshot.
 
-### `/track status`
-Check system health and current performance overview.
-- Shows baseline availability and latest data status
-- Displays traffic growth and ROI summary
-- Reports technical health metrics
-- System uptime and data quality indicators
+**What it does**:
+1. Finds the most recent `runs/<date>-<domain>-*/data.json` for the domain
+2. Copies it to `tracking/baselines/<date>-<domain>.json`
+3. Appends a baseline pointer line to `seo-evidence.md` ("BASELINE | <date> | <domain> | tracking/baselines/<file>.json | scores AI X/50, Trad Y/50")
 
-### `/track roi`
-Calculate and display comprehensive ROI metrics.
-- Traffic value generation analysis
-- Conversion impact calculations
-- Operational efficiency savings
-- Investment return percentages
-- Use `--detailed` for full ROI report export
+**Implementation**: thin layer over Sprint 5 `data.json` deliverables. Does NOT independently fetch metrics — uses whatever the most recent site-audit run captured. To force a fresh metric capture before baselining, run `/coord site-audit lite <domain>` first, then `/track baseline <domain>`.
 
-### `/track compare`
-Performance comparison between periods.
-- Before/after traffic analysis
-- Technical performance improvements
-- Ranking position changes
-- Use `--export` for detailed comparison report
+**Prerequisites**: at least one `runs/<date>-<domain>-*/data.json` must exist. If none, the command exits with "no run data — fire /coord site-audit lite first".
 
-### `/track report`
-Generate comprehensive SEO reports.
-- `--type weekly`: Operational progress report
-- `--type monthly`: Executive summary format
-- `--type roi`: Focused business impact report
-- `--format text|markdown|html|pdf`: Output format
+### `/track compare <domain> [--baseline <file>] [--against <file>]`
 
-### `/track baseline`
-Manage baseline performance data.
-- View current baseline information
-- Integration with `/coord site-audit` for baseline creation
+Diff two snapshots and produce a comparison report.
+
+**What it does**:
+1. Loads two `data.json` snapshots — defaults: latest baseline in `tracking/baselines/` AND latest run in `runs/`
+2. Renders the deltas into a `comparison.md` per `templates/deliverables/comparison-report.md`
+3. Saves output to `runs/<today>-<domain>-comparison/comparison.md`
+4. Updates `seo-backlog.md`: items with confirmed metric movement move from `verified → closed`
+5. Appends a comparison pointer to `seo-evidence.md`
+
+**Honest constraints called out in every comparison report**:
+- What metrics were not measurable (e.g. GA4 not connected)
+- Whether the comparison window is long enough for the metrics in question
+- Whether deltas exceed natural noise floors
+
+## LEGACY COMMANDS (Python — surface defined, runtime not validated)
+
+The `tracking/` Python system has substantial code (`track.py`, `track_cli.py`, etc.) defining `status`, `roi`, `report` subcommands. As of 2026-05-11 these have **not been validated end-to-end**: `tracking/baselines/` and `tracking/snapshots/` directories are empty in the source repo.
+
+If you invoke `/track status`, `/track roi`, or `/track report --type weekly|monthly|roi`, the Python may execute but is unproven. Treat outputs as exploratory until validated. Either:
+- Use the agent-driven `/track baseline` and `/track compare` (Sprint 9, validated)
+- Or accept the Python output as best-effort with explicit caveats
+
+A future sprint will either prove the Python path end-to-end or formally retire it.
 
 ## INTEGRATION WITH MISSIONS
 

@@ -111,6 +111,16 @@ Phase deliverables (executive summary, technical audit, content audit, action pl
 
 **AI Search lens (Constitution rule 3)**: both AI Search Readiness AND Traditional SEO scorecards required in `analysis.md` and `data.json`. The schema enforces this — `data.json` will fail validation if the AI scorecard is missing.
 
+**Backlog integration (Sprint 9)**:
+- READ `seo-backlog.md` before producing the fix list (Constitution rule 1 — don't re-identify items already tracked)
+- For each NEW finding not already in the backlog: append to `seo-backlog.md` under "Open items" with status=`identified`, stable ID, source run reference
+- For findings that match existing backlog items: cross-reference the ID in `analysis.md` rather than creating a duplicate
+
+**Roadmap touch (Sprint 9)**:
+- READ `seo-roadmap.md` if it exists; tag each fix in analysis.md with the roadmap theme it supports (or "no theme" if none applies)
+- Update the "Current state" section of `seo-roadmap.md` with this run's scorecards and open backlog count
+- Do NOT rewrite themes or strategic objectives — those are quarterly/strategic
+
 **Coordinator verification**: confirm all three files exist on filesystem before marking mission complete. Append a one-line pointer to this run in `seo-evidence.md` so future missions can read prior findings (Constitution rule 1).
 
 ## QUALITY CHECKLIST

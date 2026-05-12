@@ -1,5 +1,78 @@
 # SEO Agent Library - Progress Log
 
+## 2026-05-11 — Sprint 9 Complete: Plan + Compare (close-the-loop discipline)
+
+**Sprint**: 9 — Plan + Compare
+**Status**: COMPLETE
+**Trigger**: Jamie's freecalchub field findings (captured in `docs/library-improvements-input.md`) showed SEO-Agent identifies and executes well, but lacks operational discipline: no baselining before changes, no managed action backlog, no proof loop that fixes actually moved metrics. Top 5 #1 (`/track` vapourware) + #2 (no roadmap template) + #3 (no backlog template) addressed in this sprint.
+
+### The closed-loop workflow Sprint 9 enables
+
+```
+1. BASELINE       Capture current state          (NEW: /track baseline)
+2. ANALYSE        /coord site-audit              (existing — Sprint 5)
+3. PLAN           seo-roadmap.md + seo-backlog.md (NEW: Sprint 9 templates)
+4. EXECUTE        /coord technical-fix           (existing — Sprint 5)
+5. VERIFY         (gap — Sprint 10 candidate: sitewide-verify mission phase)
+6. RE-BASELINE    Capture new state              (NEW: /track baseline again)
+7. COMPARE        Did metrics move?              (NEW: /track compare)
+8. UPDATE PLAN    Lifecycle backlog updates      (NEW: missions write to backlog)
+```
+
+Sprint 9 ships **steps 1, 3, 6, 7, 8**. Steps 2 and 4 already existed. Step 5 (sitewide verify) is a Sprint 10 candidate per Jamie's field findings.
+
+### Plan side deliverables
+
+- `templates/deliverables/seo-roadmap.md` — strategic, per-site, longer-lived. Themes with target metrics + deadlines, constraints (what NOT doing), long-running initiatives, risk register, retros. Refreshed quarterly or on strategic shifts.
+- `templates/deliverables/seo-backlog.md` — operational action list. Stable item IDs (e.g. `FCH-001`), lifecycle states `identified → planned → in_progress → shipped → verified → closed` (plus `reverted`). Tables for open / in-flight / shipped-awaiting-verify / verified-awaiting-impact / archive. Item ID convention defined.
+- `site-audit.md` mission updated: READ backlog before producing fixes (Constitution rule 1 — no duplicates); WRITE new identified items; touch roadmap "Current state" only.
+- `technical-fix.md` mission updated: drive items through `identified → in_progress → shipped` only. **Will NOT mark items `verified` or `closed`** — verification needs a separate sitewide-verify pass (Jamie's #4/#5 finding); closure needs `/track compare` confirming metric movement (Constitution rule 5).
+
+### Compare side deliverables
+
+- `templates/deliverables/comparison-report.md` — markdown deltas template with scorecard breakdowns, live metrics deltas (when GA4/GSC available), backlog item closures triggered by the comparison, regressions section, "what we cannot prove" section enforcing Constitution rule 5.
+- `.claude/commands/track.md` — rewritten to be honest:
+  - **SHIPPED COMMANDS** (Sprint 9): `/track baseline <domain>`, `/track compare <domain>` — agent-prompt path operating on Sprint 5 `data.json` files
+  - **LEGACY COMMANDS** (Python): `status`, `roi`, `report` — surface defined in `tracking/track_cli.py` (463 lines) but `tracking/baselines/` and `tracking/snapshots/` are empty in source repo. Documented as "not validated end-to-end; treat outputs as exploratory until proven". Future sprint will either prove the Python path or formally retire it.
+
+### Design decisions
+
+- **Compare uses agent-prompt path on data.json, not Python**. Reasons: aimpactscanner-data.schema.json is already the locked Sprint 5 ingestion format; no new Python dependency; aligned with v6 architecture (agents do the work). Existing Python untouched (left for /track status/roi/report which need calculations).
+- **Lifecycle state machine separates concerns** — `shipped` ≠ `verified` ≠ `closed`. Local commit ≠ shipped. Live confirmed ≠ proven impact. Three discrete state transitions, three discrete validation steps.
+- **Roadmap and backlog are SITE-LEVEL persistent files**, not per-run. They live in workspace root alongside seo-evidence.md. Missions update them; runs/ accumulates the dated outputs that drive those updates.
+
+### Validation
+
+Validated against freecalchub's `runs/` directory (real Sprint 5 + technical-fix data from 2026-05-10):
+- Backlog template: 8 fixes from site-audit data.json have all required fields (id, title, category, ROI, etc.) → drop directly into backlog rows. No template modification needed.
+- Roadmap template: scorecards (AI 39/50, Trad 36/50 → after fixes 43/50, 41/50) populate "Current state" cleanly.
+- Compare template: deltas computable directly from two data.json files. AI +4, Traditional +5. Matches seo-evidence.md entry from 2026-05-10.
+- Schema integrity confirmed: all top-level keys present (schema_version, mission, site, scorecards, fixes, prior_findings_referenced, next_suggested_mission).
+
+### What this enables for users
+
+After Sprint 9, the workflow on any site becomes:
+1. `/coord site-audit lite <domain>` → produces analysis + writes new items to seo-backlog.md
+2. `/track baseline <domain>` → freezes the current state as the comparison anchor
+3. `/coord technical-fix <domain>` → ships fixes; updates backlog items to `in_progress → shipped`
+4. (Manual or future sitewide-verify mission) → confirms changes are LIVE; backlog `shipped → verified`
+5. `/track baseline <domain>` again → captures new state
+6. `/track compare <domain>` → produces comparison.md; closes backlog items where metrics moved
+7. seo-roadmap.md updated with new "Current state"; cycle repeats
+
+### Field findings still open (not Sprint 9 scope)
+
+From `docs/library-improvements-input.md`:
+- Top 5 #4 — missions don't define "done" as "live and verified" — partially addressed (technical-fix now refuses to close items without live verification + metric movement) but no sitewide-verify mission yet
+- Top 5 #5 — no post-deploy sitewide verification — Sprint 10 candidate
+- Top 5 #1 Python path — flagged honestly, not actually validated/retired
+
+### Next step
+
+User runs Sprint 9 in anger on aisearcharena (or freecalchub) to surface real-world friction. Lessons feed into Sprint 10 scoping (sitewide verify + Python /track decision).
+
+---
+
 ## 2026-05-10 — Sprint 8 Complete: Installer + Fleet Bulk Operator
 
 **Sprint**: 8 — Installer + Fleet Bulk Operator (first operational sprint after v2 architectural completion)
