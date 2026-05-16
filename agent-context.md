@@ -194,7 +194,80 @@ All 7 sprints closed in a single day (Sprint 4 cancelled in rescope, work merged
 
 **Programme closed**: every blueprint goal addressed. Open user actions are operational (fire freecalchub.com test, set up routines on claude.ai/code/routines) not architectural.
 
-**No further sprints planned** — what comes next is a fresh conversation about post-v2 priorities.
+**No further sprints planned at v2 close** — operational sprints (8+) emerged from real use.
+
+### Sprint 8 — Installer + Fleet Bulk (closed 2026-05-10)
+
+- `install.sh` (single-site, takes target + optional --clone-from) and `install-fleet.sh` (reads SEO fleet registry) built.
+- Hard safety rule: refuses any path under `~/DevProjects/`.
+- `~/Shared/tools/agent-11-fleet/seo-fleet-registry.yaml` created with 14 active SEO targets across P1-P4.
+- Real-run results: 13 of 14 workspaces installed cleanly on first attempt; Trader-7 failed (stale URL in agent-11 fleet registry — `Trader-7.git` should be `llm-trading-system.git`); fixed in SEO registry and re-ran successfully. ASMGE (P4 dormant) installed too despite Jamie's earlier "don't care".
+
+### Sprint 9 — Plan + Compare (closed 2026-05-11)
+
+- Triggered by Jamie's freecalchub field findings doc (captured in `docs/library-improvements-input.md`).
+- Plan side: `templates/deliverables/seo-roadmap.md` (strategic per-site) + `seo-backlog.md` (operational, 6-state lifecycle). `site-audit` mission writes new identified items; `technical-fix` mission drives items through identified → in_progress → shipped (refuses to mark verified or closed).
+- Compare side: `comparison-report.md` template; `/track baseline` + `/track compare` re-implemented as agent-prompt commands over Sprint 5 `data.json` files. Python `/track` flagged as "not validated end-to-end".
+- Validated against freecalchub's existing runs/ data: templates work directly, deltas computable.
+
+### Sprint 10 — sitewide-verify + Python /track retirement (closed 2026-05-11)
+
+- New `.claude/missions/sitewide-verify.md` mission (Mode D). Reads `seo-backlog.md` for shipped items, fetches LIVE site, verifies sitewide claims. Hard rule: no spot-checking on sitewide claims (closes the freecalchub Twitter-tag class of gap, 2 of 110 missed).
+- `coord.md` restored Mode D (had been reverted by some intermediate operation) and extended with sitewide-verify as 5th SEO mission.
+- Python `/track` formally retired: 11 files moved to `tracking/legacy/` with revival README. Schemas + Mustache templates kept at top-level.
+- `install.sh` extended to include sitewide-verify in Phase 3.
+- All 5 priority gaps from Jamie's field findings are now closed.
+
+### Operational session 2026-05-16
+
+- Pushed Sprint 9 + 10 to origin/main (`88d18d6..566483b`).
+- Upgraded all 15 SEO workspaces (14 active + freecalchub) via `install-fleet.sh --upgrade` + explicit `install.sh ~/SEO-Agents/freecalchub --upgrade`. All 15 confirmed to have `sitewide-verify.md` post-upgrade.
+- Backfilled freecalchub's `seo-backlog.md` with 2 May-10 shipped items (FCH-TF-003: OG to 91 pages; FCH-TF-004: canonical to 45 pages) so sitewide-verify has real sitewide claims to verify. Jamie's pre-existing working backlog (5 active + 2 done items maintained by hand since 2026-05-11) preserved as hybrid structure.
+- **Discovered Jamie has been doing SEO work by hand on freecalchub since 2026-05-11** — his manual backlog includes commits + "Live-verified ~30s after push" notes. He's been living Sprint 9+10 discipline before the templates existed.
+
+### Sprint 11 candidates (surfaced 2026-05-16 by running sitewide-verify in anger)
+
+Two structural frictions worth capturing for next library scoping session:
+
+1. **Nested subagent Bash refusal** — when `/coord sitewide-verify` was dispatched via Task tool to the coordinator agent, the coordinator (correctly) refused to fabricate the verification because nested subagents can't run Bash. Constitution rule 5 working as intended, but this means **any mission requiring Bash must run top-level, not via coordinator delegation**. The sitewide-verify mission file should make this explicit. Possibly: add a note to the mission frontmatter / instructions stating "this mission runs top-level; coordinator can scaffold but cannot execute Bash phases".
+
+2. **Production curl permission prompt friction** — every sitewide-verify run prompts Jamie to allow curl against the production site. This is appropriate safety, but means the mission cannot be fully automated. Options for next sprint:
+   - Pre-approve specific production domains in `.claude/settings.json` per workspace
+   - Use WebFetch tool instead of Bash curl where possible (better permission story but doesn't handle bulk well)
+   - Accept the per-run interactive approval as inherent safety
+
+Both findings should be captured in `docs/library-improvements-input.md` once today's session closes.
+
+## End-of-session state (2026-05-16, final)
+
+**Mission outcome**: `/coord sitewide-verify freecalchub.com` ran to **deferred** state (not failed). Phase 1 scoping completed cleanly. Phase 2 (110 live HTTP fetches) blocked at harness sandbox — even after Jamie's AskUserQuestion "yes" approval, three curl variants were auto-denied without inline prompts. Coordinator subagent refused to fabricate from local file state (Constitution rule 5 working as intended).
+
+Backlog state: FCH-TF-003 + FCH-TF-004 stay `shipped`, annotated `verification deferred` with explicit reason (curl allowlist needed). No false moves to `verified`, no spurious `reverted`. Honest deferral.
+
+Files updated in freecalchub workspace (by Jamie's other session):
+- `seo-backlog.md` — "Verification status" column added; both items annotated deferred; dispatch outcome paragraph below table
+- `runs/2026-05-16-freecalchub-com-sitewide-verify/verification.md` — full Phase 1 scaffold + "Final outcome" section with the three denied curl variants and Sprint 11 ask
+- `seo-evidence.md` — deferred run pointer added
+
+**Sprint 11 candidates captured** in `docs/library-improvements-input.md` (this dev repo):
+- **11-A** Nested subagent Bash refusal — missions needing Bash must run top-level, not via coordinator delegation. Fix: add per-mission frontmatter declaring tool requirements.
+- **11-B** AskUserQuestion approval doesn't propagate to harness permission layer. Fix: add Phase 0 permission preflight; fail fast with allowlist-setup pointer rather than getting stuck.
+- **11-C** Production curl needs explicit `.claude/settings.json` allowlist per workspace. Fix: `install.sh` reads `public_url` from seo-fleet-registry, provisions scoped allowlist per workspace at install time.
+
+Total Sprint 11 estimate M (4-6h). When all three land, sitewide-verify (and future bulk-HTTP missions) become unattended-feasible.
+
+**Pending for next library-dev session**:
+1. Decide whether to scope Sprint 11 now or defer further
+2. If scoping: pick which of 11-A / 11-B / 11-C to build first (recommend 11-C — install.sh allowlist; it's the single highest-leverage piece because it unblocks the deferred freecalchub verification AND every future workspace)
+3. Once Sprint 11 work lands: re-run sitewide-verify on freecalchub to actually verify FCH-TF-003 + FCH-TF-004 (the still-deferred items)
+
+**Pending commits in THIS dev repo**:
+- `docs/library-improvements-input.md` (Sprint 11 candidates added)
+- `agent-context.md` (this update)
+
+No commits pending in the freecalchub workspace from us — Jamie's other session made those edits and owns the commit decision there.
+
+**Today's real-world signal**: the discipline of using the library on real problems IS what surfaces the next-tier frictions. The Sprint 10 close-out claim "all 5 priority gaps closed" was structurally true but practically incomplete — operating the library against production introduces a new tier of frictions (permission, sandbox, automation) that no amount of architecture-without-use would have surfaced. Constitution rule 5 (Prove it) applies to the library itself.
 
 ## Known Constraints
 
