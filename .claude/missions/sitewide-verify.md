@@ -1,3 +1,8 @@
+---
+requires_tools: [Bash]
+run_top_level: true
+---
+
 # SITEWIDE VERIFY MISSION
 ## Confirm shipped fixes are LIVE, not just locally committed
 
@@ -9,6 +14,47 @@
 ## CONTEXT (Constitution rule 1)
 
 Read `seo-evidence.md` for prior verification runs and known site quirks. Read `seo-backlog.md` to find items in `shipped` status — those are this mission's scope.
+
+## PHASE 0: PERMISSION PREFLIGHT (Sprint 11-B) — RUN FIRST, FAIL FAST
+
+Before any scaffolding work, verify the harness will let this mission do its job. Sprint 10 first run wasted ~5 min of agent token spend scaffolding verification work that couldn't execute because curl was harness-denied.
+
+### Task
+- [ ] Identify the target domain from the `/coord` arguments (e.g. `freecalchub.com`)
+- [ ] Run a tiny test curl: `curl -sI -o /dev/null -w "%{http_code}\n" --max-time 10 https://www.<domain>/robots.txt`
+- [ ] If the curl is harness-denied OR returns a permission error: STOP IMMEDIATELY and output the actionable error block below
+- [ ] If the curl runs successfully (any HTTP status 200-599 is fine — we're testing permission, not page content): proceed to Phase 1
+
+### Actionable error block (paste verbatim if preflight fails)
+
+```
+SITEWIDE-VERIFY HALTED AT PHASE 0 — PERMISSION PREFLIGHT
+
+The harness denied a test curl to https://www.<domain>/robots.txt. This
+mission needs to fetch ~110 live pages from <domain>; without curl
+permission it cannot execute.
+
+FIX: add the following 3 entries to permissions.allow in
+.claude/settings.json (workspace root):
+
+    "Bash(curl https://<domain>/*)",
+    "Bash(curl -* https://<domain>/*)",
+    "Bash(curl * https://<domain>/*)"
+
+Or run `bash <path-to-SEO-Agent>/install.sh <this-workspace-path> --upgrade`
+to provision the allowlist automatically (Sprint 11-C). The installer reads
+public_url from ~/Shared/tools/agent-11-fleet/seo-fleet-registry.yaml
+and merges the entries without clobbering existing settings.
+
+After the allowlist is in place, re-run `/coord sitewide-verify <domain>`.
+
+DO NOT proceed past Phase 0 without permission — Phase 1+ depend on
+curl. Constitution rule 5 (Prove it): no fabricated verification.
+```
+
+### Why this exists
+
+Sprint 10's first real-world run completed scaffolding then hit the harness wall on curl. ~5 min of agent token spend before discovering the mission couldn't actually execute. Phase 0 catches the same situation in ~5 seconds with an explicit, actionable error rather than getting stuck.
 
 ## MISSION OBJECTIVES
 

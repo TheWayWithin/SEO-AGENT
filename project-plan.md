@@ -34,6 +34,7 @@ Rescoped 2026-05-09 after Agent-11 v5 → v6.1.1 framework upgrade. See `sprints
 | 8 | Installer + Fleet Bulk Operator | Ops | M | 5 | **COMPLETE 2026-05-10** (install.sh, install-fleet.sh, seo-fleet-registry.yaml with 14 active SEO targets across P1-P4) |
 | 9 | Plan + Compare (close-the-loop discipline) | Ops | M | 5,8 | **COMPLETE 2026-05-11** (seo-roadmap + seo-backlog templates with lifecycle states; comparison-report template; /track baseline + /track compare design honest about Python legacy; validated on freecalchub data) |
 | 10 | Sitewide-verify mission + Python /track retirement | Ops | S | 9 | **COMPLETE 2026-05-11** (sitewide-verify Mode D mission file; technical-fix wired to point at it; coord.md SEO Mode D restored + 5th mission added; install.sh updated; tracking/legacy/ archive of 11 Python files with revival README) |
+| 11 | Runtime Readiness (mission frontmatter + preflight + install.sh allowlist) | Ops | M | 10 | **COMPLETE 2026-05-16** (5 mission frontmatter; coord.md routing rule; Phase 0 preflight in sitewide-verify; install.sh Phase 11 settings.json merge — validated on 4 scenarios; 4/15 workspaces auto-provisioned; 11/15 await TBD public_url fill-in) |
 
 Sprint detail lives in `/sprints/sprint-0N-name.md`. Each affected file carries a `RESCOPE 2026-05-09` callout at the top.
 

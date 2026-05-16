@@ -3,7 +3,7 @@
 **Theme**: Ops — make missions actually runnable in real workspaces, not just structurally complete
 **Effort**: M (4-6 hours)
 **Dependencies**: Sprint 10 (sitewide-verify mission ships, needs this to actually execute unattended)
-**Status**: Not started
+**Status**: COMPLETE 2026-05-16
 
 ## Sprint Goal
 
@@ -62,17 +62,17 @@ Sprint 11 fixes all three at the right level so the loop Sprint 9+10 designed fo
 
 ## Task List
 
-- [ ] Inventory the 5 SEO mission files: which require Bash, which need only subagent-accessible tools? (@strategist or @architect)
-- [ ] Add `requires_tools:` frontmatter declarations to all 5 SEO mission files; sitewide-verify declares Bash; others declare no requirements (@developer)
-- [ ] Update `.claude/commands/coord.md` dispatch logic to read mission requirements and route accordingly (top-level vs coordinator delegation) (@developer)
-- [ ] Add Phase 0 permission preflight section to `sitewide-verify.md`; small test curl call; clear fail-fast error message with exact settings.json snippet (@developer)
-- [ ] Extend `install.sh` to read `public_url` from `seo-fleet-registry.yaml` for the workspace being installed (@developer)
-- [ ] Implement settings.json merge logic in `install.sh`: scoped allowlist for `curl https://<public_url>/*` only, no clobber of existing user permissions, idempotent (@developer)
-- [ ] Smoke test `install.sh --upgrade` on `/tmp/install-test` with a fake registry entry; verify settings.json gets the right allowlist (@tester)
-- [ ] Run `bash install-fleet.sh --upgrade` to retrofit all 15 existing SEO workspaces with their per-domain allowlists (@operator)
-- [ ] Re-run `/coord sitewide-verify freecalchub.com` from the upgraded workspace; expect end-to-end completion (@tester)
-- [ ] Update tracking files: project-plan.md row, progress.md entry, agent-context.md handoff, docs/library-improvements-input.md (mark 11-A/B/C closed)
-- [ ] Commit + push
+- [x] Inventory the 5 SEO mission files (2026-05-16) — all 5 need Bash (fetch public data, modify code, or run scripts); declared conservative tool requirements per mission
+- [x] Add `requires_tools:` frontmatter declarations to all 5 SEO mission files (sitewide-verify + technical-fix: `[Bash]`; site-audit + content-gap + ai-search-optimize: `[Bash, WebFetch]`); all with `run_top_level: true` (2026-05-16)
+- [x] Update `.claude/commands/coord.md` dispatch step 6: read mission frontmatter for `requires_tools`; if Bash/Edit/Write/WebFetch present OR `run_top_level: true`, run TOP-LEVEL (no Task tool delegation to coordinator); else default delegation (2026-05-16)
+- [x] Add Phase 0 permission preflight to `sitewide-verify.md`: tiny test curl + actionable error block with exact 3-line settings.json snippet + auto-suggested install.sh --upgrade fallback (2026-05-16)
+- [x] Extend `install.sh` Phase 11 (NEW): read `public_url` from `seo-fleet-registry.yaml` using Python regex (stdlib only, no jq dep); derive domain from URL; handle TBD/null/missing gracefully (2026-05-16)
+- [x] Implement settings.json merge logic in `install.sh`: 3 curl pattern variants (covers flag-position variations); merge into existing JSON without clobber (preserves existing allow/ask/deny + custom fields); idempotent (deduplicates entries); creates fresh file if missing (2026-05-16)
+- [x] Smoke test install.sh in 4 scenarios: dry-run on unregistered dir (skip), real-run on aisearchmastery basename (creates), real-run on llm-txt-mastery with pre-existing settings.json (merges preserving custom), idempotency (0 entries added on re-run) — all pass (2026-05-16)
+- [x] Run `bash install-fleet.sh --upgrade` to retrofit all 15 existing SEO workspaces (2026-05-16). Result: 4/15 got allowlist (freecalchub, aisearchmastery, llm-txt-mastery, agent-11-website — the 4 with real public_url in registry); 11/15 skipped gracefully because registry has `public_url: TBD`. Allowlist will provision automatically when URLs are filled in.
+- [→] Re-run `/coord sitewide-verify freecalchub.com` — handed off to user; mission file now has Phase 0 preflight that will validate the new allowlist works
+- [x] Update tracking files: this sprint doc, project-plan.md row, progress.md entry, agent-context.md handoff (2026-05-16)
+- [→] Commit + push (next step)
 
 ## Acceptance Criteria
 

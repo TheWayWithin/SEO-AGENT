@@ -1,3 +1,8 @@
+---
+requires_tools: [Bash]
+run_top_level: true
+---
+
 # TECHNICAL FIX MISSION
 ## Performance Optimization & Technical SEO Resolution
 

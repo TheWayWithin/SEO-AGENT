@@ -63,7 +63,8 @@ Valid prefixes: `mode:greenfield` (A), `mode:surgical` (B1), `mode:maintenance` 
 3. Validate mission name against the routing table or control-command list.
 4. If unknown, print the unknown-mission error (below) and stop. No NLP inference.
 5. Load mission file if applicable: `project/missions/mission-[name].md` (or `[name].md` for `dev-setup`/`dev-alignment`). **Mode D (SEO) missions load from `.claude/missions/[name].md`.**
-6. Hand off to THE COORDINATOR with mission name, mode, and input paths. The coordinator's DYNAMIC CONTEXT LOADING protocol applies the per-mode rules.
+6. **Read mission frontmatter for `requires_tools` (Sprint 11-A)**. If the mission's frontmatter declares `requires_tools` containing any of `[Bash, Edit, Write, WebFetch]`, OR sets `run_top_level: true`, the mission MUST run in the TOP-LEVEL session — do NOT delegate via Task tool to `@coordinator` subagent. Task-tool-delegated subagents lack Bash and most non-Read tools; delegating a Bash-needing mission causes the coordinator to honestly refuse to fabricate, wasting tokens on scaffolding that can't execute. If no `requires_tools` declared or only contains `[Read, Grep, Glob]`, default delegation to coordinator is fine.
+7. Hand off to THE COORDINATOR (delegated case) OR run mission directly in top-level session (top-level case) with mission name, mode, and input paths. The coordinator's DYNAMIC CONTEXT LOADING protocol applies the per-mode rules either way.
 
 ## Routine Detection (Mode C — operational work)
 

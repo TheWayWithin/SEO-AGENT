@@ -1,5 +1,99 @@
 # SEO Agent Library - Progress Log
 
+## 2026-05-16 — Sprint 11 Complete: Runtime Readiness
+
+**Sprint**: 11 — Runtime Readiness (mission frontmatter + preflight + install.sh allowlist)
+**Status**: COMPLETE
+**Trigger**: Sprint 10 close had a `deferred` field test outcome — sitewide-verify on freecalchub completed scaffolding but couldn't execute due to harness sandbox denying curl. Three structural frictions surfaced, captured as Sprint 11 candidates. This sprint closes all three.
+
+### 11-A — Mission frontmatter + coord routing
+
+- YAML frontmatter added to all 5 SEO mission files declaring `requires_tools` and `run_top_level: true`
+  - `sitewide-verify`: `[Bash]`
+  - `technical-fix`: `[Bash]`
+  - `site-audit`: `[Bash, WebFetch]`
+  - `content-gap`: `[Bash, WebFetch]`
+  - `ai-search-optimize`: `[Bash, WebFetch]`
+- `.claude/commands/coord.md` dispatch step 6 updated: read mission frontmatter; if `Bash/Edit/Write/WebFetch` in `requires_tools` OR `run_top_level: true`, MUST run top-level (no Task tool delegation to coordinator subagent); else default delegation
+- All 5 SEO missions now route top-level by default; matches the actual runtime needs (Sprint 10 first-run failure mode no longer possible from delegation alone)
+
+### 11-B — Phase 0 permission preflight in sitewide-verify
+
+- Added Phase 0 section to `.claude/missions/sitewide-verify.md`
+- Tiny test curl: `curl -sI -o /dev/null -w "%{http_code}\n" --max-time 10 https://www.<domain>/robots.txt`
+- If denied: stop immediately with verbatim actionable error block listing the exact 3 settings.json entries + `install.sh --upgrade` fallback
+- If passes: proceed to Phase 1
+- Catches the Sprint 10 failure mode in ~5 seconds instead of after ~5 min of agent token spend on doomed scaffolding
+
+### 11-C — install.sh per-workspace curl allowlist (Phase 11, NEW)
+
+- install.sh extended with new Phase 11 between routine templates and version stamp
+- Looks up `public_url` from `seo-fleet-registry.yaml` using basename of target dir
+- Python regex (stdlib only, no jq dependency) — no new external deps
+- Derives domain from URL (strips https://, strips trailing slash)
+- Handles TBD/null/missing public_url gracefully with informative SKIP message
+- Merges 3 curl pattern variants into `.claude/settings.json`:
+  - `Bash(curl https://<domain>/*)`
+  - `Bash(curl -* https://<domain>/*)`
+  - `Bash(curl * https://<domain>/*)`
+- Three variants cover flag-position differences (no flags / flags before URL / args mixed)
+- Merge logic: load existing JSON (refuse to overwrite if invalid JSON), preserve all existing `allow`/`ask`/`deny` entries and custom fields, dedupe (no duplicates on re-run), create fresh file if missing
+- Idempotent: re-running adds 0 entries
+- Domain-scoped: only allows curl to the registered domain, NOT arbitrary outbound HTTP
+
+### Smoke test results
+
+4 scenarios all pass:
+1. Dry-run on unregistered dir → SKIP with note (no false positive)
+2. Real-run on `aisearchmastery` basename → fresh settings.json with 3 entries, correct domain
+3. Real-run on `llm-txt-mastery` with pre-existing settings.json containing user permissions + customField → 3 entries merged, all existing content intact
+4. Re-run on same dir → "all 3 entries already present (idempotent)" with 0 entries added
+
+### Fleet retrofit (15 workspaces)
+
+`bash install-fleet.sh --upgrade --keep-going` after freecalchub explicit run:
+- **4/15 workspaces** got curl allowlist: freecalchub, aisearchmastery, llm-txt-mastery, agent-11-website
+- **11/15 workspaces** correctly skipped because registry has `public_url: TBD` for them
+- 0 failures
+- All 15 workspaces got the Sprint 11 sitewide-verify mission file (with new Phase 0 preflight)
+- All 15 workspaces got the Sprint 11 SEO mission frontmatter
+- All 15 workspaces got the Sprint 11 SEO-augmented coord.md routing logic
+
+### Outstanding for the 11 TBD workspaces
+
+Once Jamie fills in their `public_url` fields in `~/Shared/tools/agent-11-fleet/seo-fleet-registry.yaml`, re-running `bash install-fleet.sh --upgrade` will auto-provision their allowlists. Not Sprint 11's job to fill in URLs (don't guess).
+
+### Validation (deferred to user)
+
+Sprint 11's structural validation: `/coord sitewide-verify freecalchub.com` from the upgraded workspace should now complete end-to-end without harness denials. Phase 0 preflight should pass (curl allowed via Sprint 11-C provisioned settings.json). Mission can finally verify FCH-TF-003 + FCH-TF-004 against all 110 calculator pages.
+
+User to run when ready. Outcome will tell us whether:
+- a) Mission completes cleanly (Sprint 11 fully closes the operational loop), or
+- b) New frictions surface (Sprint 12 candidates)
+
+Either outcome is a win per Constitution rule 5 — proven by use.
+
+### All field findings closed
+
+| Finding | Sprint | Status |
+|---|---|---|
+| Top 5 #1 (`/track` vapourware) | 9 + 10 | CLOSED (docs honest + Python archived) |
+| Top 5 #2 (no roadmap template) | 9 | CLOSED |
+| Top 5 #3 (no backlog template) | 9 | CLOSED |
+| Top 5 #4 (missions don't define "done" as live and verified) | 10 | CLOSED (technical-fix refuses verified; sitewide-verify handoff) |
+| Top 5 #5 (no post-deploy sitewide verification) | 10 | CLOSED (sitewide-verify mission) |
+| Sprint 11-A (nested subagent Bash refusal) | 11 | CLOSED |
+| Sprint 11-B (AskUserQuestion approval doesn't propagate) | 11 | CLOSED (Phase 0 preflight) |
+| Sprint 11-C (production curl needs allowlist) | 11 | CLOSED (install.sh provisions) |
+
+8 distinct frictions surfaced and closed across Sprints 9-11. Library is meaningfully more operational than at Sprint 7 close (when the v2 architecture was declared "complete").
+
+### Sprint conventions discipline upheld
+
+Sprint 11 doc was created BEFORE building (locked in at session start). All 10 required sections present. Task list updated with [x] timestamps as work completed. Compare with Sprints 8/9/10 which were backfilled retroactively — the discipline of doc-first is now visible in commit history as evidence of process improvement.
+
+---
+
 ## 2026-05-11 — Sprint 10 Complete: Sitewide-verify + Python /track retirement
 
 **Sprint**: 10 — Sitewide-verify mission + Python /track decision

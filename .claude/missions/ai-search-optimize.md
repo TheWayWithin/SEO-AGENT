@@ -1,3 +1,8 @@
+---
+requires_tools: [Bash, WebFetch]
+run_top_level: true
+---
+
 # AI SEARCH OPTIMIZATION MISSION
 ## Future-Ready AI Search Infrastructure & Content Strategy
 

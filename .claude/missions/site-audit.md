@@ -1,3 +1,8 @@
+---
+requires_tools: [Bash, WebFetch]
+run_top_level: true
+---
+
 # SITE AUDIT MISSION
 ## Comprehensive SEO Analysis & Action Plan
 

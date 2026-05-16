@@ -261,8 +261,91 @@ else
   note "MODE=$MODE, existing_install=$EXISTING_INSTALL — site-specific files left alone"
 fi
 
-# ---- Phase 11: Version stamp ----
-phase "Phase 11: Version stamp"
+# ---- Phase 11: Curl allowlist for workspace's public_url (Sprint 11-C) ----
+phase "Phase 11: Curl allowlist for workspace public_url (Sprint 11-C)"
+
+REGISTRY="${SEO_FLEET_REGISTRY:-/Users/jamiewatters/Shared/tools/agent-11-fleet/seo-fleet-registry.yaml}"
+WS_BASENAME="$(basename "$TARGET")"
+
+if [ ! -f "$REGISTRY" ]; then
+  note "SKIP: registry not found at $REGISTRY; manual settings.json edit required for sitewide-verify"
+else
+  PUBLIC_URL=$(python3 - <<PYEOF
+import re, sys
+content = open("$REGISTRY").read()
+ws = "$WS_BASENAME"
+pat_name = re.compile(rf'^\s+-\s+name:\s+"?{re.escape(ws)}"?\s*$', re.MULTILINE)
+m = pat_name.search(content)
+if m:
+    after = content[m.end():m.end()+800]  # peek next ~15 lines
+    pat_url = re.compile(r'^\s+public_url:\s+(.+)$', re.MULTILINE)
+    u = pat_url.search(after)
+    if u:
+        url = u.group(1).strip().strip('"')
+        print(url)
+PYEOF
+)
+
+  if [ -z "$PUBLIC_URL" ] || [ "$PUBLIC_URL" = "TBD" ] || [ "$PUBLIC_URL" = "null" ]; then
+    note "SKIP: no public_url for $WS_BASENAME in registry (got: '${PUBLIC_URL:-<empty>}'). sitewide-verify will require manual settings.json edit."
+  else
+    PUBLIC_URL="${PUBLIC_URL%/}"
+    DOMAIN=$(echo "$PUBLIC_URL" | sed -E 's|^https?://([^/]+).*|\1|')
+    note "public_url: $PUBLIC_URL → domain: $DOMAIN"
+
+    SETTINGS="$TARGET/.claude/settings.json"
+    if [ "$DRY_RUN" = "1" ]; then
+      note "WOULD MERGE curl allowlist for $DOMAIN into $SETTINGS"
+    else
+      python3 - "$SETTINGS" "$DOMAIN" <<'PYEOF'
+import json, sys
+from pathlib import Path
+
+settings_path = Path(sys.argv[1])
+domain = sys.argv[2]
+
+# Three patterns to cover curl with various flag positions
+new_entries = [
+    f"Bash(curl https://{domain}/*)",
+    f"Bash(curl -* https://{domain}/*)",
+    f"Bash(curl * https://{domain}/*)",
+]
+
+if settings_path.exists():
+    try:
+        data = json.loads(settings_path.read_text())
+    except json.JSONDecodeError as e:
+        print(f"  ERROR: existing {settings_path} is not valid JSON ({e}); refusing to overwrite. Add curl allowlist manually.")
+        sys.exit(0)
+else:
+    data = {}
+
+if "permissions" not in data:
+    data["permissions"] = {}
+if "allow" not in data["permissions"]:
+    data["permissions"]["allow"] = []
+
+added = []
+for entry in new_entries:
+    if entry not in data["permissions"]["allow"]:
+        data["permissions"]["allow"].append(entry)
+        added.append(entry)
+
+if added:
+    settings_path.parent.mkdir(parents=True, exist_ok=True)
+    settings_path.write_text(json.dumps(data, indent=2) + "\n")
+    print(f"  merged {len(added)} curl allowlist entries into {settings_path}")
+    for e in added:
+        print(f"    + {e}")
+else:
+    print(f"  all 3 curl allowlist entries already present in {settings_path} (idempotent)")
+PYEOF
+    fi
+  fi
+fi
+
+# ---- Phase 12: Version stamp ----
+phase "Phase 12: Version stamp"
 if [ "$DRY_RUN" = "1" ]; then
   note "WOULD WRITE: $TARGET/.seo-agent-version"
 else
