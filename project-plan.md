@@ -37,6 +37,29 @@ Rescoped 2026-05-09 after Agent-11 v5 → v6.1.1 framework upgrade. See `sprints
 
 Sprint detail lives in `/sprints/sprint-0N-name.md`. Each affected file carries a `RESCOPE 2026-05-09` callout at the top.
 
+## Sprint conventions (locked 2026-05-16)
+
+**Every sprint gets a doc in `/sprints/sprint-NN-<short-name>.md`** — no exceptions. This applies to:
+- Upfront-planned sprints (1-7 original v2 set)
+- Operational sprints that emerge from real use (8+)
+- Backfilled sprints (with explicit BACKFILL callout at the top)
+
+Doc structure (all sections required):
+1. Title with name + theme + effort + dependencies + status (Not started / In progress / COMPLETE YYYY-MM-DD)
+2. Sprint Goal (one paragraph — what changes when this sprint closes)
+3. Motivation (why this sprint exists; reference the field finding or trigger)
+4. Scope: In (what the sprint will build)
+5. Scope: Out (what the sprint deliberately won't touch)
+6. Task List (checkboxes; mark `[x]` with timestamp as each completes)
+7. Acceptance Criteria (how we know the sprint is done)
+8. Assessment Protocol (how validation happens — usually a real-site test)
+9. Risks & Mitigations (table)
+10. Exit Notes (what to capture on close)
+
+**Why this matters**: progress.md is the chronological changelog; project-plan.md is the table-of-contents view; sprint docs are the per-sprint scoping and reflection. All three serve different audiences and time horizons. Skipping sprint docs (as happened with 8/9/10 before retroactive backfill) loses the planning-and-reflection layer.
+
+**Backfilling**: if a sprint completes without a doc, backfill from progress.md at the next session. Mark with `BACKFILL YYYY-MM-DD` callout so it's clear the doc was created after the fact. Sprints 8, 9, 10 backfilled this way on 2026-05-16.
+
 ## Layer Model (added 2026-05-09)
 
 This repo holds two layers:
