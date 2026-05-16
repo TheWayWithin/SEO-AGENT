@@ -63,15 +63,26 @@
 
 Once Jamie fills in their `public_url` fields in `~/Shared/tools/agent-11-fleet/seo-fleet-registry.yaml`, re-running `bash install-fleet.sh --upgrade` will auto-provision their allowlists. Not Sprint 11's job to fill in URLs (don't guess).
 
-### Validation (deferred to user)
+### Validation (2026-05-16, real run on freecalchub)
 
-Sprint 11's structural validation: `/coord sitewide-verify freecalchub.com` from the upgraded workspace should now complete end-to-end without harness denials. Phase 0 preflight should pass (curl allowed via Sprint 11-C provisioned settings.json). Mission can finally verify FCH-TF-003 + FCH-TF-004 against all 110 calculator pages.
+User re-fired `/coord sitewide-verify freecalchub.com` from upgraded workspace. Phase 0 preflight WORKED EXACTLY AS DESIGNED: caught harness wall in ~5 seconds, produced verbatim actionable error block, no fabrication. Sprint 11-B validated in anger.
 
-User to run when ready. Outcome will tell us whether:
-- a) Mission completes cleanly (Sprint 11 fully closes the operational loop), or
-- b) New frictions surface (Sprint 12 candidates)
+Phase 0 surfaced two real follow-ups:
 
-Either outcome is a win per Constitution rule 5 — proven by use.
+**Sprint 11-C bug (hotfixed same session)**: install.sh provisioned `freecalchub.com/*` patterns but production serves on `www.freecalchub.com`. Fixed: install.sh now generates 6 entries (3 patterns × apex + www variants); sites canonicalize differently, both safer than assuming. Re-ran install.sh --upgrade on freecalchub; new 3 www entries merged idempotently.
+
+**Sprint 12-A candidate (new finding)**: freecalchub's settings.json has `"Bash(curl:*)"` in the DENY block (security default predating Sprint 11). Deny rules override allow regardless of scope; even our 6 scoped HTTPS allows can't get through this broad deny. install.sh extended to DETECT this conflict at install time and surface a clear warning with two resolution options:
+  - (a) Remove `Bash(curl:*)` from deny entirely
+  - (b) Replace with `Bash(curl http://*)` to deny only insecure HTTP
+
+Install.sh does NOT auto-modify deny rules — that's a security decision the user owns. The warning surfaces the conflict clearly so it can't be missed.
+
+**Status as of session close**: Sprint 11 shipped + hotfix shipped. Jamie owns the deny-rule resolution + re-fire of sitewide-verify. Once deny resolved, mission should complete end-to-end and verify FCH-TF-003 + FCH-TF-004 against all 110 freecalchub pages.
+
+### Sprint 12-A candidate captured
+
+Sprint 11 surfaced a third operational layer that needs structural fix:
+- **12-A — Conflicting deny rules**: install.sh now DETECTS and warns about deny rules that override the allow-list provisioning. Doesn't auto-fix (security). Future Sprint 12 work could explore: per-workspace conflict resolution UI, replacement-suggestion automation, or a stricter Phase 0 check that refuses to dispatch if deny rules will block.
 
 ### All field findings closed
 

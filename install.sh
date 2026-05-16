@@ -304,12 +304,24 @@ from pathlib import Path
 settings_path = Path(sys.argv[1])
 domain = sys.argv[2]
 
-# Three patterns to cover curl with various flag positions
-new_entries = [
-    f"Bash(curl https://{domain}/*)",
-    f"Bash(curl -* https://{domain}/*)",
-    f"Bash(curl * https://{domain}/*)",
-]
+# Build both apex and www variants (sites canonicalize differently;
+# safer to allow both than assume which one production uses)
+if domain.startswith("www."):
+    apex = domain[4:]
+    www = domain
+else:
+    apex = domain
+    www = f"www.{domain}"
+
+# Three patterns × two domain variants = 6 entries
+# Patterns cover curl with various flag positions
+new_entries = []
+for d in [apex, www]:
+    new_entries.extend([
+        f"Bash(curl https://{d}/*)",
+        f"Bash(curl -* https://{d}/*)",
+        f"Bash(curl * https://{d}/*)",
+    ])
 
 if settings_path.exists():
     try:
@@ -331,14 +343,26 @@ for entry in new_entries:
         data["permissions"]["allow"].append(entry)
         added.append(entry)
 
+# Sprint 12-A candidate detection: surface conflicting deny rules
+deny_list = data.get("permissions", {}).get("deny", [])
+curl_deny_blockers = [d for d in deny_list if d.startswith("Bash(curl") and "http://" not in d]
+if curl_deny_blockers:
+    print(f"  ⚠ WARNING: settings.json deny block contains broad curl rule(s):")
+    for d in curl_deny_blockers:
+        print(f"      {d}")
+    print(f"  The allowlist entries below will NOT take effect until you EITHER:")
+    print(f"    (a) remove these deny rules entirely, OR")
+    print(f"    (b) replace with a more specific pattern like 'Bash(curl http://*)' to deny only insecure HTTP")
+    print(f"  Sprint 11-C provisioned the allowlist as designed; resolving the deny conflict is a user decision (security).")
+
 if added:
     settings_path.parent.mkdir(parents=True, exist_ok=True)
     settings_path.write_text(json.dumps(data, indent=2) + "\n")
-    print(f"  merged {len(added)} curl allowlist entries into {settings_path}")
+    print(f"  merged {len(added)} curl allowlist entries into {settings_path} (apex + www variants)")
     for e in added:
         print(f"    + {e}")
 else:
-    print(f"  all 3 curl allowlist entries already present in {settings_path} (idempotent)")
+    print(f"  all {len(new_entries)} curl allowlist entries already present in {settings_path} (idempotent)")
 PYEOF
     fi
   fi
