@@ -343,17 +343,35 @@ for entry in new_entries:
         data["permissions"]["allow"].append(entry)
         added.append(entry)
 
-# Sprint 12-A candidate detection: surface conflicting deny rules
+# Sprint 12 deny-conflict detection: extended pattern matching + exact diff
+# Monitored tools: any bulk-HTTP-fetch tool sitewide-verify might use
+MONITORED_TOOLS = ["curl", "wget", "httpie", "http"]
 deny_list = data.get("permissions", {}).get("deny", [])
-curl_deny_blockers = [d for d in deny_list if d.startswith("Bash(curl") and "http://" not in d]
-if curl_deny_blockers:
-    print(f"  ⚠ WARNING: settings.json deny block contains broad curl rule(s):")
-    for d in curl_deny_blockers:
-        print(f"      {d}")
-    print(f"  The allowlist entries below will NOT take effect until you EITHER:")
-    print(f"    (a) remove these deny rules entirely, OR")
-    print(f"    (b) replace with a more specific pattern like 'Bash(curl http://*)' to deny only insecure HTTP")
-    print(f"  Sprint 11-C provisioned the allowlist as designed; resolving the deny conflict is a user decision (security).")
+conflicts = []
+for rule in deny_list:
+    for tool in MONITORED_TOOLS:
+        # Match Bash(<tool>...) where the pattern doesn't already restrict to http://
+        if rule.startswith(f"Bash({tool}") and "http://" not in rule:
+            # Suggest scoped replacement: deny only insecure HTTP for that tool
+            suggested = f'"Bash({tool} http://*)"'
+            conflicts.append((rule, suggested, tool))
+            break
+
+if conflicts:
+    print(f"  ⚠ WARNING: settings.json deny block has {len(conflicts)} rule(s) that will OVERRIDE the allowlist below:")
+    print(f"")
+    for rule, suggested, tool in conflicts:
+        print(f"    Conflict: deny rule {rule!r} blocks ALL {tool} (including the scoped HTTPS allow entries we just provisioned)")
+        print(f"    Suggested fix in {settings_path}:")
+        print(f"      REPLACE:  \"{rule}\",")
+        print(f"      WITH:     {suggested},")
+        print(f"")
+    print(f"  Rationale: \"{conflicts[0][2]} http://*\" pattern keeps insecure HTTP blocked (security)")
+    print(f"  while letting your scoped HTTPS allowlist take effect.")
+    print(f"  Or remove the deny rule entirely if no HTTP restriction needed.")
+    print(f"  See field-manual/permission-conflicts.md for full pattern context.")
+    print(f"  install.sh does NOT auto-modify deny rules — security decision belongs to you.")
+    print(f"")
 
 if added:
     settings_path.parent.mkdir(parents=True, exist_ok=True)

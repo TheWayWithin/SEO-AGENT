@@ -15,17 +15,54 @@ run_top_level: true
 
 Read `seo-evidence.md` for prior verification runs and known site quirks. Read `seo-backlog.md` to find items in `shipped` status — those are this mission's scope.
 
-## PHASE 0: PERMISSION PREFLIGHT (Sprint 11-B) — RUN FIRST, FAIL FAST
+## PHASE 0: PERMISSION PREFLIGHT (Sprint 11-B, extended Sprint 12-1) — RUN FIRST, FAIL FAST
 
-Before any scaffolding work, verify the harness will let this mission do its job. Sprint 10 first run wasted ~5 min of agent token spend scaffolding verification work that couldn't execute because curl was harness-denied.
+Before any scaffolding work, verify the harness will let this mission do its job. Sprint 10 first run wasted ~5 min of agent token spend scaffolding verification work that couldn't execute because curl was harness-denied. Sprint 12-1 adds settings.json inspection so the same friction is caught even if the workspace's settings drifted AFTER install.sh last ran.
 
-### Task
+### Task A — Settings.json inspection (Sprint 12-1)
+- [ ] Read the workspace's `.claude/settings.json`
+- [ ] Inspect the `permissions.deny` block for entries matching `Bash(<tool>...)` where `<tool>` is one of `[curl, wget, httpie, http]` AND the pattern does NOT restrict to `http://*` only
+- [ ] If conflicting rules found: STOP IMMEDIATELY with the actionable error block below — name the specific conflicting line AND the suggested exact-replacement
+- [ ] If no conflicts: continue to Task B
+
+### Task B — Live curl preflight (Sprint 11-B)
 - [ ] Identify the target domain from the `/coord` arguments (e.g. `freecalchub.com`)
 - [ ] Run a tiny test curl: `curl -sI -o /dev/null -w "%{http_code}\n" --max-time 10 https://www.<domain>/robots.txt`
-- [ ] If the curl is harness-denied OR returns a permission error: STOP IMMEDIATELY and output the actionable error block below
+- [ ] If the curl is harness-denied OR returns a permission error: STOP IMMEDIATELY with the actionable error block below
 - [ ] If the curl runs successfully (any HTTP status 200-599 is fine — we're testing permission, not page content): proceed to Phase 1
 
 ### Actionable error block (paste verbatim if preflight fails)
+
+**If Task A (settings.json inspection) found a conflict**:
+
+```
+SITEWIDE-VERIFY HALTED AT PHASE 0 — DENY-RULE CONFLICT
+
+settings.json permissions.deny contains broad rule(s) that will override
+any allowlist entry, blocking curl entirely:
+
+    <list each specific conflicting line found>
+
+FIX (per detected rule):
+
+    REPLACE:  "Bash(<tool>:*)",
+    WITH:     "Bash(<tool> http://*)",
+
+This keeps insecure HTTP blocked (security) while letting your scoped
+HTTPS allowlist take effect for sitewide-verify and other bulk-HTTP
+missions.
+
+Or remove the deny rule entirely if no HTTP restriction is needed for
+this workspace.
+
+After editing .claude/settings.json, re-run `/coord sitewide-verify <domain>`.
+
+DO NOT proceed past Phase 0 — Phase 1+ depend on curl HTTPS being
+allowed. See field-manual/permission-conflicts.md for full context.
+Constitution rule 5 (Prove it): no fabricated verification.
+```
+
+**If Task B (live curl test) failed**:
 
 ```
 SITEWIDE-VERIFY HALTED AT PHASE 0 — PERMISSION PREFLIGHT
@@ -34,17 +71,20 @@ The harness denied a test curl to https://www.<domain>/robots.txt. This
 mission needs to fetch ~110 live pages from <domain>; without curl
 permission it cannot execute.
 
-FIX: add the following 3 entries to permissions.allow in
+FIX: add the following 6 entries to permissions.allow in
 .claude/settings.json (workspace root):
 
     "Bash(curl https://<domain>/*)",
     "Bash(curl -* https://<domain>/*)",
-    "Bash(curl * https://<domain>/*)"
+    "Bash(curl * https://<domain>/*)",
+    "Bash(curl https://www.<domain>/*)",
+    "Bash(curl -* https://www.<domain>/*)",
+    "Bash(curl * https://www.<domain>/*)"
 
 Or run `bash <path-to-SEO-Agent>/install.sh <this-workspace-path> --upgrade`
 to provision the allowlist automatically (Sprint 11-C). The installer reads
 public_url from ~/Shared/tools/agent-11-fleet/seo-fleet-registry.yaml
-and merges the entries without clobbering existing settings.
+and merges both apex + www variants without clobbering existing settings.
 
 After the allowlist is in place, re-run `/coord sitewide-verify <domain>`.
 

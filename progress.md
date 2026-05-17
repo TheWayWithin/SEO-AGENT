@@ -1,5 +1,74 @@
 # SEO Agent Library - Progress Log
 
+## 2026-05-17 — Sprint 12 Complete: Deny-Conflict Handling
+
+**Sprint**: 12 — Deny-Conflict Handling (install.sh detection + mission-time inspection + fleet audit + docs)
+**Status**: COMPLETE
+**Trigger**: Sprint 11 hotfix surfaced that freecalchub's settings.json has `Bash(curl:*)` in the deny block, overriding the scoped allowlist Sprint 11-C provisioned. Captured as Sprint 12-A candidate. Jamie chose to build the broader scope (items 1+2+3+4+5 of the discussion; item 6 auto-fix-deny explicitly OUT — modifying security rules is user decision).
+
+### What Sprint 12 ships
+
+**12-1 — Stricter Phase 0 preflight**: sitewide-verify.md Phase 0 now has Task A (settings.json deny inspection) BEFORE Task B (live curl preflight). Catches the case where settings.json drifts AFTER install.
+
+**12-2 — Exact REPLACE/WITH diff**: install.sh warning was generic ("remove OR replace"); now outputs the precise REPLACE/WITH line pair the user can copy straight into settings.json. Per-conflict, per-tool.
+
+**12-3 — Extended pattern matching**: install.sh detection extended from `curl`-only to `[curl, wget, httpie, http]`. Audit script + Phase 0 use the same monitored-tools list.
+
+**12-4 — Fleet-wide audit**: new `audit-fleet-deny.sh` at repo root. Walks `~/SEO-Agents/*/`, reads each `.claude/settings.json`, reports per-workspace conflicts with exact-diff suggestions. Exit non-zero on any conflict (CI hygiene gate). Optional `--json` for machine-readable output.
+
+**12-5 — Documentation**: `field-manual/permission-conflicts.md` codifies the pattern: why broad denies are common security defaults, why they conflict, the canonical `http://*` replacement, when to remove entirely vs scope down, how the three detection points work together, instructions for extending the monitored-tools list.
+
+### Real fleet data (2026-05-17 first audit)
+
+```
+15 workspaces audited
+  clean:           7  (ASMGE, ISOTracker, PlebTest, Trader-7, aimpactmonitor, aisearcharena, modeloptix)
+  with conflict:   6  (agent-11-website, aimpactscanner-mvp, aisearchmastery, freecalchub, llm-txt-mastery, solomarket)
+  no settings:     2  (evolve-7, mastery-ai-framework)
+```
+
+**Pattern recognition**: the conflict isn't freecalchub-specific. It correlates with whether the workspace inherited Agent-11 framework's settings.json (which has broad `Bash(curl:*)` and `Bash(wget:*)` denies as security defaults). Five workspaces need both curl + wget deny rules scoped to `http://*`; freecalchub needs only wget (curl was fixed manually earlier today).
+
+### Decisions in execution
+
+- **Library never auto-modifies deny rules**. All five Sprint 12 items are detection + suggestion + documentation. The fix is always a user decision because it's a security trade-off. Item 6 (`--auto-fix-deny` flag) explicitly out of scope.
+- **All three detection points use the same matcher**. Install.sh, mission Phase 0, audit script — same `MONITORED_TOOLS` list, same conflict rule, same REPLACE/WITH format. Consistency across detection points.
+- **Audit script exits non-zero on conflict**. Useful for CI hygiene; could be wired into a pre-mission check or a quarterly review.
+- **No new external dependencies**. Python stdlib only (json + pathlib + re); awk + bash for the registry parsing in install.sh. Stays consistent with Sprint 8's "no Python dep" policy.
+
+### Sprint conventions discipline upheld
+
+Sprint 12 doc created BEFORE building (locked at session start per the convention captured in `project-plan.md` and memory). All 10 required sections present. Task list updated with [x] timestamps as work completed. Backfill discipline NOT needed — doc was contemporaneous.
+
+### What Sprint 12 does NOT close
+
+- Fixing the 6 conflicted workspaces' deny rules — user's manual decision (audit gives them the exact-diff per workspace)
+- The 2 "no settings" workspaces — they'll be picked up by install.sh --upgrade when their public_url is filled in (currently TBD in registry)
+- The originally-deferred freecalchub sitewide-verify validation — Jamie's call when ready; Phase 0 should now pass cleanly for HTTPS curl after his deny-rule fix earlier today
+
+### Field findings status (cumulative across Sprints 9-12)
+
+8 distinct frictions all closed:
+- Top 5 #1 `/track` vapourware → Sprint 9 + 10
+- Top 5 #2 no roadmap template → Sprint 9
+- Top 5 #3 no backlog template → Sprint 9
+- Top 5 #4 "done" ≠ "live and verified" → Sprint 10
+- Top 5 #5 no post-deploy sitewide verification → Sprint 10
+- Sprint 11-A nested subagent Bash refusal → Sprint 11
+- Sprint 11-B AskUserQuestion approval non-propagation → Sprint 11 (Phase 0 preflight)
+- Sprint 11-C production curl allowlist needed → Sprint 11 + hotfix
+- Sprint 12-A deny-rule conflicts → Sprint 12 (this sprint)
+
+Library is meaningfully more operational than at Sprint 7 close. Each sprint surfaced the next layer of friction via real use, closed it cleanly, left the library more usable.
+
+### Next step
+
+User runs `/coord sitewide-verify freecalchub.com` to validate the full Sprint 11 + 12 stack. With freecalchub's curl deny already fixed (still has wget deny but mission uses curl), Phase 0 should pass cleanly and the 110-page sweep should run. FCH-TF-003 + FCH-TF-004 should finally move from `shipped-deferred` to `verified`.
+
+If new frictions surface, they become Sprint 13 candidates. The discipline of using the library on real problems IS what surfaces the next layer.
+
+---
+
 ## 2026-05-16 — Sprint 11 Complete: Runtime Readiness
 
 **Sprint**: 11 — Runtime Readiness (mission frontmatter + preflight + install.sh allowlist)
